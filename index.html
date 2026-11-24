@@ -16,12 +16,13 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-font-scale="normal">
-  <!-- 顶部栏：左侧「重庆」Logo + 「重庆临时之旅」，右侧紧邻字号切换 -->
+  <!-- 顶部栏：左侧「重庆」Logo + 「重庆临时之旅」+ 当前所在栏目，右侧紧邻字号切换 -->
   <header class="site-header" id="top">
     <div class="container header-inner">
       <a href="#top" class="brand" aria-label="返回顶部">
         <span class="brand-badge" aria-hidden="true">重庆</span>
         <span class="brand-text">重庆临时之旅</span>
+        <span class="current-tab-pill tab-info" id="currentTabPill">资讯</span>
       </a>
 
       <div class="font-control" role="group" aria-label="字号大小切换">
@@ -36,123 +37,22 @@
   <main class="container main-content">
     <h1 class="sr-only">重庆临时之旅：资讯、行程、行李清单与旅行账本</h1>
 
-    <!-- 顶部 4 大类格子导航 -->
-    <section class="hub-section" aria-label="四大功能分类">
-      <div class="hub-grid" role="tablist" aria-label="主功能切换">
-        <button
-          type="button"
-          class="hub-card hub-info is-active"
-          id="hubTab-info"
-          role="tab"
-          aria-selected="true"
-          aria-controls="panel-info"
-          data-tab="info"
-        >
-          <span class="hub-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="21" fill="#FFF0E6"/>
-              <path d="M12 27L35 15L29 33L23 27L12 27Z" fill="#D24D33"/>
-              <path d="M23 27L35 15L25 29L23 27Z" fill="#9E311D"/>
-              <circle cx="16" cy="16" r="4" fill="#F5A623"/>
-              <path d="M10 35C12.5 33.2 15.5 33.2 18 35C20.5 36.8 23.5 36.8 26 35C28.5 33.2 31.5 33.2 34 35" stroke="#5EA3D6" stroke-width="2.6" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <span class="hub-label">资讯</span>
-          <span class="hub-sub">航班 · 住宿 · 天气</span>
-        </button>
-
-        <button
-          type="button"
-          class="hub-card hub-itinerary"
-          id="hubTab-itinerary"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-itinerary"
-          data-tab="itinerary"
-        >
-          <span class="hub-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="21" fill="#EAF6EE"/>
-              <rect x="11" y="14" width="26" height="22" rx="5" fill="#FFFFFF" stroke="#2E7350" stroke-width="2.5"/>
-              <path d="M11 20H37" stroke="#2E7350" stroke-width="2.5"/>
-              <rect x="16" y="10" width="3.5" height="7" rx="1.75" fill="#D24D33"/>
-              <rect x="28.5" y="10" width="3.5" height="7" rx="1.75" fill="#D24D33"/>
-              <circle cx="18" cy="26" r="2.2" fill="#2E7350"/>
-              <circle cx="24" cy="26" r="2.2" fill="#D24D33"/>
-              <circle cx="30" cy="26" r="2.2" fill="#2E7350"/>
-              <circle cx="18" cy="31.5" r="2.2" fill="#A5CBB6"/>
-              <circle cx="24" cy="31.5" r="2.2" fill="#A5CBB6"/>
-            </svg>
-          </span>
-          <span class="hub-label">行程</span>
-          <span class="hub-sub">11/30–12/6 按日查看</span>
-        </button>
-
-        <button
-          type="button"
-          class="hub-card hub-packing"
-          id="hubTab-packing"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-packing"
-          data-tab="packing"
-        >
-          <span class="hub-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="21" fill="#FFF4DC"/>
-              <rect x="19" y="10" width="10" height="7" rx="2.5" stroke="#B86F09" stroke-width="2.5"/>
-              <rect x="13" y="15" width="22" height="22" rx="5" fill="#F2B84B" stroke="#B86F09" stroke-width="2.5"/>
-              <path d="M19 15V37M29 15V37" stroke="#D9921E" stroke-width="2.2"/>
-              <circle cx="17" cy="39" r="2.2" fill="#534438"/>
-              <circle cx="31" cy="39" r="2.2" fill="#534438"/>
-              <rect x="20.5" y="21" width="7" height="5" rx="1.5" fill="#FFF8EA"/>
-            </svg>
-          </span>
-          <span class="hub-label">行李</span>
-          <span class="hub-sub" id="hubPackingSub">必带清单 · 可勾选</span>
-        </button>
-
-        <button
-          type="button"
-          class="hub-card hub-ledger"
-          id="hubTab-ledger"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-ledger"
-          data-tab="ledger"
-        >
-          <span class="hub-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="21" fill="#EDF4FD"/>
-              <rect x="13" y="11" width="22" height="27" rx="4" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="2.5"/>
-              <path d="M18 11V38" stroke="#BDD6FA" stroke-width="2"/>
-              <circle cx="26.5" cy="21" r="5" fill="#FFE082" stroke="#D9921E" stroke-width="1.8"/>
-              <path d="M26.5 18.5V23.5M24.8 19.6L26.5 21.2L28.2 19.6M24.6 22H28.4" stroke="#9C5B00" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M21 30H31M21 34H28" stroke="#1F6FEB" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <span class="hub-label">账本</span>
-          <span class="hub-sub" id="hubLedgerSub">记账 · 拍照存账单</span>
-        </button>
-      </div>
-    </section>
-
     <!-- ====================================================================
          第一格：资讯（天气预报 + 往返航班 + 重庆住宿 + 折叠参考）
          ==================================================================== -->
-    <div id="panel-info" class="tab-panel is-active" role="tabpanel" aria-labelledby="hubTab-info">
+    <div id="panel-info" class="tab-panel is-active" role="tabpanel" aria-label="资讯">
       <!-- 1. 旅行天气预报 -->
       <section id="weather" class="section-block" aria-labelledby="weather-heading">
         <div class="section-header section-header-row">
           <div>
             <div class="section-kicker">CHONGQING WEATHER</div>
             <h2 id="weather-heading" class="section-title">🌤️ 重庆旅行天气预报</h2>
-            <p class="section-desc">11月30日 – 12月6日重庆温度与晴雨参考，山城初冬湿冷，早晚记得添衣带伞。</p>
+            <p class="section-desc">一天一行从上到下，横向查看每天早上到晚上的温度与晴雨变化。</p>
           </div>
           <span class="weather-source-badge" id="weatherSourceBadge">加载预报中...</span>
         </div>
 
-        <div class="weather-grid" id="weatherGrid" aria-live="polite"></div>
+        <div class="weather-list" id="weatherGrid" aria-live="polite"></div>
       </section>
 
       <!-- 2. 往返航班资讯 -->
@@ -505,17 +405,25 @@
     </div>
 
     <!-- ====================================================================
-         第四格：账本（出发前费用 + 第一天到最后一天，支持 + 加开销与拍照存账单）
+         第四格：账本（云端多人共享：出发前费用 + 每日开销 + 总数/每位 + 拍照）
          ==================================================================== -->
-    <div id="panel-ledger" class="tab-panel" role="tabpanel" aria-labelledby="hubTab-ledger" hidden>
+    <div id="panel-ledger" class="tab-panel" role="tabpanel" aria-label="账本" hidden>
       <section id="ledger" class="section-block" aria-labelledby="ledger-heading">
         <div class="section-header section-header-row">
           <div>
-            <div class="section-kicker">TRAVEL LEDGER</div>
-            <h2 id="ledger-heading" class="section-title">💰 重庆旅行记账本</h2>
-            <p class="section-desc">出发前先记下航班、住宿、保险等大项，旅途中每天按 <strong>＋</strong> 加入开销，或直接 <strong>📷 拍照加入账单</strong>（自动保存在本机）。</p>
+            <div class="section-kicker">SHARED CLOUD LEDGER</div>
+            <h2 id="ledger-heading" class="section-title">💰 重庆共享记账本</h2>
+            <p class="section-desc">所有增删改与账单照片都会<strong>实时上传云端</strong>，大家打开网站即可共同查看与记账，支持按<strong>总数</strong>或<strong>每位</strong>输入。</p>
           </div>
-          <button type="button" class="copy-soft-btn" id="exportLedgerBtn">📋 复制账单汇总</button>
+          <div class="ledger-header-btns">
+            <button type="button" class="copy-soft-btn" id="refreshCloudLedgerBtn">🔄 刷新同步</button>
+            <button type="button" class="copy-soft-btn" id="exportLedgerBtn">📋 复制汇总</button>
+          </div>
+        </div>
+
+        <div class="cloud-sync-bar" id="cloudSyncBar" aria-live="polite">
+          <span class="cloud-sync-dot" id="cloudSyncDot"></span>
+          <span id="cloudSyncText">☁️ 正在连接云端共享账本...</span>
         </div>
 
         <!-- 总账概览 -->
@@ -560,29 +468,31 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p class="footer-title">祝大家重庆临时之旅平安顺心、吃得开心、玩得轻松！</p>
-      <p class="footer-note">温馨提示：行李勾选与记账记录自动保存在当前设备浏览器中；航班、天气与景点信息以出行当日为准。</p>
+      <p class="footer-note">温馨提示：账本记录与账单照片已同步云端，大家增删实时共看；行李勾选保存在当前设备浏览器中；航班、天气与景点信息以出行当日为准。</p>
       <a href="#top" class="back-top-btn">↑ 回到页面顶部</a>
     </div>
   </footer>
 
-  <!-- 手机端底部 4 大类快捷导航 -->
-  <nav class="mobile-bottom-nav" aria-label="手机快捷导航">
-    <button type="button" class="mobile-nav-item is-active" data-tab="info">
-      <span class="m-icon" aria-hidden="true">🌤️</span>
-      <span>资讯</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-tab="itinerary">
-      <span class="m-icon" aria-hidden="true">📅</span>
-      <span>行程</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-tab="packing">
-      <span class="m-icon" aria-hidden="true">🧳</span>
-      <span>行李</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-tab="ledger">
-      <span class="m-icon" aria-hidden="true">💰</span>
-      <span>账本</span>
-    </button>
+  <!-- 底部 4 大类切换导航（手机与电脑端均可随时切换） -->
+  <nav class="mobile-bottom-nav" aria-label="主功能底部导航">
+    <div class="bottom-nav-inner">
+      <button type="button" class="mobile-nav-item is-active" data-tab="info">
+        <span class="m-icon" aria-hidden="true">🌤️</span>
+        <span>资讯</span>
+      </button>
+      <button type="button" class="mobile-nav-item" data-tab="itinerary">
+        <span class="m-icon" aria-hidden="true">📅</span>
+        <span>行程</span>
+      </button>
+      <button type="button" class="mobile-nav-item" data-tab="packing">
+        <span class="m-icon" aria-hidden="true">🧳</span>
+        <span>行李</span>
+      </button>
+      <button type="button" class="mobile-nav-item" data-tab="ledger">
+        <span class="m-icon" aria-hidden="true">💰</span>
+        <span>账本</span>
+      </button>
+    </div>
   </nav>
 
   <!-- 记账 / 拍照加入账单 弹窗 -->
@@ -615,6 +525,15 @@
           <input type="text" id="expenseTitleInput" class="form-control" placeholder="例如：德福火锅、包车费、往返机票" required maxlength="50" />
         </div>
 
+        <!-- 计费方式：总数 vs 每位 -->
+        <div class="form-row">
+          <label class="form-label">输入方式</label>
+          <div class="split-mode-toggle" id="splitModeToggle" role="group" aria-label="选择按总数或每位输入">
+            <button type="button" class="split-mode-btn is-active" data-split="total">🧾 整笔总数</button>
+            <button type="button" class="split-mode-btn" data-split="per_person">👤 每位金额</button>
+          </div>
+        </div>
+
         <div class="form-row form-row-2col">
           <div>
             <label for="expenseCurrencySelect" class="form-label">币种</label>
@@ -624,9 +543,19 @@
             </select>
           </div>
           <div>
-            <label for="expenseAmountInput" class="form-label">金额</label>
+            <label for="expenseAmountInput" class="form-label" id="expenseAmountLabel">总金额</label>
             <input type="number" id="expenseAmountInput" class="form-control" placeholder="0.00" step="0.01" min="0" required />
           </div>
+        </div>
+
+        <!-- 选择「每位金额」时显示人数与实时合计 -->
+        <div class="per-person-box" id="perPersonBox" hidden>
+          <div class="per-person-row">
+            <label for="expenseHeadcountInput" class="per-person-label">计算人数：</label>
+            <input type="number" id="expenseHeadcountInput" class="headcount-input" min="1" max="30" step="1" value="6" />
+            <span>位</span>
+          </div>
+          <div class="per-person-preview" id="perPersonPreview">自动折算总金额：¥ 0.00</div>
         </div>
 
         <div class="form-row">
@@ -650,7 +579,7 @@
 
         <!-- 拍照 / 上传账单照片 -->
         <div class="form-row">
-          <label class="form-label">📷 账单 / 收据照片（可选）</label>
+          <label class="form-label">📷 账单 / 收据照片（可选，自动上传云端共看）</label>
           <div class="receipt-upload-bar">
             <label class="receipt-btn receipt-camera-btn">
               📷 拍照加入账单
@@ -669,7 +598,7 @@
 
         <div class="modal-actions">
           <button type="button" class="btn-outline" id="cancelExpenseBtn">取消</button>
-          <button type="submit" class="copy-btn modal-save-btn">✓ 保存这笔开销</button>
+          <button type="submit" class="copy-btn modal-save-btn" id="saveExpenseBtn">☁️ 保存并上传云端</button>
         </div>
       </form>
     </div>

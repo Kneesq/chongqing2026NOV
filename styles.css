@@ -1594,11 +1594,18 @@ input {
   bottom: 0;
   z-index: 120;
   background: rgba(255, 253, 249, 0.98);
+  backdrop-filter: blur(10px);
   border-top: 2px solid var(--border-soft);
+  padding: 6px 8px env(safe-area-inset-bottom, 6px);
+  box-shadow: 0 -4px 16px rgba(85, 58, 30, 0.08);
+}
+
+.bottom-nav-inner {
+  width: min(680px, 100%);
+  margin-inline: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 6px 4px env(safe-area-inset-bottom, 6px);
-  box-shadow: 0 -4px 16px rgba(85, 58, 30, 0.08);
+  gap: 6px;
 }
 
 .mobile-nav-item {
@@ -1609,13 +1616,18 @@ input {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 6px 2px;
-  font-size: 0.74rem;
-  font-weight: 800;
+  padding: 6px 4px;
+  font-size: 0.78rem;
+  font-weight: 900;
   color: var(--ink-muted);
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 12px;
   transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.mobile-nav-item:hover {
+  background: var(--bg-soft-warm);
+  color: var(--ink-primary);
 }
 
 .mobile-nav-item.is-active {
@@ -1624,7 +1636,7 @@ input {
 }
 
 .mobile-nav-item .m-icon {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
@@ -1650,15 +1662,18 @@ input {
    ========================================================================== */
 @media (min-width: 720px) {
   body {
-    padding-bottom: 0;
+    padding-bottom: 92px;
   }
 
-  .mobile-bottom-nav {
-    display: none;
+  .mobile-nav-item {
+    flex-direction: row;
+    gap: 8px;
+    padding: 10px 12px;
+    font-size: 0.92rem;
   }
 
   .toast {
-    bottom: 32px;
+    bottom: 92px;
   }
 
   .flight-card {
@@ -3164,4 +3179,326 @@ input {
   font-weight: 800;
   font-size: 0.96rem;
   text-align: center;
+}
+
+/* ==========================================================================
+   左上角当前栏目徽章（资讯 · 行程 · 行李 · 账本）
+   ========================================================================== */
+.current-tab-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: #fff;
+  background: var(--accent-persimmon);
+  flex-shrink: 0;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.current-tab-pill.tab-info {
+  background: var(--accent-persimmon);
+}
+
+.current-tab-pill.tab-itinerary {
+  background: var(--accent-sage);
+}
+
+.current-tab-pill.tab-packing {
+  background: var(--accent-honey);
+}
+
+.current-tab-pill.tab-ledger {
+  background: var(--accent-amap);
+}
+
+@media (max-width: 440px) {
+  .current-tab-pill {
+    padding: 2px 8px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ==========================================================================
+   天气预报：一天一行从上到下，每行横向展示早上到晚上温度与晴雨
+   ========================================================================== */
+.weather-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.weather-day-row {
+  background: var(--bg-card);
+  border: 2px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.weather-day-row.is-rain {
+  border-left: 6px solid var(--accent-amap);
+  background: linear-gradient(90deg, #f5f9ff 0%, #ffffff 32%);
+}
+
+.weather-day-row.is-sunny {
+  border-left: 6px solid #e6a21e;
+  background: linear-gradient(90deg, #fffaf0 0%, #ffffff 32%);
+}
+
+.weather-day-row.is-cloudy {
+  border-left: 6px solid var(--border-strong);
+}
+
+.weather-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.weather-row-date-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.weather-row-date {
+  font-size: 1.08rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+}
+
+.weather-row-week {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink-muted);
+}
+
+.weather-row-range {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--accent-persimmon-dark);
+  background: var(--bg-soft-warm);
+  border: 1.5px solid #f0d7b5;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.weather-slots-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.weather-slot {
+  background: var(--bg-paper);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.weather-slot.is-rain {
+  background: #eef5ff;
+  border-color: #c2daf8;
+}
+
+.weather-slot.is-sunny {
+  background: #fff8e6;
+  border-color: #f3d796;
+}
+
+.weather-slot-label {
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--ink-muted);
+}
+
+.weather-slot-icon {
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+
+.weather-slot-cond {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+}
+
+.weather-slot-temp {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+}
+
+@media (min-width: 720px) {
+  .weather-day-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .weather-row-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 145px;
+    flex-shrink: 0;
+  }
+
+  .weather-slots-strip {
+    flex: 1;
+    gap: 10px;
+  }
+}
+
+/* ==========================================================================
+   云端共享账本状态栏 & 总数/每位输入切换
+   ========================================================================== */
+.ledger-header-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cloud-sync-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: var(--bg-soft-sky);
+  border: 2px solid #bdd6fa;
+  color: #163b6e;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.cloud-sync-bar.is-ok {
+  background: var(--bg-soft-sage);
+  border-color: #b5ddc0;
+  color: var(--accent-sage-dark);
+}
+
+.cloud-sync-bar.is-error {
+  background: var(--bg-soft-peach);
+  border-color: #f0beb0;
+  color: var(--accent-persimmon-dark);
+}
+
+.cloud-sync-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-amap);
+  flex-shrink: 0;
+}
+
+.cloud-sync-bar.is-ok .cloud-sync-dot {
+  background: var(--accent-sage);
+}
+
+.cloud-sync-bar.is-error .cloud-sync-dot {
+  background: var(--accent-persimmon);
+}
+
+.split-mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.split-mode-btn {
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-paper);
+  color: var(--ink-primary);
+  font-weight: 900;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.split-mode-btn.is-active {
+  background: var(--accent-amap);
+  border-color: var(--accent-amap-dark);
+  color: #fff;
+}
+
+.per-person-box {
+  background: var(--bg-soft-sky);
+  border: 2px dashed #9fc2f5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.per-person-box[hidden] {
+  display: none !important;
+}
+
+.per-person-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--ink-primary);
+}
+
+.per-person-label {
+  font-size: 0.9rem;
+}
+
+.headcount-input {
+  width: 72px;
+  min-height: 38px;
+  padding: 4px 8px;
+  border-radius: 9px;
+  border: 2px solid var(--accent-amap);
+  background: #fff;
+  text-align: center;
+  font-weight: 900;
+  color: var(--ink-primary);
+}
+
+.per-person-preview {
+  font-size: 0.94rem;
+  font-weight: 900;
+  color: var(--accent-amap-dark);
+}
+
+.expense-amount-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.expense-split-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-amap-dark);
+  background: var(--bg-soft-sky);
+  border: 1px solid #c3dafb;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }

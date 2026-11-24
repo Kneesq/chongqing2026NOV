@@ -1517,20 +1517,26 @@ function syncToggleAllTipsBtn() {
 }
 
 /* ==========================================================================
-   一、顶部 4 大类格子与手机底部导航切换（资讯 · 行程 · 行李 · 账本）
+   一、底部 4 大类导航切换 & 左上角当前栏目指示（资讯 · 行程 · 行李 · 账本）
    ========================================================================== */
 let currentMainTab = "info";
 const VALID_TABS = ["info", "itinerary", "packing", "ledger"];
+const TAB_LABELS = {
+  info: "资讯",
+  itinerary: "行程",
+  packing: "行李",
+  ledger: "账本"
+};
 
 function switchMainTab(tabName, updateHash = true) {
   if (!VALID_TABS.includes(tabName)) tabName = "info";
   currentMainTab = tabName;
 
-  document.querySelectorAll(".hub-card").forEach((card) => {
-    const active = card.dataset.tab === tabName;
-    card.classList.toggle("is-active", active);
-    card.setAttribute("aria-selected", String(active));
-  });
+  const pill = document.getElementById("currentTabPill");
+  if (pill) {
+    pill.textContent = TAB_LABELS[tabName] || "资讯";
+    pill.className = `current-tab-pill tab-${tabName}`;
+  }
 
   document.querySelectorAll(".mobile-nav-item").forEach((btn) => {
     btn.classList.toggle("is-active", btn.dataset.tab === tabName);
@@ -1554,13 +1560,17 @@ function switchMainTab(tabName, updateHash = true) {
     }
   }
 
+  if (tabName === "ledger") {
+    fetchCloudLedger({ silent: true });
+  }
+
   if (updateHash && history.replaceState) {
     history.replaceState(null, "", `#${tabName}`);
   }
 }
 
 function initMainTabs() {
-  document.querySelectorAll(".hub-card, .mobile-nav-item").forEach((btn) => {
+  document.querySelectorAll(".mobile-nav-item").forEach((btn) => {
     btn.addEventListener("click", () => {
       switchMainTab(btn.dataset.tab);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1576,44 +1586,130 @@ function initMainTabs() {
 }
 
 /* ==========================================================================
-   二、重庆旅行天气预报（11月30日 – 12月6日，温度 + 晴雨）
+   二、重庆旅行天气预报（一天一行，从上到下；横向早上到晚上温度与晴雨）
    ========================================================================== */
+const WEATHER_TIME_SLOTS = [
+  { hour: "08:00", label: "早上" },
+  { hour: "12:00", label: "中午" },
+  { hour: "17:00", label: "傍晚" },
+  { hour: "21:00", label: "晚上" }
+];
+
 const TRIP_WEATHER_FALLBACK = [
-  { iso: "2026-11-30", date: "11月30日", week: "周一", icon: "⛅", cond: "多云", min: 10, max: 15, type: "cloudy" },
-  { iso: "2026-12-01", date: "12月1日", week: "周二", icon: "🌧️", cond: "小雨", min: 9, max: 13, type: "rain" },
-  { iso: "2026-12-02", date: "12月2日", week: "周三", icon: "☁️", cond: "阴天", min: 8, max: 13, type: "cloudy" },
-  { iso: "2026-12-03", date: "12月3日", week: "周四", icon: "⛅", cond: "多云", min: 8, max: 14, type: "cloudy" },
-  { iso: "2026-12-04", date: "12月4日", week: "周五", icon: "☀️", cond: "晴天", min: 9, max: 16, type: "sunny" },
-  { iso: "2026-12-05", date: "12月5日", week: "周六", icon: "🌧️", cond: "小雨", min: 9, max: 13, type: "rain" },
-  { iso: "2026-12-06", date: "12月6日", week: "周日", icon: "⛅", cond: "多云", min: 8, max: 14, type: "cloudy" }
+  {
+    iso: "2026-11-30", date: "11月30日", week: "周一",
+    slots: [
+      { label: "早上", icon: "⛅", cond: "多云", temp: 10, type: "cloudy" },
+      { label: "中午", icon: "⛅", cond: "多云", temp: 15, type: "cloudy" },
+      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 13, type: "cloudy" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 11, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-01", date: "12月1日", week: "周二",
+    slots: [
+      { label: "早上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" },
+      { label: "中午", icon: "🌧️", cond: "小雨", temp: 13, type: "rain" },
+      { label: "傍晚", icon: "🌧️", cond: "小雨", temp: 12, type: "rain" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-02", date: "12月2日", week: "周三",
+    slots: [
+      { label: "早上", icon: "☁️", cond: "阴天", temp: 8, type: "cloudy" },
+      { label: "中午", icon: "⛅", cond: "多云", temp: 13, type: "cloudy" },
+      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 11, type: "cloudy" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-03", date: "12月3日", week: "周四",
+    slots: [
+      { label: "早上", icon: "⛅", cond: "多云", temp: 8, type: "cloudy" },
+      { label: "中午", icon: "☀️", cond: "晴天", temp: 14, type: "sunny" },
+      { label: "傍晚", icon: "⛅", cond: "多云", temp: 12, type: "cloudy" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-04", date: "12月4日", week: "周五",
+    slots: [
+      { label: "早上", icon: "☀️", cond: "晴天", temp: 9, type: "sunny" },
+      { label: "中午", icon: "☀️", cond: "晴天", temp: 16, type: "sunny" },
+      { label: "傍晚", icon: "⛅", cond: "多云", temp: 14, type: "cloudy" },
+      { label: "晚上", icon: "⛅", cond: "多云", temp: 11, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-05", date: "12月5日", week: "周六",
+    slots: [
+      { label: "早上", icon: "🌧️", cond: "小雨", temp: 9, type: "rain" },
+      { label: "中午", icon: "🌧️", cond: "小雨", temp: 13, type: "rain" },
+      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 12, type: "cloudy" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
+    ]
+  },
+  {
+    iso: "2026-12-06", date: "12月6日", week: "周日",
+    slots: [
+      { label: "早上", icon: "⛅", cond: "多云", temp: 8, type: "cloudy" },
+      { label: "中午", icon: "☀️", cond: "晴天", temp: 14, type: "sunny" },
+      { label: "傍晚", icon: "⛅", cond: "多云", temp: 13, type: "cloudy" },
+      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
+    ]
+  }
 ];
 
 function mapWmoWeather(code) {
   if (code === 0) return { icon: "☀️", cond: "晴天", type: "sunny" };
   if (code <= 2) return { icon: "⛅", cond: "多云", type: "cloudy" };
   if (code === 3 || code === 45 || code === 48) return { icon: "☁️", cond: "阴天", type: "cloudy" };
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: "🌧️", cond: "雨天", type: "rain" };
-  if (code >= 95) return { icon: "⛈️", cond: "雷阵雨", type: "rain" };
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: "🌧️", cond: "下雨", type: "rain" };
+  if (code >= 95) return { icon: "⛈️", cond: "雷雨", type: "rain" };
   return { icon: "☁️", cond: "阴天", type: "cloudy" };
 }
 
 function renderWeatherCards(list, badgeText) {
-  const grid = document.getElementById("weatherGrid");
+  const container = document.getElementById("weatherGrid");
   const badge = document.getElementById("weatherSourceBadge");
-  if (!grid) return;
+  if (!container) return;
 
   if (badge) badge.textContent = badgeText;
 
-  grid.innerHTML = list
-    .map((w) => {
-      const cardClass = w.type === "rain" ? "is-rain" : w.type === "sunny" ? "is-sunny" : "";
+  container.innerHTML = list
+    .map((day) => {
+      const temps = day.slots.map((s) => s.temp);
+      const minT = Math.min(...temps);
+      const maxT = Math.max(...temps);
+      const hasRain = day.slots.some((s) => s.type === "rain");
+      const hasSunny = day.slots.some((s) => s.type === "sunny");
+      const rowClass = hasRain ? "is-rain" : hasSunny ? "is-sunny" : "is-cloudy";
+
+      const slotsHtml = day.slots
+        .map((s) => {
+          const slotClass = s.type === "rain" ? "is-rain" : s.type === "sunny" ? "is-sunny" : "";
+          return `
+            <div class="weather-slot ${slotClass}">
+              <span class="weather-slot-label">${s.label}</span>
+              <span class="weather-slot-icon" aria-hidden="true">${s.icon}</span>
+              <span class="weather-slot-cond">${s.cond}</span>
+              <span class="weather-slot-temp">${s.temp}°C</span>
+            </div>
+          `;
+        })
+        .join("");
+
       return `
-        <article class="weather-card ${cardClass}">
-          <div class="weather-date">${w.date}</div>
-          <div class="weather-weekday">${w.week}</div>
-          <div class="weather-icon" aria-hidden="true">${w.icon}</div>
-          <div class="weather-cond">${w.cond}</div>
-          <div class="weather-temp"><span class="weather-temp-min">${w.min}°</span> ~ ${w.max}°C</div>
+        <article class="weather-day-row ${rowClass}">
+          <div class="weather-row-head">
+            <div class="weather-row-date-wrap">
+              <span class="weather-row-date">${day.date}</span>
+              <span class="weather-row-week">${day.week}</span>
+            </div>
+            <span class="weather-row-range">${minT}° ~ ${maxT}°C</span>
+          </div>
+          <div class="weather-slots-strip">${slotsHtml}</div>
         </article>
       `;
     })
@@ -1621,46 +1717,48 @@ function renderWeatherCards(list, badgeText) {
 }
 
 async function loadChongqingWeather() {
-  // 先渲染参考天气，避免首屏空白
   renderWeatherCards(TRIP_WEATHER_FALLBACK, "初冬参考天气");
 
   try {
     const url =
-      "https://api.open-meteo.com/v1/forecast?latitude=29.5630&longitude=106.5516&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&forecast_days=16";
+      "https://api.open-meteo.com/v1/forecast?latitude=29.5630&longitude=106.5516&hourly=temperature_2m,weathercode&timezone=Asia%2FShanghai&forecast_days=16";
     const res = await fetch(url);
     if (!res.ok) return;
     const json = await res.json();
-    if (!json.daily || !json.daily.time) return;
+    if (!json.hourly || !json.hourly.time) return;
 
-    const byDate = {};
-    json.daily.time.forEach((iso, idx) => {
-      byDate[iso] = {
-        code: json.daily.weathercode[idx],
-        min: Math.round(json.daily.temperature_2m_min[idx]),
-        max: Math.round(json.daily.temperature_2m_max[idx])
+    const byTime = {};
+    json.hourly.time.forEach((t, idx) => {
+      byTime[t] = {
+        temp: Math.round(json.hourly.temperature_2m[idx]),
+        code: json.hourly.weathercode[idx]
       };
     });
 
-    let matchedCount = 0;
-    const merged = TRIP_WEATHER_FALLBACK.map((item) => {
-      const live = byDate[item.iso];
-      if (live) {
-        matchedCount += 1;
-        const mapped = mapWmoWeather(live.code);
+    let matchedDays = 0;
+    const merged = TRIP_WEATHER_FALLBACK.map((day) => {
+      const liveSlots = WEATHER_TIME_SLOTS.map((slot) => {
+        const entry = byTime[`${day.iso}T${slot.hour}`];
+        if (!entry) return null;
+        const mapped = mapWmoWeather(entry.code);
         return {
-          ...item,
+          label: slot.label,
           icon: mapped.icon,
           cond: mapped.cond,
           type: mapped.type,
-          min: live.min,
-          max: live.max
+          temp: entry.temp
         };
+      });
+
+      if (liveSlots.every(Boolean)) {
+        matchedDays += 1;
+        return { ...day, slots: liveSlots };
       }
-      return item;
+      return day;
     });
 
-    if (matchedCount > 0) {
-      const label = matchedCount === TRIP_WEATHER_FALLBACK.length ? "✨ 实时天气预报" : "✨ 部分已更新实时预报";
+    if (matchedDays > 0) {
+      const label = matchedDays === TRIP_WEATHER_FALLBACK.length ? "✨ 实时天气预报" : "✨ 部分已更新实时预报";
       renderWeatherCards(merged, label);
     }
   } catch {
@@ -1920,9 +2018,10 @@ function initPackingChecklist() {
 }
 
 /* ==========================================================================
-   四、第四格：旅行记账本（出发前费用 + Day 1–7 每日开销 + 拍照加入账单）
+   四、第四格：云端共享旅行记账本（实时云端同步 + 总数/每位 + 拍照加入账单）
    ========================================================================== */
-const STORAGE_KEY_LEDGER = "cq2026_ledger_entries_v1";
+const CLOUD_LEDGER_URL = "https://api.npoint.io/03e4b7aaeec55fd80394";
+const STORAGE_KEY_LEDGER = "cq2026_ledger_entries_v2";
 const STORAGE_KEY_RATE = "cq2026_exchange_rate_v1";
 
 const LEDGER_GROUPS = [
@@ -1953,9 +2052,12 @@ const DEFAULT_LEDGER_ENTRIES = [
     section: "pre",
     title: "往返航班（海南航空 PEN ⇄ CKG）",
     amount: 0,
+    unitAmount: 0,
+    splitMode: "total",
+    headcount: 6,
     currency: "MYR",
     category: "flight",
-    note: "点击右侧「编辑」填入实际机票总金额，也可拍照存订单",
+    note: "点击右侧「编辑」填入实际机票金额，也可拍照存订单",
     photo: ""
   },
   {
@@ -1963,9 +2065,12 @@ const DEFAULT_LEDGER_ENTRIES = [
     section: "pre",
     title: "重庆住宿（湖广·富山江景美宿 6晚）",
     amount: 0,
+    unitAmount: 0,
+    splitMode: "total",
+    headcount: 6,
     currency: "MYR",
     category: "stay",
-    note: "三居室整套民宿 11/30–12/6，点击「编辑」填入实际房费",
+    note: "三居室整套民宿 11/30–12/6，点击「编辑」填入房费",
     photo: ""
   },
   {
@@ -1973,6 +2078,9 @@ const DEFAULT_LEDGER_ENTRIES = [
     section: "pre",
     title: "全家旅行保险",
     amount: 0,
+    unitAmount: 0,
+    splitMode: "total",
+    headcount: 6,
     currency: "MYR",
     category: "insurance",
     note: "点击「编辑」填入保费金额，可附加保单照片",
@@ -1980,29 +2088,138 @@ const DEFAULT_LEDGER_ENTRIES = [
   }
 ];
 
+let ledgerEntriesCache = [];
 let pendingReceiptDataUrl = "";
 let selectedExpenseCat = "food";
+let selectedSplitMode = "total";
+let isSyncingCloud = false;
 
-function loadLedgerEntries() {
+function setCloudSyncStatus(state, message) {
+  const bar = document.getElementById("cloudSyncBar");
+  const text = document.getElementById("cloudSyncText");
+  if (!bar || !text) return;
+  bar.classList.remove("is-ok", "is-error");
+  if (state === "ok") bar.classList.add("is-ok");
+  if (state === "error") bar.classList.add("is-error");
+  text.textContent = message;
+}
+
+function loadLocalLedgerCache() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_LEDGER);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(DEFAULT_LEDGER_ENTRIES));
-      return [...DEFAULT_LEDGER_ENTRIES];
-    }
-    return JSON.parse(raw);
+    if (!raw) return [...DEFAULT_LEDGER_ENTRIES];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [...DEFAULT_LEDGER_ENTRIES];
   } catch {
     return [...DEFAULT_LEDGER_ENTRIES];
   }
 }
 
-function saveLedgerEntries(entries) {
+function saveLocalLedgerCache(entries) {
+  ledgerEntriesCache = entries;
   try {
     localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(entries));
+  } catch {
+    // 忽略本机缓存容量限制，云端仍可正常保存
+  }
+}
+
+function formatSyncTime() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  return `${hh}:${mm}:${ss}`;
+}
+
+async function fetchCloudLedger({ silent = false } = {}) {
+  if (!silent) {
+    setCloudSyncStatus("syncing", "☁️ 正在从云端拉取最新共享账本...");
+  }
+  try {
+    const res = await fetch(`${CLOUD_LEDGER_URL}?t=${Date.now()}`, {
+      method: "GET",
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const entries = Array.isArray(data && data.entries) ? data.entries : [...DEFAULT_LEDGER_ENTRIES];
+
+    if (data && Number.isFinite(Number(data.rate)) && Number(data.rate) > 0) {
+      const rateInput = document.getElementById("exchangeRateInput");
+      if (rateInput && document.activeElement !== rateInput) {
+        rateInput.value = String(data.rate);
+      }
+    }
+
+    saveLocalLedgerCache(entries);
+    renderLedger();
+    setCloudSyncStatus("ok", `☁️ 云端已同步（${formatSyncTime()} · 大家实时共看）`);
+    return entries;
+  } catch {
+    if (!ledgerEntriesCache.length) {
+      ledgerEntriesCache = loadLocalLedgerCache();
+    }
+    renderLedger();
+    setCloudSyncStatus("error", "⚠️ 暂时无法连接云端，当前显示本机缓存（点右上角刷新重试）");
+    return ledgerEntriesCache;
+  }
+}
+
+async function mutateCloudLedger(mutatorFn, successToast) {
+  if (isSyncingCloud) {
+    showToast("正在同步云端，请稍候...");
+    return false;
+  }
+  isSyncingCloud = true;
+  setCloudSyncStatus("syncing", "☁️ 正在上传到云端共享账本...");
+
+  try {
+    // 先拉取最新云端数据，避免覆盖家人刚添加的记录
+    let latestEntries = ledgerEntriesCache;
+    try {
+      const getRes = await fetch(`${CLOUD_LEDGER_URL}?t=${Date.now()}`, {
+        method: "GET",
+        cache: "no-store"
+      });
+      if (getRes.ok) {
+        const latestData = await getRes.json();
+        if (Array.isArray(latestData && latestData.entries)) {
+          latestEntries = latestData.entries;
+        }
+      }
+    } catch {
+      // 拉取失败则基于当前缓存更新
+    }
+
+    const updatedEntries = mutatorFn([...latestEntries]);
+    const payload = {
+      version: 1,
+      rate: getExchangeRate(),
+      people: 6,
+      updatedAt: new Date().toISOString(),
+      entries: updatedEntries
+    };
+
+    const postRes = await fetch(CLOUD_LEDGER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!postRes.ok) throw new Error(`HTTP ${postRes.status}`);
+
+    saveLocalLedgerCache(updatedEntries);
+    renderLedger();
+    setCloudSyncStatus("ok", `☁️ 已上传云端（${formatSyncTime()} · 大家实时共看）`);
+    if (successToast) showToast(successToast);
     return true;
   } catch {
-    showToast("存储空间不足，请减少照片或删除旧照片后重试");
+    setCloudSyncStatus("error", "⚠️ 云端上传失败，请检查网络或缩小照片后重试");
+    showToast("云端上传失败，请检查网络后重试");
     return false;
+  } finally {
+    isSyncingCloud = false;
   }
 }
 
@@ -2019,7 +2236,7 @@ function formatMoney(currency, amount) {
 }
 
 function renderLedger() {
-  const entries = loadLedgerEntries();
+  const entries = ledgerEntriesCache.length ? ledgerEntriesCache : loadLocalLedgerCache();
   const rate = getExchangeRate();
 
   let totalCny = 0;
@@ -2056,10 +2273,6 @@ function renderLedger() {
   setElText("totalPerPersonVal", `6 人人均约 ${formatMoney("MYR", perPersonMyr)}`);
   setElText("preTripSubStat", `¥${preCny.toFixed(0)} / RM${preMyr.toFixed(0)}`);
   setElText("dailySubStat", `¥${dailyCny.toFixed(0)} / RM${dailyMyr.toFixed(0)}`);
-  setElText(
-    "hubLedgerSub",
-    combinedMyr > 0 ? `已记约 RM ${combinedMyr.toFixed(0)}` : "记账 · 拍照存账单"
-  );
 
   const container = document.getElementById("ledgerSections");
   if (!container) return;
@@ -2086,6 +2299,17 @@ function renderLedger() {
             const photoBtn = item.photo
               ? `<button type="button" class="expense-thumb-btn" data-view-photo="${item.id}" title="点击查看账单照片"><img src="${item.photo}" alt="账单照片" /></button>`
               : "";
+
+            let splitBadge = "";
+            if (amt > 0) {
+              if (item.splitMode === "per_person" && Number(item.unitAmount) > 0) {
+                const hc = Number(item.headcount) || 6;
+                splitBadge = `<span class="expense-split-badge">${formatMoney(item.currency, item.unitAmount)}/位 × ${hc}人</span>`;
+              } else {
+                splitBadge = `<span class="expense-split-badge">整笔总数</span>`;
+              }
+            }
+
             return `
               <div class="expense-item">
                 <div class="expense-left">
@@ -2097,9 +2321,12 @@ function renderLedger() {
                 </div>
                 <div class="expense-right">
                   ${photoBtn}
-                  <span class="expense-amount ${amt === 0 ? "is-zero" : ""}">
-                    ${amt === 0 ? "待填金额" : formatMoney(item.currency, amt)}
-                  </span>
+                  <div class="expense-amount-wrap">
+                    <span class="expense-amount ${amt === 0 ? "is-zero" : ""}">
+                      ${amt === 0 ? "待填金额" : formatMoney(item.currency, amt)}
+                    </span>
+                    ${splitBadge}
+                  </div>
                   <button type="button" class="expense-op-btn" data-edit-exp="${item.id}">编辑</button>
                   <button type="button" class="expense-op-btn is-del" data-del-exp="${item.id}">删</button>
                 </div>
@@ -2107,7 +2334,7 @@ function renderLedger() {
             `;
           })
           .join("")
-      : `<p class="ledger-empty">当天还没有记账，点右上角「＋ 加入开销」或「📷 拍照记账」即可记录</p>`;
+      : `<p class="ledger-empty">当天还没有记账，点右上角「＋ 加入开销」或「📷 拍照记账」即可上传共享</p>`;
 
     return `
       <section class="ledger-group ${group.isPre ? "is-pre" : ""}">
@@ -2138,24 +2365,24 @@ function renderLedger() {
 
   container.querySelectorAll("[data-edit-exp]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const target = loadLedgerEntries().find((x) => x.id === btn.dataset.editExp);
+      const target = ledgerEntriesCache.find((x) => x.id === btn.dataset.editExp);
       if (target) openExpenseModal({ entry: target });
     });
   });
 
   container.querySelectorAll("[data-del-exp]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const id = btn.dataset.delExp;
-      const next = loadLedgerEntries().filter((x) => x.id !== id);
-      saveLedgerEntries(next);
-      renderLedger();
-      showToast("已删除该笔记录");
+      await mutateCloudLedger(
+        (list) => list.filter((x) => x.id !== id),
+        "已从云端删除该笔记录 ✓"
+      );
     });
   });
 
   container.querySelectorAll("[data-view-photo]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const target = loadLedgerEntries().find((x) => x.id === btn.dataset.viewPhoto);
+      const target = ledgerEntriesCache.find((x) => x.id === btn.dataset.viewPhoto);
       if (target && target.photo) {
         openLightbox(target.photo, `${target.title}（${formatMoney(target.currency, target.amount)}）`);
       }
@@ -2168,6 +2395,34 @@ function setSelectedExpenseCat(cat) {
   document.querySelectorAll("#expenseCategoryGrid .cat-chip").forEach((chip) => {
     chip.classList.toggle("is-active", chip.dataset.cat === selectedExpenseCat);
   });
+}
+
+function updateSplitModeUI() {
+  document.querySelectorAll("#splitModeToggle .split-mode-btn").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.split === selectedSplitMode);
+  });
+
+  const labelEl = document.getElementById("expenseAmountLabel");
+  const perBox = document.getElementById("perPersonBox");
+  const amtInput = document.getElementById("expenseAmountInput");
+  const hcInput = document.getElementById("expenseHeadcountInput");
+  const currSelect = document.getElementById("expenseCurrencySelect");
+  const preview = document.getElementById("perPersonPreview");
+
+  if (selectedSplitMode === "per_person") {
+    if (labelEl) labelEl.textContent = "每位金额";
+    if (perBox) perBox.hidden = false;
+    const unit = parseFloat(amtInput && amtInput.value) || 0;
+    const hc = Math.max(1, parseInt(hcInput && hcInput.value, 10) || 6);
+    const curr = (currSelect && currSelect.value) || "CNY";
+    const total = unit * hc;
+    if (preview) {
+      preview.textContent = `自动折算总金额：${formatMoney(curr, total)}（${formatMoney(curr, unit)} × ${hc} 位）`;
+    }
+  } else {
+    if (labelEl) labelEl.textContent = "总金额";
+    if (perBox) perBox.hidden = true;
+  }
 }
 
 function updateReceiptPreview(dataUrl) {
@@ -2194,6 +2449,7 @@ function openExpenseModal({ section = "day1", entry = null, triggerCamera = fals
   const nameInput = document.getElementById("expenseTitleInput");
   const currSelect = document.getElementById("expenseCurrencySelect");
   const amtInput = document.getElementById("expenseAmountInput");
+  const hcInput = document.getElementById("expenseHeadcountInput");
   const noteInput = document.getElementById("expenseNoteInput");
 
   if (entry) {
@@ -2202,7 +2458,13 @@ function openExpenseModal({ section = "day1", entry = null, triggerCamera = fals
     secSelect.value = entry.section;
     nameInput.value = entry.title;
     currSelect.value = entry.currency || "CNY";
-    amtInput.value = entry.amount ? String(entry.amount) : "";
+    selectedSplitMode = entry.splitMode === "per_person" ? "per_person" : "total";
+    hcInput.value = String(entry.headcount || 6);
+    if (selectedSplitMode === "per_person") {
+      amtInput.value = entry.unitAmount ? String(entry.unitAmount) : "";
+    } else {
+      amtInput.value = entry.amount ? String(entry.amount) : "";
+    }
     noteInput.value = entry.note || "";
     setSelectedExpenseCat(entry.category || "other");
     updateReceiptPreview(entry.photo || "");
@@ -2212,12 +2474,15 @@ function openExpenseModal({ section = "day1", entry = null, triggerCamera = fals
     secSelect.value = section;
     nameInput.value = "";
     currSelect.value = section === "pre" ? "MYR" : "CNY";
+    selectedSplitMode = "total";
+    hcInput.value = "6";
     amtInput.value = "";
     noteInput.value = "";
     setSelectedExpenseCat(section === "pre" ? "other" : "food");
     updateReceiptPreview("");
   }
 
+  updateSplitModeUI();
   modal.hidden = false;
 
   if (triggerCamera) {
@@ -2239,7 +2504,7 @@ function closeExpenseModal() {
   if (albInput) albInput.value = "";
 }
 
-function compressImageFile(file, maxWidth = 800, quality = 0.72) {
+function compressImageFile(file, maxWidth = 640, quality = 0.62) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = reject;
@@ -2270,7 +2535,7 @@ async function handleReceiptFile(file) {
   try {
     const dataUrl = await compressImageFile(file);
     updateReceiptPreview(dataUrl);
-    showToast("账单照片已添加 ✓");
+    showToast("账单照片已压缩准备好 ✓");
   } catch {
     showToast("图片读取失败，请重试");
   }
@@ -2292,12 +2557,12 @@ function closeLightbox() {
 }
 
 function exportLedgerSummary() {
-  const entries = loadLedgerEntries();
+  const entries = ledgerEntriesCache.length ? ledgerEntriesCache : loadLocalLedgerCache();
   const rate = getExchangeRate();
   let totalCny = 0;
   let totalMyr = 0;
 
-  const lines = ["【重庆临时之旅 · 账单汇总】"];
+  const lines = ["【重庆临时之旅 · 共享账单汇总】"];
   LEDGER_GROUPS.forEach((group) => {
     const list = entries.filter((e) => e.section === group.id && (Number(e.amount) || 0) > 0);
     if (!list.length) return;
@@ -2306,8 +2571,12 @@ function exportLedgerSummary() {
       const amt = Number(it.amount) || 0;
       if (it.currency === "MYR") totalMyr += amt;
       else totalCny += amt;
+      const splitPart =
+        it.splitMode === "per_person" && Number(it.unitAmount) > 0
+          ? ` [${formatMoney(it.currency, it.unitAmount)}/位 × ${it.headcount || 6}人]`
+          : "";
       const notePart = it.note ? `（${it.note}）` : "";
-      lines.push(`- ${it.title}：${formatMoney(it.currency, amt)}${notePart}`);
+      lines.push(`- ${it.title}：${formatMoney(it.currency, amt)}${splitPart}${notePart}`);
     });
   });
 
@@ -2320,6 +2589,8 @@ function exportLedgerSummary() {
 }
 
 function initLedger() {
+  ledgerEntriesCache = loadLocalLedgerCache();
+
   const rateInput = document.getElementById("exchangeRateInput");
   if (rateInput) {
     const savedRate = localStorage.getItem(STORAGE_KEY_RATE);
@@ -2331,8 +2602,22 @@ function initLedger() {
         // ignore
       }
       renderLedger();
+      mutateCloudLedger((list) => list, "参考汇率已同步云端");
     });
   }
+
+  document.querySelectorAll("#splitModeToggle .split-mode-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectedSplitMode = btn.dataset.split;
+      updateSplitModeUI();
+    });
+  });
+
+  ["expenseAmountInput", "expenseHeadcountInput", "expenseCurrencySelect"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", updateSplitModeUI);
+    if (el) el.addEventListener("change", updateSplitModeUI);
+  });
 
   document.querySelectorAll("#expenseCategoryGrid .cat-chip").forEach((chip) => {
     chip.addEventListener("click", () => setSelectedExpenseCat(chip.dataset.cat));
@@ -2359,41 +2644,67 @@ function initLedger() {
 
   const form = document.getElementById("expenseForm");
   if (form) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const id = document.getElementById("expenseIdInput").value;
       const section = document.getElementById("expenseSectionSelect").value;
       const title = document.getElementById("expenseTitleInput").value.trim();
       const currency = document.getElementById("expenseCurrencySelect").value;
-      const amount = parseFloat(document.getElementById("expenseAmountInput").value);
+      const rawAmount = parseFloat(document.getElementById("expenseAmountInput").value);
+      const headcount = Math.max(1, parseInt(document.getElementById("expenseHeadcountInput").value, 10) || 6);
       const note = document.getElementById("expenseNoteInput").value.trim();
 
-      if (!title || !Number.isFinite(amount) || amount < 0) {
+      if (!title || !Number.isFinite(rawAmount) || rawAmount < 0) {
         showToast("请填写消费项目与有效金额");
         return;
       }
 
-      const entries = loadLedgerEntries();
+      const totalAmount =
+        selectedSplitMode === "per_person"
+          ? Math.round(rawAmount * headcount * 100) / 100
+          : Math.round(rawAmount * 100) / 100;
+
       const record = {
-        id: id || `exp-${Date.now()}`,
+        id: id || `exp-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         section,
         title,
-        amount,
+        amount: totalAmount,
+        unitAmount: selectedSplitMode === "per_person" ? rawAmount : totalAmount,
+        splitMode: selectedSplitMode,
+        headcount,
         currency,
         category: selectedExpenseCat,
         note,
         photo: pendingReceiptDataUrl
       };
 
-      const idx = entries.findIndex((x) => x.id === record.id);
-      if (idx >= 0) entries[idx] = record;
-      else entries.push(record);
-
-      if (saveLedgerEntries(entries)) {
-        closeExpenseModal();
-        renderLedger();
-        showToast(idx >= 0 ? "已更新该笔开销 ✓" : "已记入账本 ✓");
+      const saveBtn = document.getElementById("saveExpenseBtn");
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "☁️ 正在上传云端...";
       }
+
+      const ok = await mutateCloudLedger((list) => {
+        const idx = list.findIndex((x) => x.id === record.id);
+        if (idx >= 0) list[idx] = record;
+        else list.push(record);
+        return list;
+      }, id ? "已更新并同步云端 ✓" : "已记入共享账本 ✓");
+
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "☁️ 保存并上传云端";
+      }
+
+      if (ok) closeExpenseModal();
+    });
+  }
+
+  const refreshBtn = document.getElementById("refreshCloudLedgerBtn");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", async () => {
+      await fetchCloudLedger({ silent: false });
+      showToast("已同步云端最新账本 ✓");
     });
   }
 
@@ -2410,6 +2721,14 @@ function initLedger() {
   }
 
   renderLedger();
+  fetchCloudLedger({ silent: false });
+
+  // 查看账本页面时每 30 秒静默刷新一次，方便大家看到彼此的新增记录
+  setInterval(() => {
+    if (currentMainTab === "ledger" && !isSyncingCloud) {
+      fetchCloudLedger({ silent: true });
+    }
+  }, 30000);
 }
 
 /* ==========================================================================
