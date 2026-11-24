@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>重庆 6天5夜 · 家庭包车慢游指南（长辈友好大字版）</title>
-  <meta name="description" content="重庆6天5夜6人家庭包车慢游攻略：每日行程路线、司机精准导航定位一键复制、预约清单、长辈友好美食指南与避坑贴士。" />
+  <title>重庆 6天5夜 · 家庭包车慢游指南（航班·住宿·行程）</title>
+  <meta name="description" content="重庆家庭包车慢游攻略：航班资讯、湖广·富山江景美宿住宿信息、每日行程与高德地图精准导航定位、预约清单、长辈友好美食指南与避坑贴士。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
@@ -20,6 +20,8 @@
       </a>
 
       <nav class="desktop-nav" aria-label="主导航">
+        <a href="#flights" class="nav-link">航班</a>
+        <a href="#stay" class="nav-link">住宿</a>
         <a href="#itinerary" class="nav-link">每日行程</a>
         <a href="#reservations" class="nav-link">预约清单</a>
         <a href="#food" class="nav-link">美食指南</a>
@@ -36,82 +38,242 @@
   </header>
 
   <main class="container main-content">
-    <!-- 一、顶部概览卡片 -->
-    <section class="hero-card" aria-labelledby="hero-title">
-      <div class="hero-banner-wrap">
-        <img
-          src="assets/chongqing_banner.jpg"
-          alt="重庆山城手绘插画：洪崖洞吊脚楼、长江索道、穿楼轻轨与江畔漫步的家人"
-          class="hero-banner-img"
-        />
-        <div class="hero-stamp" aria-hidden="true">
-          <span>6天5夜</span>
-          <small>慢游手账</small>
-        </div>
+    <h1 class="sr-only">重庆家庭慢游指南：航班资讯、住宿信息与每日行程</h1>
+
+    <!-- 一、航班资讯（首页最上方） -->
+    <section id="flights" class="section-block" aria-labelledby="flights-heading">
+      <div class="section-header">
+        <div class="section-kicker">FLIGHT INFORMATION</div>
+        <h2 id="flights-heading" class="section-title">✈️ 往返航班资讯</h2>
+        <p class="section-desc">海南航空联程往返（槟城 PEN ⇄ 海口 HAK ⇄ 重庆 CKG），两程海口中转均<strong>行李直挂，无需提取及重新托运</strong>。</p>
       </div>
 
-      <div class="hero-body">
-        <h1 id="hero-title" class="hero-title">重庆 6天5夜 家庭包车慢游指南</h1>
-        <p class="hero-subtitle">专为 6 人家庭团（含长辈）定制 · 低体力消耗 · 少爬坡 · 舒适慢节奏</p>
+      <div class="flight-grid">
+        <!-- 去程航班 -->
+        <article class="flight-card flight-depart">
+          <div class="flight-card-head">
+            <div class="flight-head-left">
+              <span class="flight-dir-badge badge-depart">去程 · 出发</span>
+              <h3 class="flight-date">11月29日（周日）</h3>
+            </div>
+            <span class="flight-total-time">总耗时 17小时30分</span>
+          </div>
 
-        <div class="hero-pills" aria-label="行程核心特点">
-          <div class="hero-pill pill-warm">
-            <span class="pill-icon" aria-hidden="true">👨‍👩‍👧‍👦</span>
-            <div>
-              <strong>出行人数</strong>
-              <span>6人家庭团（含长辈）</span>
+          <div class="flight-legs">
+            <!-- 第一段 -->
+            <div class="flight-leg">
+              <div class="leg-meta">
+                <span class="airline-tag">海南航空 HU478</span>
+                <span class="aircraft-tag">波音 737 MAX 8 · 飞行 3h 25m</span>
+              </div>
+              <div class="leg-route">
+                <div class="leg-point">
+                  <div class="leg-time">20:45</div>
+                  <div class="leg-code">PEN</div>
+                  <div class="leg-airport">槟城国际机场</div>
+                </div>
+                <div class="leg-arrow" aria-hidden="true">
+                  <span>3h 25m</span>
+                  <div class="arrow-line">✈</div>
+                </div>
+                <div class="leg-point leg-point-end">
+                  <div class="leg-time"><small class="next-day">11月30日</small> 00:10</div>
+                  <div class="leg-code">HAK · T2</div>
+                  <div class="leg-airport">海口美兰国际机场 T2</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 中转提示 -->
+            <div class="transfer-banner">
+              <div class="transfer-title">🕒 海口美兰 T2 中转 11小时50分</div>
+              <div class="transfer-bag">✓ 行李直挂，无需提取及重新托运</div>
+            </div>
+
+            <!-- 第二段 -->
+            <div class="flight-leg">
+              <div class="leg-meta">
+                <span class="airline-tag">海南航空 HU7271</span>
+                <span class="aircraft-tag">波音 737-800 · 飞行 2h 15m</span>
+              </div>
+              <div class="leg-route">
+                <div class="leg-point">
+                  <div class="leg-time"><small class="next-day">11月30日</small> 12:00</div>
+                  <div class="leg-code">HAK · T2</div>
+                  <div class="leg-airport">海口美兰国际机场 T2</div>
+                </div>
+                <div class="leg-arrow" aria-hidden="true">
+                  <span>2h 15m</span>
+                  <div class="arrow-line">✈</div>
+                </div>
+                <div class="leg-point leg-point-end">
+                  <div class="leg-time">14:15</div>
+                  <div class="leg-code is-highlight">CKG · T3</div>
+                  <div class="leg-airport">重庆江北国际机场 T3</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="hero-pill pill-sage">
-            <span class="pill-icon" aria-hidden="true">🚐</span>
-            <div>
-              <strong>交通方式</strong>
-              <span>全程包车 · 点对点接送</span>
+
+          <div class="flight-actions">
+            <a
+              class="amap-btn"
+              href="https://www.amap.com/ssr/search?query_type=TQUERY&query=%E9%87%8D%E5%BA%86%E6%B1%9F%E5%8C%97%E5%9B%BD%E9%99%85%E6%9C%BA%E5%9C%BAT3%E8%88%AA%E7%AB%99%E6%A5%BC&city=500000"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🗺️ 高德地图看江北机场 T3
+            </a>
+            <button type="button" class="copy-soft-btn" data-copy="重庆江北国际机场T3航站楼">
+              📋 复制接机航站楼
+            </button>
+          </div>
+        </article>
+
+        <!-- 返程航班 -->
+        <article class="flight-card flight-return">
+          <div class="flight-card-head">
+            <div class="flight-head-left">
+              <span class="flight-dir-badge badge-return">返程 · 回程</span>
+              <h3 class="flight-date">12月6日（周日）</h3>
+            </div>
+            <span class="flight-total-time">总耗时 8小时35分</span>
+          </div>
+
+          <div class="flight-legs">
+            <!-- 第一段 -->
+            <div class="flight-leg">
+              <div class="leg-meta">
+                <span class="airline-tag">海南航空 HU7172</span>
+                <span class="aircraft-tag">波音 737-800 · 飞行 2h 10m</span>
+              </div>
+              <div class="leg-route">
+                <div class="leg-point">
+                  <div class="leg-time">11:05</div>
+                  <div class="leg-code is-highlight">CKG · T3</div>
+                  <div class="leg-airport">重庆江北国际机场 T3</div>
+                </div>
+                <div class="leg-arrow" aria-hidden="true">
+                  <span>2h 10m</span>
+                  <div class="arrow-line">✈</div>
+                </div>
+                <div class="leg-point leg-point-end">
+                  <div class="leg-time">13:15</div>
+                  <div class="leg-code">HAK · T2</div>
+                  <div class="leg-airport">海口美兰国际机场 T2</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 中转提示 -->
+            <div class="transfer-banner">
+              <div class="transfer-title">🕒 海口美兰 T2 中转 3小时15分</div>
+              <div class="transfer-bag">✓ 行李直挂，无需提取及重新托运</div>
+            </div>
+
+            <!-- 第二段 -->
+            <div class="flight-leg">
+              <div class="leg-meta">
+                <span class="airline-tag">海南航空 HU477</span>
+                <span class="aircraft-tag">波音 737 MAX 8 · 预计飞行 3h 10m</span>
+              </div>
+              <div class="leg-route">
+                <div class="leg-point">
+                  <div class="leg-time">16:30</div>
+                  <div class="leg-code">HAK · T2</div>
+                  <div class="leg-airport">海口美兰国际机场 T2</div>
+                </div>
+                <div class="leg-arrow" aria-hidden="true">
+                  <span>回程</span>
+                  <div class="arrow-line">✈</div>
+                </div>
+                <div class="leg-point leg-point-end">
+                  <div class="leg-time">19:40</div>
+                  <div class="leg-code">PEN</div>
+                  <div class="leg-airport">槟城国际机场</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="hero-pill pill-honey">
-            <span class="pill-icon" aria-hidden="true">🌿</span>
-            <div>
-              <strong>游玩节奏</strong>
-              <span>少爬坡 · 多直梯 · 慢逛不累</span>
-            </div>
+
+          <div class="flight-reminder">
+            ⚠️ 送机提醒：12月6日早上请提前出发，务必前往 <strong>重庆江北国际机场 T3 航站楼</strong> 值机。
           </div>
-        </div>
-
-        <!-- 住宿与交通速览 -->
-        <div class="overview-info-grid">
-          <article class="info-box info-stay">
-            <h2 class="info-box-title"><span aria-hidden="true">🏨</span> 住宿区域建议</h2>
-            <ul class="clean-list">
-              <li>
-                <strong>七星岗 / 两路口周边：</strong>位置居中、闹中取静、包车上下客不拥挤。
-              </li>
-              <li>
-                <strong>南滨路（上新街 / 龙门浩一带）：</strong>直面渝中半岛江景、环境安静（订房请核对实际离江距离）。
-              </li>
-            </ul>
-          </article>
-
-          <article class="info-box info-transit">
-            <h2 class="info-box-title"><span aria-hidden="true">🚇</span> 包车与地铁衔接</h2>
-            <p>
-              全程包车点对点接送，省去爬坡找路烦恼。若市区晚高峰遇拥堵，可灵活换乘地铁：打开<strong>支付宝 / 微信</strong>搜索
-              <button type="button" class="inline-copy-chip" data-copy="重庆轨道交通乘车码" title="点击复制">
-                「重庆轨道交通乘车码」<span class="chip-copy-tag">复制</span>
-              </button>
-              扫码进站即可。
-            </p>
-          </article>
-        </div>
+        </article>
       </div>
     </section>
 
-    <!-- 二、每日行程切换 (Day 1 - Day 6 Tabs) -->
+    <!-- 二、住宿资讯（紧跟航班下方） -->
+    <section id="stay" class="section-block" aria-labelledby="stay-heading">
+      <div class="section-header">
+        <div class="section-kicker">ACCOMMODATION</div>
+        <h2 id="stay-heading" class="section-title">🏠 我们的重庆住宿</h2>
+        <p class="section-desc">位于解放碑 / 湖广会馆片区，整套三居室含冰箱，适合 6 人一家舒舒服服连住 6 晚。</p>
+      </div>
+
+      <article class="stay-card">
+        <div class="stay-top">
+          <div>
+            <span class="stay-badge">已预订 · 连住 6 晚</span>
+            <h3 class="stay-name">湖广·富山江景美宿（重庆解放碑店）</h3>
+            <p class="stay-en">Huguang · Fushan River View Homestay (Chongqing Jiefangbei Branch)</p>
+            <p class="stay-address">📍 地址：重庆市渝中区解放东路湖广印巷1号</p>
+          </div>
+        </div>
+
+        <div class="stay-dates-bar" aria-label="入住与退房日期">
+          <div class="stay-date-box">
+            <span class="stay-date-label">入住 Check-in</span>
+            <strong class="stay-date-val">11月30日（周一）</strong>
+            <span class="stay-date-sub">入住时间 14:00–05:00</span>
+          </div>
+          <div class="stay-nights-pill">🌙 6 晚</div>
+          <div class="stay-date-box">
+            <span class="stay-date-label">退房 Check-out</span>
+            <strong class="stay-date-val">12月6日（周日）</strong>
+            <span class="stay-date-sub">12:00 前退房</span>
+          </div>
+        </div>
+
+        <div class="stay-room-info">
+          <div class="stay-room-title">🛋️ 房型：三居室山景整套民宿（含冰箱）· 3 Bedrooms (1 unit)</div>
+          <div class="stay-tags">
+            <span class="stay-tag">👨‍👩‍👧‍👦 6 位成人</span>
+            <span class="stay-tag">🛏️ 3 张大床（3 Queen Beds）</span>
+            <span class="stay-tag">🍽️ 不含餐</span>
+            <span class="stay-tag">📶 免费 Wi-Fi</span>
+            <span class="stay-tag">❄️ 免费空调</span>
+            <span class="stay-tag">🧊 冰箱 · 吹风机</span>
+          </div>
+        </div>
+
+        <div class="stay-actions">
+          <a
+            class="amap-btn amap-btn-primary"
+            href="https://www.amap.com/ssr/search?query_type=TQUERY&query=%E6%B9%96%E5%B9%BF%C2%B7%E5%AF%8C%E5%B1%B1%E6%B1%9F%E6%99%AF%E7%BE%8E%E5%AE%BF(%E9%87%8D%E5%BA%86%E8%A7%A3%E6%94%BE%E7%A2%91%E5%BA%97)&city=500000"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🗺️ 在高德地图中打开民宿位置
+          </a>
+          <button
+            type="button"
+            class="copy-btn"
+            data-copy="湖广·富山江景美宿(重庆解放碑店) 重庆市渝中区解放东路湖广印巷1号"
+            data-label="📋 复制民宿名称与地址"
+          >
+            📋 复制民宿名称与地址
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- 三、每日行程切换 (Day 1 - Day 6 Tabs) -->
     <section id="itinerary" class="section-block" aria-labelledby="itinerary-heading">
       <div class="section-header">
         <div class="section-kicker">DAILY ITINERARY</div>
         <h2 id="itinerary-heading" class="section-title">每日行程与司机导航定位</h2>
-        <p class="section-desc">点击下方天数切换每日安排，黄色卡片为<strong>司机精准导航定位</strong>，点一下即可复制发给司机师傅。</p>
+        <p class="section-desc">点击下方天数切换每日安排，黄色卡片支持<strong>一键复制发给司机</strong>，也可直接点<strong>「高德地图」</strong>查看路线。</p>
       </div>
 
       <!-- Day 1 - Day 6 切换标签 -->
@@ -128,19 +290,19 @@
       </div>
     </section>
 
-    <!-- 三、预约倒计时 / 清单模块 -->
+    <!-- 四、预约倒计时 / 清单模块 -->
     <section id="reservations" class="section-block" aria-labelledby="reservations-heading">
       <div class="section-header">
         <div class="section-kicker">BOOKING CHECKLIST</div>
         <h2 id="reservations-heading" class="section-title">景点预约倒计时与清单</h2>
-        <p class="section-desc">勾选已完成预约的项目（自动保存），输入出发日期还可自动换算建议预约日。</p>
+        <p class="section-desc">已默认按 <strong>11月30日抵达重庆</strong> 自动换算建议预约日期，勾选已完成项目会自动保存。</p>
       </div>
 
       <div class="reservation-toolbar">
         <div class="date-calc-box">
-          <label for="departureDateInput" class="date-label">📅 预计出发日期（选填）：</label>
+          <label for="departureDateInput" class="date-label">📅 抵达重庆日期：</label>
           <input type="date" id="departureDateInput" class="date-input" />
-          <button type="button" id="clearDateBtn" class="btn-ghost-sm" hidden>清除</button>
+          <button type="button" id="clearDateBtn" class="btn-ghost-sm" hidden>重置为11/30</button>
         </div>
         <div class="progress-badge" id="reservationProgress" aria-live="polite">
           已预约 0 / 5 项
@@ -150,12 +312,12 @@
       <div class="reservation-groups" id="reservationGroups"></div>
     </section>
 
-    <!-- 四、长辈友好美食指南 -->
+    <!-- 五、长辈友好美食指南 -->
     <section id="food" class="section-block" aria-labelledby="food-heading">
       <div class="section-header">
         <div class="section-kicker">ELDER-FRIENDLY FOOD GUIDE</div>
         <h2 id="food-heading" class="section-title">长辈友好美食与小吃指南</h2>
-        <p class="section-desc">清晰区分「不辣 / 温和家常菜」与「地道老火锅 / 解辣小吃」，一家老小都能吃得舒心。</p>
+        <p class="section-desc">清晰区分「不辣 / 温和家常菜」与「地道老火锅 / 解辣小吃」，每家店均可直接点<strong>「高德地图」</strong>查位置。</p>
       </div>
 
       <div class="food-filters" role="tablist" aria-label="美食分类筛选">
@@ -167,7 +329,7 @@
       <div class="food-grid" id="foodGrid"></div>
     </section>
 
-    <!-- 五、避坑与出行贴士折叠面板 -->
+    <!-- 六、避坑与出行贴士折叠面板 -->
     <section id="tips" class="section-block" aria-labelledby="tips-heading">
       <div class="section-header section-header-row">
         <div>
@@ -185,13 +347,17 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p class="footer-title">祝全家人重庆之旅平安顺心、吃得开心、玩得轻松！</p>
-      <p class="footer-note">温馨提示：景点开放时间与预约规则以出行当日官方公众号公告为准。</p>
+      <p class="footer-note">温馨提示：航班时间、景点开放时间与预约规则以出行当日航司及官方公众号通知为准。</p>
       <a href="#top" class="back-top-btn">↑ 回到页面顶部</a>
     </div>
   </footer>
 
   <!-- 手机端底部快捷导航栏 -->
   <nav class="mobile-bottom-nav" aria-label="手机快捷导航">
+    <a href="#flights" class="mobile-nav-item">
+      <span class="m-icon" aria-hidden="true">✈️</span>
+      <span>航班住宿</span>
+    </a>
     <a href="#itinerary" class="mobile-nav-item">
       <span class="m-icon" aria-hidden="true">🗺️</span>
       <span>每日行程</span>

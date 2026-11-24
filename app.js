@@ -1,35 +1,49 @@
 /* ==========================================================================
-   重庆 6天5夜 家庭包车慢游指南 — 交互与数据脚本
+   重庆 6天5夜 家庭包车慢游指南 — 交互与数据脚本（集成高德地图搜索链接）
    ========================================================================== */
+
+function buildAmapUrl(keyword) {
+  return `https://www.amap.com/ssr/search?query_type=TQUERY&query=${encodeURIComponent(keyword)}&city=500000`;
+}
 
 const ITINERARY_DAYS = [
   {
     day: 1,
+    dateLabel: "11月30日（周一）",
     shortTitle: "抵达与经典夜景",
     title: "Day 1｜抵达山城与经典夜景",
-    route: ["抵达重庆", "酒店入住休整", "解放碑", "白象居", "洪崖洞夜景", "江滩公园看全景"],
+    route: ["14:15 抵达江北机场 T3", "湖广·富山江景美宿入住", "解放碑", "白象居", "洪崖洞夜景", "江滩公园看全景"],
     driverPins: [
+      {
+        spot: "民宿入住",
+        pin: "湖广·富山江景美宿(重庆解放碑店)",
+        mapQuery: "湖广·富山江景美宿(重庆解放碑店)",
+        reason: "14:15 抵达江北机场 T3 后包车直达解放东路湖广印巷1号办理入住休整。"
+      },
       {
         spot: "解放碑",
         pin: "八一广场",
+        mapQuery: "重庆八一广场",
         reason: "避开外围主干道堵车禁停，下车即纪念碑与八一好吃街。"
       },
       {
         spot: "白象居",
         pin: "白象居3号楼",
+        mapQuery: "白象居3号楼",
         reason: "直达索道穿楼网红机位，免爬无电梯长台阶。"
       },
       {
         spot: "洪崖洞",
         pin: "嘉滨路洪崖洞（公交站）",
+        mapQuery: "嘉滨路洪崖洞公交站",
         reason: "在马路下层，直接看夜景全貌，免去景区内部挤电梯。"
       }
     ],
     timeline: [
       {
-        time: "下午",
-        title: "抵达重庆 · 酒店入住休整",
-        desc: "包车接机/接站直达酒店，安顿行李后先休息养精蓄锐，轻松开启山城慢游。",
+        time: "14:15 抵达",
+        title: "重庆江北机场 T3 接机 ➔ 湖广·富山江景美宿入住休整",
+        desc: "HU7271 预计 14:15 抵达江北国际机场 T3 航站楼，包车接机直达民宿安顿行李、稍作休息。",
         tags: [{ text: "全程包车接送", type: "free" }]
       },
       {
@@ -63,6 +77,7 @@ const ITINERARY_DAYS = [
   },
   {
     day: 2,
+    dateLabel: "12月1日（周二）",
     shortTitle: "古建索道与南岸",
     title: "Day 2｜巴渝古建、跨江索道与南岸江景",
     route: ["湖广会馆", "长江索道（过江）", "下浩里", "龙门浩老街", "弹子石老街／钟楼广场夜景"],
@@ -70,21 +85,25 @@ const ITINERARY_DAYS = [
       {
         spot: "湖广会馆",
         pin: "湖广会馆东门",
-        reason: "直接进古建筑群正门，避免绕外围马路。"
+        mapQuery: "湖广会馆东门",
+        reason: "直接进古建筑群正门，避免绕外围马路（就在我们民宿附近）。"
       },
       {
         spot: "长江索道",
         pin: "长江索道南站",
+        mapQuery: "长江索道南站",
         reason: "风景好且排队人数比北站少一半，建议只买单程。"
       },
       {
         spot: "下浩里／龙门浩老街",
         pin: "上新街1号口",
+        mapQuery: "上新街地铁站1号口",
         reason: "从上往下逛不废腿，园内览月台旁、比利时大使馆旧址旁、福门天桥等处设有便民直梯和扶梯。"
       },
       {
         spot: "弹子石老街",
         pin: "弹子石广场观景台",
+        mapQuery: "弹子石广场观景台",
         reason: "视野开阔，适合看两岸灯光夜景。"
       }
     ],
@@ -92,7 +111,7 @@ const ITINERARY_DAYS = [
       {
         time: "上午 09:00–12:00",
         title: "湖广会馆（巴渝古建筑群）",
-        desc: "开放时间 09:00–18:00（17:00停止检票）。明黄色古建群非常出片，游览节奏舒缓。",
+        desc: "开放时间 09:00–18:00（17:00停止检票）。就在民宿附近，明黄色古建群非常出片，游览节奏舒缓。",
         tags: [
           { text: "需提前3天预约", type: "book" },
           { text: "门票 32元", type: "ticket" }
@@ -130,6 +149,7 @@ const ITINERARY_DAYS = [
   },
   {
     day: 3,
+    dateLabel: "12月2日（周三）",
     shortTitle: "乌江画廊与古镇",
     title: "Day 3｜千里乌江画廊与千年古镇",
     route: ["重庆包车出发", "（途经蚩尤九黎城，视时间停留）", "彭水万足码头乘船游乌江画廊", "龚滩古镇漫步", "前往武隆仙女山镇入住"],
@@ -137,17 +157,20 @@ const ITINERARY_DAYS = [
       {
         spot: "乌江画廊登船点",
         pin: "彭水万足码头",
+        mapQuery: "彭水万足码头",
         reason: "长辈在此轻松登船游乌江画廊，无需背负大件行李。"
       },
       {
         spot: "司机载行李接应点",
         pin: "龚滩古镇停车场",
+        mapQuery: "龚滩古镇停车场",
         reason: "包车司机载行李直接开到龚滩古镇停车场接应，全程不走回头路。"
       },
       {
-        spot: "当晚入住区域",
+        spot: "武隆方向",
         pin: "武隆仙女山镇",
-        reason: "古镇游玩后直接包车前往仙女山镇入住休息，方便次日游武隆。"
+        mapQuery: "武隆仙女山镇",
+        reason: "古镇游玩后直接包车前往仙女山镇休息，方便次日游武隆。"
       }
     ],
     timeline: [
@@ -171,8 +194,8 @@ const ITINERARY_DAYS = [
       },
       {
         time: "下午至傍晚",
-        title: "龚滩古镇漫步 ➔ 前往武隆仙女山镇入住",
-        desc: "感受千年青石板古镇韵味，傍晚乘包车前往武隆仙女山镇酒店办理入住。",
+        title: "龚滩古镇漫步 ➔ 前往武隆仙女山镇",
+        desc: "感受千年青石板古镇韵味，傍晚乘包车前往武隆仙女山镇休整。",
         isNature: true,
         tags: [{ text: "慢行赏景", type: "free" }],
         tip: "省力贴士：龚滩古镇沿主街青石板路慢行即可，避开陡峭小巷台阶。"
@@ -187,6 +210,7 @@ const ITINERARY_DAYS = [
   },
   {
     day: 4,
+    dateLabel: "12月3日（周四）",
     shortTitle: "武隆奇观与返城",
     title: "Day 4｜武隆喀斯特奇观与返程市区",
     route: ["武隆天生三桥", "仙女山国家森林公园（乘小火车）", "傍晚包车返回重庆市区"],
@@ -194,11 +218,13 @@ const ITINERARY_DAYS = [
       {
         spot: "天生三桥统一换乘点",
         pin: "仙女山游客接待中心",
+        mapQuery: "仙女山游客接待中心",
         reason: "在此统一换乘景区环保车与观光电梯下谷底，省力安全。"
       },
       {
         spot: "返程市区晚餐",
         pin: "德福火锅（七星岗店）",
+        mapQuery: "德福火锅七星岗店",
         reason: "二十多年居民楼老店，返回重庆市区后吃一顿软烂适口的鸳鸯老火锅。"
       }
     ],
@@ -212,7 +238,7 @@ const ITINERARY_DAYS = [
           { text: "70岁以上通常免大门票", type: "free" },
           { text: "含环保车/电梯", type: "ticket" }
         ],
-        tip: "长辈优待：70岁以上长辈凭有效身份证件通常免大门票（仅需购买中转车/观光电梯费），请务必随身带好身份证！"
+        tip: "长辈优待：70岁以上长辈凭有效身份证件通常免大门票（仅需购买中转车/观光电梯费），请务必随身带好证件！"
       },
       {
         time: "下午",
@@ -223,8 +249,8 @@ const ITINERARY_DAYS = [
       },
       {
         time: "傍晚（或备选夜游）",
-        title: "包车返回重庆市区",
-        desc: "傍晚乘包车返回重庆市区酒店与市区晚餐。",
+        title: "包车返回重庆市区民宿",
+        desc: "傍晚乘包车返回解放碑民宿与市区晚餐。",
         tags: [{ text: "备选：《印象武隆》", type: "ticket" }],
         tip: "备选夜游：若体力充沛且当晚续住武隆，可在镇上吃过晚饭后包车前往观看露天实景演出《印象武隆》（注意山谷夜间防风保暖）。"
       }
@@ -242,6 +268,7 @@ const ITINERARY_DAYS = [
   },
   {
     day: 5,
+    dateLabel: "12月4日（周五）",
     shortTitle: "历史文化与商圈",
     title: "Day 5｜巴渝历史文化与现代商圈",
     route: ["鹅岭公园（瞰胜楼）", "李子坝轻轨穿楼", "三峡博物馆", "人民大礼堂", "观音桥商圈"],
@@ -249,11 +276,13 @@ const ITINERARY_DAYS = [
       {
         spot: "李子坝轻轨穿楼",
         pin: "李子坝观景台",
+        mapQuery: "李子坝观景台",
         reason: "在马路下层，才是拍轻轨列车穿楼的最佳机位。"
       },
       {
         spot: "观音桥商圈",
         pin: "久悠茶坊",
+        mapQuery: "久悠茶坊",
         reason: "避开建新北路严重堵车，下车即北仓，步行5分钟到塔坪社区及「我在重庆」大屏，一路下坡不废腿。"
       }
     ],
@@ -294,40 +323,40 @@ const ITINERARY_DAYS = [
   },
   {
     day: 6,
-    shortTitle: "采买伴手礼返程",
-    title: "Day 6｜悠闲采买与返程",
-    route: ["酒店自然醒", "大型超市采买伴手礼", "包车送往重庆江北国际机场返程"],
+    dateLabel: "12月5日–6日（周六/周日）",
+    shortTitle: "采买伴手礼与返程",
+    title: "Day 6｜悠闲采买与 12月6日返程送机",
+    route: ["自然醒休整", "大型超市采买伴手礼", "12月6日 11:05 江北机场 T3 飞往槟城"],
     driverPins: [
       {
         spot: "伴手礼采买",
-        pin: "酒店附近大型超市 / 本地菜市场",
+        pin: "大型超市 / 本地菜市场",
+        mapQuery: "解放碑大型超市",
         reason: "切勿在景区或特产店购买，大型超市或菜市场平价且正宗。"
       },
       {
-        spot: "返程送机",
-        pin: "重庆江北国际机场",
-        reason: "务必提前确认航班在 T2 还是 T3 航站楼，避免走错航站楼需坐摆渡车转场。"
+        spot: "返程送机（12月6日）",
+        pin: "重庆江北国际机场T3航站楼",
+        mapQuery: "重庆江北国际机场T3航站楼",
+        reason: "海南航空 HU7172 于 11:05 从 T3 航站楼起飞，请提前 2.5–3 小时出发送机。"
       }
     ],
     timeline: [
       {
-        time: "上午",
-        title: "酒店睡到自然醒 · 悠闲早餐",
-        desc: "不赶早班行程，整理好行李，享受重庆最后一个轻松早晨。",
-        tags: [{ text: "慢节奏收尾", type: "free" }]
-      },
-      {
-        time: "中午前后",
+        time: "12月5日 悠闲采买",
         title: "大型超市 / 本地菜市场采买伴手礼",
-        desc: "火锅底料、怪味胡豆、江津米花糖、陈麻花等重庆特产，直接在正规大超市或本地菜市场选购，明码标价又正宗。",
+        desc: "火锅底料、怪味胡豆、江津米花糖、陈麻花等重庆特产，直接在正规大超市或本地菜市场选购，明码标价又正宗；晚上打包好行李早点休息。",
         tags: [{ text: "避开景区高价特产店", type: "free" }]
       },
       {
-        time: "送机返程",
-        title: "包车直达重庆江北国际机场",
-        desc: "包车提前送达对应航站楼，顺顺利利踏上归途。",
-        tags: [{ text: "核对 T2 / T3 航站楼", type: "book" }],
-        tip: "重要提醒：出发去机场前请再三核对机票上是 T2 还是 T3 航站楼，避免走错后换乘摆渡车耽误时间。"
+        time: "12月6日 上午",
+        title: "民宿退房 ➔ 包车前往重庆江北国际机场 T3 航站楼",
+        desc: "11:05 搭乘海南航空 HU7172 飞往海口（T2 中转 3h15m，行李直挂），16:30 转乘 HU477 返回槟城。",
+        tags: [
+          { text: "T3 航站楼出发", type: "book" },
+          { text: "11:05 起飞", type: "ticket" }
+        ],
+        tip: "重要提醒：12月6日航班在江北机场 T3 航站楼起飞（非 T2），建议早上 08:00 左右从解放碑民宿出发，留足值机与安检时间。"
       }
     ],
     dining: [
@@ -345,11 +374,10 @@ const RESERVATION_GROUPS = [
     title: "提前 3 天预约",
     badgeText: "最先安排",
     badgeClass: "timing-3d",
-    offsetDaysFromStart: -2, // Day 2 游玩，提前3天 = 出发前1天 (dayOffset 2 - 1 - 3 = -2)
     items: [
       {
         id: "huguang",
-        name: "湖广会馆（Day 2 游玩）",
+        name: "湖广会馆（Day 2 · 12月1日游玩）",
         account: "重庆湖广会馆",
         detail: "门票 32元 · 09:00–18:00（17:00停止检票）",
         visitDayIndex: 2,
@@ -365,7 +393,7 @@ const RESERVATION_GROUPS = [
     items: [
       {
         id: "sanxia",
-        name: "三峡博物馆（Day 5 游玩）",
+        name: "三峡博物馆（Day 5 · 12月4日游玩）",
         account: "重庆中国三峡博物馆",
         detail: "免费 · 09:00–17:00（16:30停止入馆）",
         visitDayIndex: 5,
@@ -373,7 +401,7 @@ const RESERVATION_GROUPS = [
       },
       {
         id: "dalitang",
-        name: "人民大礼堂（Day 5 游玩）",
+        name: "人民大礼堂（Day 5 · 12月4日游玩）",
         account: "重庆市人民大礼堂",
         detail: "外观免费 / 内部 8元 · 08:00–18:00（17:30停止售票）",
         visitDayIndex: 5,
@@ -389,7 +417,7 @@ const RESERVATION_GROUPS = [
     items: [
       {
         id: "suodao",
-        name: "长江索道（Day 2 游玩）",
+        name: "长江索道（Day 2 · 12月1日游玩）",
         account: "长江索道",
         detail: "单程 30元 · 08:00–22:00（21:30停止入场，大雾/暴雨/大风可能停运）",
         visitDayIndex: 2,
@@ -416,6 +444,7 @@ const FOOD_ITEMS = [
     badge: "🌿 不辣 · 温和家常",
     name: "三条凳饭店",
     area: "解放碑磨坊巷",
+    mapQuery: "三条凳饭店 解放碑",
     dishes: "招牌软烂蹄花汤、红烧肘子。居民楼下的地道老店，软糯暖胃不辣。"
   },
   {
@@ -423,6 +452,7 @@ const FOOD_ITEMS = [
     badge: "🌿 不辣 · 传统川菜",
     name: "尘香传统川菜馆",
     area: "解放碑（14年老店）",
+    mapQuery: "尘香传统川菜馆 解放碑",
     dishes: "鸡豆花、宫保虾球、鱼香肉丝、手工汤圆。清淡与经典川味兼具。"
   },
   {
@@ -430,6 +460,7 @@ const FOOD_ITEMS = [
     badge: "🌿 清爽 · 不辣面食",
     name: "王胖娃面",
     area: "市区 / 观音桥可安排",
+    mapQuery: "王胖娃面",
     dishes: "现炒番茄杂酱面、莲藕抄手。酸甜鲜香、清爽不辣，长辈吃着很舒服。"
   },
   {
@@ -437,6 +468,7 @@ const FOOD_ITEMS = [
     badge: "🌿 汤鲜 · 温润软嫩",
     name: "海关荤豆花",
     area: "南岸 / 市区",
+    mapQuery: "海关荤豆花",
     dishes: "三鲜小锅约30元，含猪肝、瘦肉、豆芽、番茄、鹌鹑蛋等，豆腐嫩滑、汤鲜温润。"
   },
   {
@@ -444,6 +476,7 @@ const FOOD_ITEMS = [
     badge: "🌿 早餐 / 夜宵暖胃",
     name: "鬼包子",
     area: "市区老字号",
+    mapQuery: "鬼包子",
     dishes: "酱肉包配热小米粥，热乎暄软，特别适合长辈当早餐或夜宵。"
   },
   {
@@ -451,6 +484,7 @@ const FOOD_ITEMS = [
     badge: "🌿 香甜 · 手工早餐",
     name: "范孃孃糯米团",
     area: "市区特色早点",
+    mapQuery: "范孃孃糯米团",
     dishes: "手工糯米裹黄豆粉白糖，夹酥脆油条，甜香软糯有嚼劲。"
   },
   // 地道火锅与解辣小吃
@@ -459,6 +493,7 @@ const FOOD_ITEMS = [
     badge: "🌶️ 地道老火锅",
     name: "德福火锅（七星岗店）",
     area: "七星岗（二十多年居民楼老店）",
+    mapQuery: "德福火锅 七星岗店",
     dishes: "锅底免费！耙鸡脚、耙牛肉软烂入味适合长辈，记得点鸳鸯锅。"
   },
   {
@@ -466,6 +501,7 @@ const FOOD_ITEMS = [
     badge: "🌶️ 地道老火锅",
     name: "黄家码头老火锅 / 唐红英火锅 / 利火锅",
     area: "临江门 / 七星岗等",
+    mapQuery: "唐红英火锅 临江门",
     dishes: "本地人常去的老火锅备选：黄家码头老火锅、唐红英火锅（临江门）、利火锅（七星岗）。"
   },
   {
@@ -473,6 +509,7 @@ const FOOD_ITEMS = [
     badge: "🌶️ 火锅 + 冰稀饭解辣",
     name: "王胖娃火锅",
     area: "市区老火锅",
+    mapQuery: "王胖娃火锅",
     dishes: "地道重庆老火锅，店里有冰稀饭解辣，吃辣后喝一碗很舒服。"
   },
   {
@@ -480,6 +517,7 @@ const FOOD_ITEMS = [
     badge: "🍧 冰爽解辣小吃",
     name: "眼镜凉虾凉糕 & 李凉虾",
     area: "街头老牌小吃",
+    mapQuery: "眼镜凉虾凉糕",
     dishes: "眼镜凉虾凉糕（17:30后出摊）、李凉虾，红糖冰爽细腻，吃火锅绝佳解辣搭档。"
   },
   {
@@ -487,6 +525,7 @@ const FOOD_ITEMS = [
     badge: "🍢 现炸与老式糕点",
     name: "肖炮现炸酥肉 & 熨斗糕",
     area: "街边人气小吃",
+    mapQuery: "肖炮现炸酥肉",
     dishes: "现炸酥肉外酥里嫩，老式熨斗糕米香浓郁、外脆内软，适合全家分着尝鲜。"
   },
   {
@@ -494,6 +533,7 @@ const FOOD_ITEMS = [
     badge: "🥛 清甜解辣甜品",
     name: "李若桃（白糯米 + 手作酸奶）",
     area: "人气饮品甜品",
+    mapQuery: "李若桃",
     dishes: "软糯白糯米搭配醇厚手作酸奶，清甜不腻，解辣又爽口。"
   }
 ];
@@ -525,13 +565,13 @@ const TIPS_ACCORDION = [
   {
     id: "tip-safety",
     icon: "👟",
-    title: "出行安全、特产采买与机场提醒",
+    title: "出行安全、地铁换乘、采买与机场提醒",
     defaultOpen: false,
     bullets: [
-      "<strong>穿对鞋子：</strong>山城坡道台阶多，全员务必穿舒适防滑的<strong>平底鞋或运动鞋</strong>。",
-      "<strong>切勿骑行：</strong>重庆地形起伏大、坡陡弯急，<strong>切勿尝试共享电动车</strong>。",
+      "<strong>穿对鞋子：</strong>山城坡道台阶多，全员务必穿舒适防滑的<strong>平底鞋或运动鞋</strong>；切勿尝试共享电动车。",
+      "<strong>晚高峰换乘地铁：</strong>若市区包车遇晚高峰拥堵，可灵活换乘地铁，打开支付宝/微信搜索 <button type=\"button\" class=\"inline-copy-chip\" data-copy=\"重庆轨道交通乘车码\">「重庆轨道交通乘车码」<span class=\"chip-copy-tag\">复制</span></button> 扫码进站。",
       "<strong>伴手礼去哪买：</strong>特产切勿在景区或特产店购买，直接让包车司机载去<strong>大型超市或本地菜市场</strong>，平价且正宗。",
-      "<strong>核对航站楼：</strong>返程务必提前确认航班在<strong>江北机场 T2 还是 T3 航站楼</strong>，避免走错航站楼需坐摆渡车转场。"
+      "<strong>航站楼确认：</strong>我们往返重庆均在<strong>江北国际机场 T3 航站楼</strong>（12月6日 HU7172 11:05 起飞），切勿跑错到 T2 航站楼。"
     ]
   }
 ];
@@ -541,8 +581,9 @@ const TIPS_ACCORDION = [
    ========================================================================== */
 let currentDay = 1;
 let currentFoodFilter = "all";
+const DEFAULT_ARRIVAL_DATE = "2026-11-30";
 const STORAGE_KEY_CHECKS = "cq2026_reservation_checks_v1";
-const STORAGE_KEY_DATE = "cq2026_departure_date_v1";
+const STORAGE_KEY_DATE = "cq2026_departure_date_v2";
 const STORAGE_KEY_FONT = "cq2026_font_scale_v1";
 
 function loadCheckedMap() {
@@ -557,7 +598,7 @@ function saveCheckedMap(map) {
   try {
     localStorage.setItem(STORAGE_KEY_CHECKS, JSON.stringify(map));
   } catch {
-    // ignore storage errors
+    // ignore
   }
 }
 
@@ -627,7 +668,6 @@ function computeBookingDate(departureStr, visitDayIndex, advanceDays) {
   const [y, m, d] = departureStr.split("-").map(Number);
   if (!y || !m || !d) return "";
   const date = new Date(y, m - 1, d);
-  // Day 1 is departure date (offset 0), so visitDayIndex - 1 - advanceDays
   date.setDate(date.getDate() + (visitDayIndex - 1) - advanceDays);
   return formatMonthDay(date);
 }
@@ -712,15 +752,25 @@ function renderDayPanel() {
           <div class="driver-pin">📍 定位「${pin.pin}」</div>
           <p class="driver-reason">${pin.reason}</p>
         </div>
-        <button
-          type="button"
-          class="copy-btn"
-          id="copyPin-${data.day}-${idx}"
-          data-copy="${pin.pin}"
-          data-label="复制定位"
-        >
-          复制定位
-        </button>
+        <div class="driver-btn-group">
+          <a
+            class="amap-btn"
+            href="${buildAmapUrl(pin.mapQuery || pin.pin)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🗺️ 高德地图
+          </a>
+          <button
+            type="button"
+            class="copy-btn"
+            id="copyPin-${data.day}-${idx}"
+            data-copy="${pin.pin}"
+            data-label="📋 复制定位"
+          >
+            📋 复制定位
+          </button>
+        </div>
       </div>
     `
     )
@@ -761,14 +811,14 @@ function renderDayPanel() {
 
   panel.innerHTML = `
     <div class="day-header">
-      <span class="day-badge">第 ${data.day} 天行程</span>
+      <span class="day-badge">第 ${data.day} 天 · ${data.dateLabel}</span>
       <h3 class="day-title">${data.title}</h3>
       <div class="route-trail" aria-label="当日路线">${routeHtml}</div>
     </div>
 
     <div class="driver-box" aria-label="司机精准导航定位">
       <div class="driver-box-header">
-        <h4 class="driver-box-title"><span aria-hidden="true">🚐</span> 司机精准导航定位（直接发给师傅）</h4>
+        <h4 class="driver-box-title"><span aria-hidden="true">🚐</span> 司机精准导航定位（高德地图 / 一键复制）</h4>
         <button type="button" class="copy-all-btn" data-copy-all="${allPinsSummary}">
           一键复制本日全部定位
         </button>
@@ -794,7 +844,6 @@ function renderDayPanel() {
     copyAllBtn.addEventListener("click", () => copyText(copyAllBtn.dataset.copyAll));
   }
 
-  // 更新底部分页状态
   const prevBtn = document.getElementById("prevDayBtn");
   const nextBtn = document.getElementById("nextDayBtn");
   const indicator = document.getElementById("pagerIndicator");
@@ -904,12 +953,10 @@ function renderReservations() {
 
 function initDepartureDate() {
   const input = document.getElementById("departureDateInput");
-  const clearBtn = document.getElementById("clearDateBtn");
-  const saved = localStorage.getItem(STORAGE_KEY_DATE) || "";
-  if (saved) {
-    input.value = saved;
-    clearBtn.hidden = false;
-  }
+  const resetBtn = document.getElementById("clearDateBtn");
+  const saved = localStorage.getItem(STORAGE_KEY_DATE) || DEFAULT_ARRIVAL_DATE;
+  input.value = saved;
+  resetBtn.hidden = input.value === DEFAULT_ARRIVAL_DATE;
 
   input.addEventListener("change", () => {
     try {
@@ -917,15 +964,15 @@ function initDepartureDate() {
     } catch {
       // ignore
     }
-    clearBtn.hidden = !input.value;
+    resetBtn.hidden = input.value === DEFAULT_ARRIVAL_DATE;
     renderReservations();
   });
 
-  clearBtn.addEventListener("click", () => {
-    input.value = "";
-    clearBtn.hidden = true;
+  resetBtn.addEventListener("click", () => {
+    input.value = DEFAULT_ARRIVAL_DATE;
+    resetBtn.hidden = true;
     try {
-      localStorage.removeItem(STORAGE_KEY_DATE);
+      localStorage.setItem(STORAGE_KEY_DATE, DEFAULT_ARRIVAL_DATE);
     } catch {
       // ignore
     }
@@ -934,7 +981,7 @@ function initDepartureDate() {
 }
 
 /* ==========================================================================
-   渲染长辈友好美食指南
+   渲染长辈友好美食指南（带高德地图链接）
    ========================================================================== */
 function renderFoodGuide() {
   const grid = document.getElementById("foodGrid");
@@ -954,6 +1001,16 @@ function renderFoodGuide() {
           </div>
           <h3 class="food-name">${item.name}</h3>
           <p class="food-dishes">${item.dishes}</p>
+          <div class="food-card-footer">
+            <a
+              class="amap-btn amap-btn-sm"
+              href="${buildAmapUrl(item.mapQuery || item.name)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🗺️ 高德地图搜店
+            </a>
+          </div>
         </article>
       `;
     })
@@ -1010,6 +1067,10 @@ function renderTipsAccordion() {
     });
   });
 
+  container.querySelectorAll(".inline-copy-chip").forEach((chip) => {
+    chip.addEventListener("click", () => copyText(chip.dataset.copy));
+  });
+
   const toggleAllBtn = document.getElementById("toggleAllTipsBtn");
   toggleAllBtn.addEventListener("click", () => {
     const items = [...container.querySelectorAll(".accordion-item")];
@@ -1047,9 +1108,9 @@ document.addEventListener("DOMContentLoaded", () => {
     selectDay(currentDay + 1, true);
   });
 
-  // 概览区乘车码一键复制
-  document.querySelectorAll(".inline-copy-chip").forEach((chip) => {
-    chip.addEventListener("click", () => copyText(chip.dataset.copy));
+  // 航班与住宿区复制按钮
+  document.querySelectorAll("#flights [data-copy], #stay [data-copy]").forEach((btn) => {
+    btn.addEventListener("click", () => copyText(btn.dataset.copy, btn));
   });
 
   initDepartureDate();

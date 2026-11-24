@@ -9,7 +9,7 @@
   --bg-soft-warm: #fff4e4;
   --bg-soft-sage: #eef6f0;
   --bg-soft-peach: #fff0ea;
-  --bg-soft-sky: #eef4fa;
+  --bg-soft-sky: #eef5fc;
 
   --ink-primary: #271e16;
   --ink-secondary: #534438;
@@ -22,6 +22,8 @@
   --accent-honey: #b86f09;
   --accent-honey-bg: #fff3d6;
   --accent-honey-border: #e9b95a;
+  --accent-amap: #1f6feb;
+  --accent-amap-dark: #1555ba;
 
   --border-soft: #eadcc9;
   --border-strong: #d8c3a8;
@@ -89,6 +91,18 @@ input {
   font-size: inherit;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .container {
   width: min(1040px, 100% - 28px);
   margin-inline: auto;
@@ -141,14 +155,14 @@ input {
 .desktop-nav {
   display: none;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-link {
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: var(--radius-pill);
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--ink-secondary);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -198,7 +212,7 @@ input {
    主内容区 & 通用板块标题
    ========================================================================== */
 .main-content {
-  padding-top: 22px;
+  padding-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 44px;
@@ -209,7 +223,7 @@ input {
 }
 
 .section-header {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .section-header-row {
@@ -243,193 +257,421 @@ input {
 }
 
 /* ==========================================================================
-   一、顶部概览卡片
+   通用高德地图按钮 & 辅助复制按钮
    ========================================================================== */
-.hero-card {
+.amap-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--accent-amap);
+  background: var(--bg-soft-sky);
+  color: var(--accent-amap-dark);
+  font-weight: 900;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.12s ease;
+}
+
+.amap-btn:hover {
+  background: var(--accent-amap);
+  color: #fff;
+}
+
+.amap-btn-primary {
+  background: var(--accent-amap);
+  color: #fff;
+  box-shadow: 0 3px 0 var(--accent-amap-dark);
+}
+
+.amap-btn-primary:hover {
+  background: var(--accent-amap-dark);
+}
+
+.amap-btn-sm {
+  min-height: 40px;
+  padding: 6px 14px;
+  font-size: 0.86rem;
+  border-radius: 10px;
+}
+
+.copy-soft-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--border-strong);
+  background: #fff;
+  color: var(--ink-primary);
+  font-weight: 800;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.copy-soft-btn:hover {
+  border-color: var(--accent-persimmon);
+  color: var(--accent-persimmon);
+}
+
+/* ==========================================================================
+   一、往返航班资讯卡片
+   ========================================================================== */
+.flight-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.flight-card {
   background: var(--bg-card);
   border: 2px solid var(--border-soft);
   border-radius: var(--radius-xl);
-  overflow: hidden;
+  padding: 20px 18px;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.hero-banner-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 8.2;
-  min-height: 200px;
-  max-height: 410px;
-  overflow: hidden;
-  background: #f6e7d2;
+.flight-depart {
+  border-top: 7px solid var(--accent-persimmon);
 }
 
-.hero-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 45%;
+.flight-return {
+  border-top: 7px solid var(--accent-sage);
 }
 
-.hero-stamp {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255, 251, 245, 0.95);
-  border: 2.5px dashed var(--accent-persimmon);
-  border-radius: 16px;
-  padding: 8px 14px;
-  text-align: center;
-  color: var(--accent-persimmon);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  transform: rotate(3deg);
+.flight-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--border-soft);
 }
 
-.hero-stamp span {
-  display: block;
+.flight-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.flight-dir-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
   font-weight: 900;
-  font-size: 1.05rem;
-  line-height: 1.2;
+  color: #fff;
 }
 
-.hero-stamp small {
-  display: block;
+.badge-depart {
+  background: var(--accent-persimmon);
+}
+
+.badge-return {
+  background: var(--accent-sage);
+}
+
+.flight-date {
+  margin: 0;
+  font-size: 1.24rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+}
+
+.flight-total-time {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  background: var(--bg-paper);
+  border: 1.5px solid var(--border-soft);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.flight-legs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.flight-leg {
+  background: var(--bg-paper);
+  border: 2px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+
+.leg-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.airline-tag {
+  font-weight: 900;
+  font-size: 0.94rem;
+  color: var(--accent-persimmon-dark);
+  background: var(--bg-soft-peach);
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+
+.aircraft-tag {
+  font-size: 0.86rem;
   font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.leg-route {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.leg-point-end {
+  text-align: right;
+}
+
+.leg-time {
+  font-size: 1.38rem;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--ink-primary);
+}
+
+.next-day {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--accent-persimmon);
+  background: var(--bg-soft-peach);
+  padding: 1px 6px;
+  border-radius: 6px;
+  vertical-align: middle;
+}
+
+.leg-code {
+  font-size: 0.96rem;
+  font-weight: 900;
+  color: var(--ink-secondary);
+  margin-top: 3px;
+}
+
+.leg-code.is-highlight {
+  color: var(--accent-persimmon);
+}
+
+.leg-airport {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.leg-arrow {
+  text-align: center;
+  padding: 0 4px;
+}
+
+.leg-arrow span {
+  display: block;
   font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-muted);
 }
 
-.hero-body {
-  padding: 24px 20px 26px;
+.arrow-line {
+  font-size: 1.15rem;
+  color: var(--accent-persimmon);
+  border-bottom: 2px dashed var(--border-strong);
+  padding-bottom: 2px;
+  min-width: 56px;
 }
 
-.hero-title {
-  margin: 0 0 8px;
-  font-size: 1.75rem;
+.transfer-banner {
+  background: var(--bg-soft-sage);
+  border: 2px dashed #8bc49e;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transfer-title {
+  font-weight: 900;
+  font-size: 0.96rem;
+  color: var(--ink-primary);
+}
+
+.transfer-bag {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--accent-sage-dark);
+}
+
+.flight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flight-reminder {
+  background: var(--accent-honey-bg);
+  border: 2px solid var(--accent-honey-border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 0.94rem;
+  color: #7c4700;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   二、住宿资讯卡片
+   ========================================================================== */
+.stay-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-soft);
+  border-top: 7px solid var(--accent-honey);
+  border-radius: var(--radius-xl);
+  padding: 22px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stay-badge {
+  display: inline-block;
+  background: var(--accent-honey-bg);
+  color: #8a5200;
+  border: 1.5px solid var(--accent-honey-border);
+  font-weight: 900;
+  font-size: 0.85rem;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 8px;
+}
+
+.stay-name {
+  margin: 0 0 4px;
+  font-size: 1.42rem;
   line-height: 1.3;
   font-weight: 900;
   color: var(--ink-primary);
 }
 
-.hero-subtitle {
-  margin: 0 0 20px;
-  font-size: 1.02rem;
-  font-weight: 500;
+.stay-en {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+.stay-address {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
   color: var(--ink-secondary);
 }
 
-.hero-pills {
+.stay-dates-bar {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  margin-bottom: 22px;
-}
-
-.hero-pill {
-  display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 2px solid transparent;
-}
-
-.pill-warm {
-  background: var(--bg-soft-peach);
-  border-color: #f6d1c4;
-}
-
-.pill-sage {
-  background: var(--bg-soft-sage);
-  border-color: #c7e2cf;
-}
-
-.pill-honey {
-  background: var(--bg-soft-warm);
-  border-color: #f1dab3;
-}
-
-.pill-icon {
-  font-size: 1.6rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.hero-pill strong {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-  font-weight: 700;
-}
-
-.hero-pill span {
-  display: block;
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--ink-primary);
-}
-
-.overview-info-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-.info-box {
   background: var(--bg-paper);
   border: 2px solid var(--border-soft);
   border-radius: var(--radius-lg);
-  padding: 18px 18px;
+  padding: 16px;
 }
 
-.info-box-title {
-  margin: 0 0 10px;
-  font-size: 1.1rem;
+.stay-date-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stay-date-label {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink-muted);
+}
+
+.stay-date-val {
+  font-size: 1.24rem;
   font-weight: 900;
   color: var(--ink-primary);
+}
+
+.stay-date-sub {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent-persimmon);
+}
+
+.stay-nights-pill {
+  justify-self: start;
+  background: var(--accent-persimmon);
+  color: #fff;
+  font-weight: 900;
+  font-size: 0.96rem;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+}
+
+.stay-room-info {
+  background: var(--bg-soft-warm);
+  border: 2px solid #f0dac0;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.stay-room-title {
+  font-weight: 900;
+  font-size: 1.04rem;
+  margin-bottom: 12px;
+  color: var(--ink-primary);
+}
+
+.stay-tags {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.info-box p {
-  margin: 0;
-  color: var(--ink-secondary);
-}
-
-.clean-list {
-  margin: 0;
-  padding-left: 1.2rem;
-  color: var(--ink-secondary);
-}
-
-.clean-list li + li {
-  margin-top: 8px;
-}
-
-.inline-copy-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 2px 2px;
-  padding: 2px 10px;
+.stay-tag {
+  background: #fff;
+  border: 1.5px solid var(--border-soft);
   border-radius: 10px;
-  border: 2px solid var(--accent-honey-border);
-  background: var(--accent-honey-bg);
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
   color: var(--ink-primary);
-  font-weight: 700;
-  cursor: pointer;
-  vertical-align: baseline;
 }
 
-.chip-copy-tag {
-  font-size: 0.78rem;
-  background: var(--accent-honey);
-  color: #fff;
-  padding: 1px 7px;
-  border-radius: 6px;
+.stay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* ==========================================================================
-   二、每日行程切换 (Day 1 - Day 6 Tabs)
+   三、每日行程切换 (Day 1 - Day 6 Tabs)
    ========================================================================== */
 .day-tabs {
   display: grid;
@@ -587,18 +829,10 @@ input {
   background: #fffdf8;
   border: 2px solid #f0cf8c;
   border-radius: var(--radius-md);
-  padding: 14px 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.driver-item-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   gap: 12px;
-  flex-wrap: wrap;
 }
 
 .driver-spot {
@@ -620,9 +854,16 @@ input {
 }
 
 .driver-reason {
-  margin: 0;
+  margin: 4px 0 0;
   color: var(--ink-secondary);
   font-size: 0.94rem;
+}
+
+.driver-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .copy-btn {
@@ -637,7 +878,7 @@ input {
   background: var(--accent-persimmon);
   color: #fff;
   font-weight: 900;
-  font-size: 0.94rem;
+  font-size: 0.92rem;
   cursor: pointer;
   flex-shrink: 0;
   box-shadow: 0 3px 0 var(--accent-persimmon-dark);
@@ -811,7 +1052,6 @@ input {
   color: var(--ink-primary);
   font-weight: 900;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .pager-btn:hover:not(:disabled) {
@@ -830,7 +1070,7 @@ input {
 }
 
 /* ==========================================================================
-   三、预约倒计时 / 清单模块
+   四、预约倒计时 / 清单模块
    ========================================================================== */
 .reservation-toolbar {
   display: flex;
@@ -915,9 +1155,6 @@ input {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 900;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .res-timing-pill {
@@ -963,7 +1200,6 @@ input {
   border-radius: var(--radius-md);
   background: var(--bg-paper);
   border: 2px solid var(--border-soft);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .res-item.is-checked {
@@ -1053,7 +1289,7 @@ input {
 }
 
 /* ==========================================================================
-   四、长辈友好美食指南
+   五、长辈友好美食指南
    ========================================================================== */
 .food-filters {
   display: flex;
@@ -1072,7 +1308,6 @@ input {
   font-weight: 900;
   font-size: 0.94rem;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .filter-btn.is-active {
@@ -1105,7 +1340,7 @@ input {
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .food-card.is-mild {
@@ -1157,10 +1392,18 @@ input {
 .food-dishes {
   margin: 0;
   color: var(--ink-secondary);
+  flex: 1;
+}
+
+.food-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
 }
 
 /* ==========================================================================
-   五、避坑与出行贴士折叠面板
+   六、避坑与出行贴士折叠面板
    ========================================================================== */
 .btn-outline {
   min-height: 44px;
@@ -1268,6 +1511,28 @@ input {
   color: var(--ink-primary);
 }
 
+.inline-copy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  border: 2px solid var(--accent-honey-border);
+  background: var(--accent-honey-bg);
+  color: var(--ink-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chip-copy-tag {
+  font-size: 0.78rem;
+  background: var(--accent-honey);
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: 6px;
+}
+
 /* ==========================================================================
    页脚 & 手机底部导航 & Toast
    ========================================================================== */
@@ -1310,7 +1575,7 @@ input {
   background: rgba(255, 253, 249, 0.98);
   border-top: 2px solid var(--border-soft);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   padding: 6px 4px env(safe-area-inset-bottom, 6px);
   box-shadow: 0 -4px 16px rgba(85, 58, 30, 0.08);
 }
@@ -1321,14 +1586,14 @@ input {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 6px 4px;
-  font-size: 0.78rem;
+  padding: 6px 2px;
+  font-size: 0.72rem;
   font-weight: 800;
   color: var(--ink-primary);
 }
 
 .mobile-nav-item .m-icon {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
@@ -1369,20 +1634,20 @@ input {
     bottom: 32px;
   }
 
-  .hero-body {
-    padding: 28px 32px 32px;
+  .flight-card {
+    padding: 24px 26px;
   }
 
-  .hero-title {
-    font-size: 2.05rem;
+  .stay-card {
+    padding: 26px 28px;
   }
 
-  .hero-pills {
-    grid-template-columns: repeat(3, 1fr);
+  .stay-dates-bar {
+    grid-template-columns: 1fr auto 1fr;
   }
 
-  .overview-info-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .stay-nights-pill {
+    justify-self: center;
   }
 
   .day-tabs {
@@ -1413,6 +1678,10 @@ input {
 }
 
 @media (min-width: 960px) {
+  .flight-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .day-tabs {
     grid-template-columns: repeat(6, 1fr);
   }
