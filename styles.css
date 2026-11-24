@@ -1686,3 +1686,321 @@ input {
     grid-template-columns: repeat(6, 1fr);
   }
 }
+
+/* ==========================================================================
+   地铁线路标识与行程内地铁乘搭卡片
+   ========================================================================== */
+.stay-metro {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.line-chip {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #fff;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.line-1 { background: #d92626; }
+.line-2 { background: #0f7b3e; }
+.line-3 { background: #1449a8; }
+.line-6 { background: #d63d86; }
+.line-9 { background: #8c2d5c; }
+.line-10 { background: #6531a8; }
+.line-loop { background: #c98600; }
+
+.metro-box {
+  margin-top: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #edf5ff;
+  border: 2px solid #b5d2fb;
+  color: #163b6e;
+  font-size: 0.94rem;
+}
+
+.metro-box-title {
+  font-weight: 900;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.metro-box-detail {
+  margin: 0;
+  line-height: 1.65;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   每日底部实景路线图（小红书风标号路线 + 高德中文底图）
+   ========================================================================== */
+.day-map-section {
+  margin-top: 24px;
+  background: var(--bg-paper);
+  border: 2.5px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.day-map-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 2px solid var(--border-soft);
+}
+
+.day-map-title {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-map-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.map-reset-btn {
+  min-height: 38px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--border-strong);
+  background: var(--bg-paper);
+  color: var(--ink-primary);
+  font-weight: 800;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.map-reset-btn:hover {
+  border-color: var(--accent-persimmon);
+  color: var(--accent-persimmon);
+}
+
+.day-map-canvas {
+  width: 100%;
+  height: 410px;
+  background: #e6eef5;
+  z-index: 1;
+}
+
+@media (min-width: 720px) {
+  .day-map-canvas {
+    height: 470px;
+  }
+}
+
+/* 地图上的小红书风标号站点标签 */
+.map-stop-icon-wrap {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-stop-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 5px;
+  border-radius: 9px;
+  color: #fff;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  border: 2px solid #fff;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.map-stop-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  font-weight: 900;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* 路段中间黄色耗时/交通方式标签（还原参考图视觉） */
+.map-seg-icon-wrap {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-seg-badge {
+  display: inline-block;
+  background: #ffea8a;
+  color: #271e16;
+  border: 1.5px solid #d49c17;
+  border-radius: 7px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.25;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+}
+
+/* Leaflet Popup 大字美化 */
+.leaflet-popup-content {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  margin: 12px 14px;
+  min-width: 200px;
+}
+
+.map-popup-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: #271e16;
+  margin: 0 0 6px;
+}
+
+.map-popup-note {
+  font-size: 14px;
+  color: #534438;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.map-popup-metro {
+  font-size: 13px;
+  font-weight: 800;
+  color: #164488;
+  background: #edf5ff;
+  padding: 5px 8px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.map-popup-link {
+  display: inline-block;
+  background: #1f6feb;
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* 地图下方大字路线顺序图例（点一下可定位到地图上该站点） */
+.map-legend {
+  padding: 14px 16px 16px;
+  background: #fff;
+  border-top: 2px solid var(--border-soft);
+}
+
+.map-legend-hint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.map-legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-legend-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-legend-stop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border-soft);
+  background: var(--bg-paper);
+  color: var(--ink-primary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.map-legend-stop:hover {
+  border-color: var(--accent-persimmon);
+  background: #fff;
+}
+
+.legend-stop-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.legend-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 900;
+  font-size: 0.92rem;
+  flex-shrink: 0;
+}
+
+.legend-name {
+  font-weight: 900;
+  font-size: 0.98rem;
+}
+
+.legend-sub {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+  font-weight: 600;
+}
+
+.legend-seg-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
+  padding: 3px 12px;
+  border-radius: 8px;
+  background: #ffef9f;
+  border: 1.5px solid #e0b341;
+  color: #5c3d00;
+  font-size: 0.85rem;
+  font-weight: 900;
+  width: fit-content;
+}

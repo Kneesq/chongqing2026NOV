@@ -1,9 +1,39 @@
 /* ==========================================================================
-   重庆 6天5夜 家庭包车慢游指南 — 交互与数据脚本（集成高德地图搜索链接）
+   重庆 6天5夜 家庭包车慢游指南 — 交互、地铁指引与每日高德实景路线图
    ========================================================================== */
 
 function buildAmapUrl(keyword) {
   return `https://www.amap.com/ssr/search?query_type=TQUERY&query=${encodeURIComponent(keyword)}&city=500000`;
+}
+
+/* WGS-84 转 GCJ-02（让标准经纬度精准贴合高德中文底图） */
+function wgs84ToGcj02(lat, lng) {
+  const PI = Math.PI;
+  const a = 6378245.0;
+  const ee = 0.00669342162296594323;
+  const transformLat = (x, y) => {
+    let ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+    ret += ((20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0) / 3.0;
+    ret += ((20.0 * Math.sin(y * PI) + 40.0 * Math.sin((y / 3.0) * PI)) * 2.0) / 3.0;
+    ret += ((160.0 * Math.sin((y / 12.0) * PI) + 320 * Math.sin((y * PI) / 30.0)) * 2.0) / 3.0;
+    return ret;
+  };
+  const transformLng = (x, y) => {
+    let ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+    ret += ((20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0) / 3.0;
+    ret += ((20.0 * Math.sin(x * PI) + 40.0 * Math.sin((x / 3.0) * PI)) * 2.0) / 3.0;
+    ret += ((150.0 * Math.sin((x / 12.0) * PI) + 300.0 * Math.sin((x / 30.0) * PI)) * 2.0) / 3.0;
+    return ret;
+  };
+  let dLat = transformLat(lng - 105.0, lat - 35.0);
+  let dLng = transformLng(lng - 105.0, lat - 35.0);
+  const radLat = (lat / 180.0) * PI;
+  let magic = Math.sin(radLat);
+  magic = 1 - ee * magic * magic;
+  const sqrtMagic = Math.sqrt(magic);
+  dLat = (dLat * 180.0) / (((a * (1 - ee)) / (magic * sqrtMagic)) * PI);
+  dLng = (dLng * 180.0) / ((a / sqrtMagic) * Math.cos(radLat) * PI);
+  return [lat + dLat, lng + dLng];
 }
 
 const ITINERARY_DAYS = [
@@ -44,13 +74,21 @@ const ITINERARY_DAYS = [
         time: "14:15 抵达",
         title: "重庆江北机场 T3 接机 ➔ 湖广·富山江景美宿入住休整",
         desc: "HU7271 预计 14:15 抵达江北国际机场 T3 航站楼，包车接机直达民宿安顿行李、稍作休息。",
-        tags: [{ text: "全程包车接送", type: "free" }]
+        tags: [{ text: "全程包车接送", type: "free" }],
+        metro: {
+          title: "备选地铁接驳（如需乘轨道交通）",
+          detail: "<span class=\"line-chip line-10\">10号线</span> <strong>江北机场T3航站楼站</strong> ➔ <strong>红土地站</strong> 换乘 <span class=\"line-chip line-6\">6号线</span> ➔ <strong>小什字站</strong>（步行约 5 分钟到民宿）。"
+        }
       },
       {
         time: "傍晚",
         title: "解放碑 & 白象居",
         desc: "在「八一广场」下车打卡解放碑与八一好吃街；随后乘车至「白象居3号楼」拍索道穿楼经典机位。",
         tags: [{ text: "免费免预约", type: "free" }],
+        metro: {
+          title: "周边地铁站参考",
+          detail: "解放碑近 <span class=\"line-chip line-2\">2号线</span> <strong>临江门站</strong> / <span class=\"line-chip line-1\">1号线</span> <strong>较场口站</strong>；白象居近 <span class=\"line-chip line-1\">1号线</span> <span class=\"line-chip line-6\">6号线</span> <strong>小什字站</strong>（8号口）。"
+        },
         tip: "省力贴士：务必让司机直接导航「白象居3号楼」，免爬无电梯长台阶。"
       },
       {
@@ -61,6 +99,10 @@ const ITINERARY_DAYS = [
           { text: "免费无需预约", type: "free" },
           { text: "亮灯 19:30–23:00", type: "ticket" }
         ],
+        metro: {
+          title: "洪崖洞 ➔ 江滩公园（晚高峰强烈推荐搭地铁过江！）",
+          detail: "千厮门大桥晚高峰极易堵车！推荐在 <strong>小什字站</strong> 乘 <span class=\"line-chip line-6\">6号线</span> 坐 <strong>1 站</strong> 至 <strong>大剧院站</strong>（2号/3号口出，3 分钟过江直达江滩公园看洪崖洞全景）；看完再坐 <span class=\"line-chip line-6\">6号线</span> 1 站回 <strong>小什字站</strong> 步行 5 分钟回民宿！"
+        },
         tip: "避坑提醒：洪崖洞所有电梯和通道均免费，无需进景区挤电梯，也不要相信收费快速通道。"
       }
     ],
@@ -73,7 +115,24 @@ const ITINERARY_DAYS = [
         name: "三条凳饭店（磨坊巷居民楼下）",
         detail: "暖胃家常菜：招牌软烂蹄花汤、红烧肘子，口感软糯不辣。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#1d68c4",
+      subtitle: "渝中核心夜景环线（江北机场 T3 接机 ➔ 民宿 ➔ 解放碑 ➔ 白象居 ➔ 洪崖洞 ➔ 江滩公园）",
+      stops: [
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "14:15 从江北机场 T3 包车直达民宿入住休整", metro: "近 1/6号线 小什字站（步行5分钟）", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "解放碑(八一广场)", lat: 29.5574, lng: 106.5770, note: "重庆城市地标纪念碑 & 八一好吃街", metro: "近 2号线 临江门站 / 1号线 较场口站", query: "重庆八一广场" },
+        { name: "白象居3号楼", lat: 29.5565, lng: 106.5831, note: "长江索道穿楼经典机位，直达免爬长台阶", metro: "近 1/6号线 小什字站", query: "白象居3号楼" },
+        { name: "洪崖洞", lat: 29.5632, lng: 106.5790, note: "19:30–23:00 亮灯，嘉滨路马路下层看全貌", metro: "近 1/6号线 小什字站", query: "嘉滨路洪崖洞公交站" },
+        { name: "江滩公园(大剧院)", lat: 29.5686, lng: 106.5804, note: "隔江拍洪崖洞与千厮门大桥全景最佳免费机位", metro: "6号线 大剧院站（2/3号口）", query: "重庆大剧院江滩公园" }
+      ],
+      segments: [
+        { label: "🚐 包车约8分钟", dashed: false },
+        { label: "🚐 包车约8分钟", dashed: false },
+        { label: "🚐 包车约10分钟", dashed: false },
+        { label: "🚇 6号线1站(3分钟)", dashed: true }
+      ]
+    }
   },
   {
     day: 2,
@@ -116,6 +175,10 @@ const ITINERARY_DAYS = [
           { text: "需提前3天预约", type: "book" },
           { text: "门票 32元", type: "ticket" }
         ],
+        metro: {
+          title: "步行 / 地铁参考",
+          detail: "距离我们民宿非常近，也可从 <span class=\"line-chip line-1\">1号线</span> <span class=\"line-chip line-6\">6号线</span> <strong>小什字站</strong>（7/8号口）步行约 8 分钟或包车直达东门。"
+        },
         tip: "省力路线：建议从移民博物馆出来后，直接去齐安公所看戏台喝茶歇脚，再逛广东公所和禹王宫。"
       },
       {
@@ -126,6 +189,10 @@ const ITINERARY_DAYS = [
           { text: "当天线上预约", type: "book" },
           { text: "单程 30元", type: "ticket" }
         ],
+        metro: {
+          title: "长江索道两端地铁站",
+          detail: "索道北站近 <span class=\"line-chip line-1\">1号线</span> <span class=\"line-chip line-6\">6号线</span> <strong>小什字站</strong>（5B口）；索道南站近 <span class=\"line-chip line-6\">6号线</span> <span class=\"line-chip line-loop\">环线</span> <strong>上新街站</strong>。"
+        },
         tip: "天气提醒：大雾、暴雨、大风天气可能临时停运，出行前请先查看官方公告。"
       },
       {
@@ -133,6 +200,10 @@ const ITINERARY_DAYS = [
         title: "下浩里 ➔ 龙门浩老街 ➔ 弹子石老街／钟楼广场夜景",
         desc: "从上新街1号口由上往下漫步老街，江景茶馆随时歇脚；天黑后到弹子石广场观景台欣赏两江交汇灯光夜景。",
         tags: [{ text: "免费免预约", type: "free" }],
+        metro: {
+          title: "南岸老街串游 & 晚高峰回民宿地铁指引",
+          detail: "下浩里/龙门浩紧邻 <span class=\"line-chip line-6\">6号线</span> <span class=\"line-chip line-loop\">环线</span> <strong>上新街站</strong>（1号/2号口）；前往弹子石可包车或乘 <span class=\"line-chip line-loop\">环线</span> <strong>上新街站</strong> ➔ 2 站至 <strong>弹子石站</strong>。若晚高峰回民宿堵车，从 <strong>上新街站</strong> 乘 <span class=\"line-chip line-6\">6号线</span> 仅 <strong>1 站</strong> 即达 <strong>小什字站</strong>！"
+        },
         tip: "省力设施：园内览月台旁、比利时大使馆旧址旁、福门天桥等处均设有便民直梯和扶梯。"
       }
     ],
@@ -145,7 +216,22 @@ const ITINERARY_DAYS = [
         name: "南大人烤肉（南滨路一线江景）",
         detail: "营业时间 16:00–24:00，边吃烤肉边赏南滨路一线夜景。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#d95f24",
+      subtitle: "渝中跨江南岸线（湖广会馆 ➔ 长江索道 ➔ 下浩里/龙门浩 ➔ 弹子石老街夜景）",
+      stops: [
+        { name: "湖广会馆东门", lat: 29.5608, lng: 106.5844, note: "清代明黄古建群，齐安公所喝茶看戏", metro: "近 1/6号线 小什字站（7/8号口）", query: "湖广会馆东门" },
+        { name: "长江索道南站", lat: 29.5554, lng: 106.5889, note: "跨长江空中索道，南站排队少一半", metro: "近 6号线/环线 上新街站", query: "长江索道南站" },
+        { name: "下浩里/龙门浩", lat: 29.5589, lng: 106.5936, note: "上新街1号口由上往下逛，多部直梯扶梯不废腿", metro: "6号线/环线 上新街站（1/2号口）", query: "上新街地铁站1号口" },
+        { name: "弹子石老街", lat: 29.5798, lng: 106.5924, note: "弹子石广场观景台赏两江交汇璀璨夜景", metro: "近 环线 弹子石站", query: "弹子石广场观景台" }
+      ],
+      segments: [
+        { label: "🚡 索道/包车约10分钟", dashed: true },
+        { label: "🚐 包车/步行约6分钟", dashed: false },
+        { label: "🚐 包车12分钟 / 🚇 环线2站", dashed: false }
+      ]
+    }
   },
   {
     day: 3,
@@ -179,7 +265,7 @@ const ITINERARY_DAYS = [
         title: "重庆包车出发（途经蚩尤九黎城）",
         desc: "全家轻松乘包车离开市区，沿途欣赏渝东南山水风光；途经蚩尤九黎城可视当日时间灵活停留。",
         isNature: true,
-        tags: [{ text: "包车舒适直达", type: "free" }]
+        tags: [{ text: "全程包车·无地铁", type: "free" }]
       },
       {
         time: "中午至下午",
@@ -206,7 +292,24 @@ const ITINERARY_DAYS = [
         name: "龚滩古镇地方风味餐馆",
         detail: "推荐品尝鲜嫩的乌江鱼、土家老腊肉等地方特色菜（点单可嘱咐少辣或清汤）。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#1f8a5b",
+      subtitle: "渝东南乌江山水包车+游船线（解放碑出发 ➔ 彭水万足码头 ➔ 乘船至龚滩古镇 ➔ 武隆仙女山镇）",
+      stops: [
+        { name: "重庆解放碑出发", lat: 29.5612, lng: 106.5838, note: "包车从湖广·富山美宿舒适出发", metro: "本日为长途山水线，全程包车", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "蚩尤九黎城(途经)", lat: 29.2975, lng: 108.1850, note: "视当日时间灵活决定是否停留打卡", metro: "包车途经点", query: "蚩尤九黎城" },
+        { name: "彭水万足码头", lat: 29.1930, lng: 108.2100, note: "长辈在此登船游览百里乌江画廊", metro: "游船登船点", query: "彭水万足码头" },
+        { name: "龚滩古镇", lat: 28.9028, lng: 108.3489, note: "沿青石板主街慢逛，司机载行李在停车场接应", metro: "不走回头路", query: "龚滩古镇停车场" },
+        { name: "武隆仙女山镇", lat: 29.4295, lng: 107.7525, note: "抵达武隆仙女山镇休息，次日游天生三桥", metro: "包车直达", query: "武隆仙女山镇" }
+      ],
+      segments: [
+        { label: "🚐 包车高速约2.5h", dashed: false },
+        { label: "🚐 包车约20分钟", dashed: false },
+        { label: "⛴️ 乌江游船2–2.5h", dashed: true },
+        { label: "🚐 包车约1.5–2h", dashed: false }
+      ]
+    }
   },
   {
     day: 4,
@@ -249,9 +352,13 @@ const ITINERARY_DAYS = [
       },
       {
         time: "傍晚（或备选夜游）",
-        title: "包车返回重庆市区民宿",
-        desc: "傍晚乘包车返回解放碑民宿与市区晚餐。",
+        title: "包车返回重庆市区 ➔ 七星岗德福火锅",
+        desc: "傍晚乘包车返回重庆市区吃德福火锅，饭后回解放碑民宿休息。",
         tags: [{ text: "备选：《印象武隆》", type: "ticket" }],
+        metro: {
+          title: "吃完火锅回民宿地铁备选",
+          detail: "德福火锅近 <span class=\"line-chip line-1\">1号线</span> <span class=\"line-chip line-10\">10号线</span> <strong>七星岗站</strong>，饭后若不想等车，乘 <span class=\"line-chip line-1\">1号线</span> 坐 <strong>2 站</strong> 至 <strong>小什字站</strong> 即可回民宿！"
+        },
         tip: "备选夜游：若体力充沛且当晚续住武隆，可在镇上吃过晚饭后包车前往观看露天实景演出《印象武隆》（注意山谷夜间防风保暖）。"
       }
     ],
@@ -264,7 +371,24 @@ const ITINERARY_DAYS = [
         name: "晚餐：德福火锅（七星岗店）",
         detail: "二十多年居民楼老店，锅底免费！耙鸡脚、耙牛肉软烂入味很适合长辈，记得点鸳鸯锅。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#6c3ec7",
+      subtitle: "武隆喀斯特奇观 ➔ 返程重庆市区（游客中心 ➔ 天生三桥 ➔ 仙女山小火车 ➔ 德福火锅 ➔ 民宿）",
+      stops: [
+        { name: "仙女山游客中心", lat: 29.4295, lng: 107.7525, note: "统一换乘景区环保车进入天生三桥", metro: "景区统一换乘枢纽", query: "仙女山游客接待中心" },
+        { name: "武隆天生三桥", lat: 29.4318, lng: 107.7980, note: "乘观光电梯下谷底，游览天龙/青龙/黑龙三桥", metro: "70岁以上免大门票", query: "武隆天生三桥" },
+        { name: "仙女山森林公园", lat: 29.4905, lng: 107.7410, note: "乘观光小火车漫游高山草甸林海", metro: "小火车代步不累", query: "仙女山国家森林公园" },
+        { name: "德福火锅(七星岗)", lat: 29.5562, lng: 106.5635, note: "返渝晚餐，耙鸡脚/耙牛肉软烂适合长辈", metro: "近 1/10号线 七星岗站", query: "德福火锅七星岗店" },
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "返回解放碑民宿休息", metro: "1号线 七星岗 ➔ 小什字(2站)", query: "湖广·富山江景美宿(重庆解放碑店)" }
+      ],
+      segments: [
+        { label: "🚌 环保车约15分钟", dashed: true },
+        { label: "🚐 包车约25分钟", dashed: false },
+        { label: "🚐 包车返城约2.5h", dashed: false },
+        { label: "🚐 包车8分钟 / 🚇 1号线2站", dashed: false }
+      ]
+    }
   },
   {
     day: 5,
@@ -291,7 +415,11 @@ const ITINERARY_DAYS = [
         time: "上午",
         title: "鹅岭公园（瞰胜楼俯瞰全景）➔ 李子坝轻轨穿楼",
         desc: "先登鹅岭公园瞰胜楼俯瞰两江与城市全景，再顺路到马路下层的「李子坝观景台」打卡轻轨穿楼奇观。",
-        tags: [{ text: "免费免预约", type: "free" }]
+        tags: [{ text: "免费免预约", type: "free" }],
+        metro: {
+          title: "上午地铁站参考",
+          detail: "民宿出发可包车或乘 <span class=\"line-chip line-1\">1号线</span> <strong>小什字站</strong> ➔ 5 站至 <strong>鹅岭站</strong>（1号/2A口出）；李子坝轻轨穿楼打卡点即 <span class=\"line-chip line-2\">2号线</span> <strong>李子坝站</strong>！"
+        }
       },
       {
         time: "下午",
@@ -301,13 +429,21 @@ const ITINERARY_DAYS = [
           { text: "均需提前1天预约", type: "book" },
           { text: "大礼堂内部 8元", type: "ticket" }
         ],
+        metro: {
+          title: "李子坝 ➔ 三峡博物馆（推荐亲身体验 2 号线江景单轨！）",
+          detail: "从 <span class=\"line-chip line-2\">2号线</span> <strong>李子坝站</strong> 上车，坐 <strong>2 站</strong> 至 <strong>曾家岩站</strong>（A口出步行约 8 分钟即达人民大礼堂与三峡博物馆，一路欣赏嘉陵江风景）；两馆正对面还设有 <span class=\"line-chip line-10\">10号线</span> <strong>大礼堂站</strong>。三峡博物馆与人民大礼堂隔广场相对，<strong>步行 3–5 分钟</strong>即可！"
+        },
         tip: "馆内规定：三峡博物馆内严禁使用闪光灯、自拍杆和三脚架。"
       },
       {
         time: "傍晚至夜间",
         title: "观音桥商圈（北仓 ➔ 塔坪 ➔ 我在重庆大屏）",
         desc: "在「久悠茶坊」下车逛文艺北仓，步行5分钟可达塔坪社区与「我在重庆」网红大屏。",
-        tags: [{ text: "一路下坡不废腿", type: "free" }]
+        tags: [{ text: "一路下坡不废腿", type: "free" }],
+        metro: {
+          title: "晚高峰前往观音桥 & 返回民宿地铁指引",
+          detail: "晚高峰建新北路极易堵车！可从 <span class=\"line-chip line-10\">10号线</span> <strong>大礼堂站</strong> ➔ <strong>鲤鱼池站</strong> 换 <span class=\"line-chip line-9\">9号线</span> ➔ <strong>观音桥站</strong>（或包车导航「久悠茶坊」）。逛完回民宿乘 <span class=\"line-chip line-3\">3号线</span> <strong>观音桥站</strong> ➔ <strong>两路口站</strong> 换 <span class=\"line-chip line-1\">1号线</span> ➔ <strong>小什字站</strong>。"
+        }
       }
     ],
     dining: [
@@ -319,7 +455,24 @@ const ITINERARY_DAYS = [
         name: "晚餐：观音桥美食街 或 王胖娃面",
         detail: "王胖娃面推荐现炒番茄杂酱面、莲藕抄手，清爽不辣，长辈吃着很舒服。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#c75a16",
+      subtitle: "渝中文化+网红单轨+观音桥（鹅岭公园 ➔ 李子坝 ➔ 2号线单轨 ➔ 三峡博物馆/大礼堂 ➔ 观音桥）",
+      stops: [
+        { name: "鹅岭公园(瞰胜楼)", lat: 29.5512, lng: 106.5356, note: "登高俯瞰两江与渝中半岛全景", metro: "近 1号线 鹅岭站（1/2A口）", query: "鹅岭公园" },
+        { name: "李子坝观景台", lat: 29.5550, lng: 106.5387, note: "马路下层拍 2 号线轻轨穿楼奇观", metro: "2号线 李子坝站", query: "李子坝观景台" },
+        { name: "三峡博物馆", lat: 29.5619, lng: 106.5503, note: "了解三峡与巴渝历史文化（需提前1天预约）", metro: "2号线 曾家岩站 / 10号线 大礼堂站", query: "重庆中国三峡博物馆" },
+        { name: "人民大礼堂", lat: 29.5620, lng: 106.5535, note: "重庆地标宫殿建筑，外观广场出片", metro: "10号线 大礼堂站", query: "重庆市人民大礼堂" },
+        { name: "观音桥(久悠茶坊)", lat: 29.5754, lng: 106.5326, note: "北仓 ➔ 塔坪社区 ➔「我在重庆」大屏，一路下坡", metro: "3/9号线 观音桥站", query: "久悠茶坊" }
+      ],
+      segments: [
+        { label: "🚐 包车6分钟", dashed: false },
+        { label: "🚇 2号线2站至曾家岩", dashed: true },
+        { label: "🚶 步行4分钟", dashed: false },
+        { label: "🚐 包车15分钟 / 🚇 10换9号线", dashed: true }
+      ]
+    }
   },
   {
     day: 6,
@@ -356,6 +509,10 @@ const ITINERARY_DAYS = [
           { text: "T3 航站楼出发", type: "book" },
           { text: "11:05 起飞", type: "ticket" }
         ],
+        metro: {
+          title: "机场备选地铁（行李较多首选包车直达）",
+          detail: "如需搭地铁：<span class=\"line-chip line-6\">6号线</span> <strong>小什字站</strong> ➔ <strong>红土地站</strong> 换乘 <span class=\"line-chip line-10\">10号线</span> ➔ <strong>江北机场T3航站楼站</strong>（全程约 45 分钟，注意 10 号线直达 T3，3 号线仅到 T2）。"
+        },
         tip: "重要提醒：12月6日航班在江北机场 T3 航站楼起飞（非 T2），建议早上 08:00 左右从解放碑民宿出发，留足值机与安检时间。"
       }
     ],
@@ -364,7 +521,20 @@ const ITINERARY_DAYS = [
         name: "返程前推荐：鬼包子 / 范孃孃糯米团",
         detail: "早起顺路吃个酱肉包配热小米粥，或手工糯米裹黄豆粉白糖夹酥脆油条，暖心满足。"
       }
-    ]
+    ],
+    mapRoute: {
+      color: "#1c7ed6",
+      subtitle: "采买与送机返程线（湖广·富山美宿 ➔ 解放碑大型超市 ➔ 重庆江北国际机场 T3 航站楼）",
+      stops: [
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "12月6日早上退房出发，建议 08:00 启程", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "解放碑大型超市", lat: 29.5582, lng: 106.5762, note: "12月5日平价采买火锅底料、怪味胡豆等特产", metro: "近 2号线 临江门站", query: "解放碑大型超市" },
+        { name: "江北国际机场 T3", lat: 29.7100, lng: 106.6513, note: "12月6日 11:05 海南航空 HU7172 起飞返回槟城", metro: "10号线 江北机场T3航站楼站", query: "重庆江北国际机场T3航站楼" }
+      ],
+      segments: [
+        { label: "🚐 包车/步行约8分钟", dashed: false },
+        { label: "🚐 送机约40分钟 / 🚇 6换10号线", dashed: false }
+      ]
+    }
   }
 ];
 
@@ -438,7 +608,6 @@ const RESERVATION_GROUPS = [
 const FREE_SPOTS = ["洪崖洞", "龙门浩老街", "下浩里", "山城步道", "鹅岭二厂"];
 
 const FOOD_ITEMS = [
-  // 长辈友好 / 不辣温和系
   {
     category: "mild",
     badge: "🌿 不辣 · 温和家常",
@@ -487,7 +656,6 @@ const FOOD_ITEMS = [
     mapQuery: "范孃孃糯米团",
     dishes: "手工糯米裹黄豆粉白糖，夹酥脆油条，甜香软糯有嚼劲。"
   },
-  // 地道火锅与解辣小吃
   {
     category: "spicy",
     badge: "🌶️ 地道老火锅",
@@ -581,6 +749,7 @@ const TIPS_ACCORDION = [
    ========================================================================== */
 let currentDay = 1;
 let currentFoodFilter = "all";
+let activeDayMap = null;
 const DEFAULT_ARRIVAL_DATE = "2026-11-30";
 const STORAGE_KEY_CHECKS = "cq2026_reservation_checks_v1";
 const STORAGE_KEY_DATE = "cq2026_departure_date_v2";
@@ -702,6 +871,134 @@ function applyFontScale(scale) {
 }
 
 /* ==========================================================================
+   渲染每日底部高德实景路线图（小红书风标号站点 + 黄色交通耗时标签）
+   ========================================================================== */
+function renderDayRouteMap(dayData) {
+  if (activeDayMap) {
+    activeDayMap.remove();
+    activeDayMap = null;
+  }
+
+  const mapEl = document.getElementById("dayRouteMap");
+  if (!mapEl || !dayData.mapRoute || typeof L === "undefined") return;
+
+  const { color, stops, segments } = dayData.mapRoute;
+  const gcjPoints = stops.map((s) => wgs84ToGcj02(s.lat, s.lng));
+
+  const map = L.map(mapEl, {
+    scrollWheelZoom: false,
+    zoomControl: true
+  });
+  activeDayMap = map;
+
+  // 高德地图中文矢量底图（清晰展示重庆两江、路网与轨道交通站点）
+  const amapTile = L.tileLayer(
+    "https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=2&style=8&x={x}&y={y}&z={z}",
+    {
+      subdomains: ["1", "2", "3", "4"],
+      maxZoom: 18,
+      minZoom: 7,
+      attribution: "地图底图 © 高德地图"
+    }
+  );
+
+  let fallbackAdded = false;
+  amapTile.on("tileerror", () => {
+    if (!fallbackAdded) {
+      fallbackAdded = true;
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "© OpenStreetMap"
+      }).addTo(map);
+    }
+  });
+  amapTile.addTo(map);
+
+  // 分段绘制路线折线 & 路段中点黄色耗时标签
+  for (let i = 0; i < gcjPoints.length - 1; i += 1) {
+    const p1 = gcjPoints[i];
+    const p2 = gcjPoints[i + 1];
+    const seg = (segments && segments[i]) || { label: "", dashed: false };
+
+    // 白色外描边增强在底图上的清晰度
+    L.polyline([p1, p2], {
+      color: "#ffffff",
+      weight: 9,
+      opacity: 0.9,
+      lineCap: "round"
+    }).addTo(map);
+
+    L.polyline([p1, p2], {
+      color,
+      weight: 5,
+      opacity: 0.95,
+      dashArray: seg.dashed ? "10 8" : null,
+      lineCap: "round"
+    }).addTo(map);
+
+    if (seg.label) {
+      const midLat = (p1[0] + p2[0]) / 2;
+      const midLng = (p1[1] + p2[1]) / 2;
+      const segIcon = L.divIcon({
+        className: "map-seg-icon-wrap",
+        html: `<div class="map-seg-badge">${seg.label}</div>`,
+        iconSize: [0, 0]
+      });
+      L.marker([midLat, midLng], { icon: segIcon, interactive: false, zIndexOffset: 200 }).addTo(map);
+    }
+  }
+
+  // 绘制带编号的彩色站点标签
+  const markers = [];
+  stops.forEach((stop, idx) => {
+    const pos = gcjPoints[idx];
+    const stopIcon = L.divIcon({
+      className: "map-stop-icon-wrap",
+      html: `<div class="map-stop-pill" style="background:${color};"><span class="map-stop-num" style="color:${color};">${idx + 1}</span><span>${stop.name}</span></div>`,
+      iconSize: [0, 0]
+    });
+
+    const popupHtml = `
+      <div class="map-popup-title">${idx + 1}. ${stop.name}</div>
+      <p class="map-popup-note">${stop.note}</p>
+      ${stop.metro ? `<div class="map-popup-metro">🚇 ${stop.metro}</div>` : ""}
+      <a class="map-popup-link" href="${buildAmapUrl(stop.query || stop.name)}" target="_blank" rel="noopener noreferrer">🗺️ 在高德地图打开</a>
+    `;
+
+    const marker = L.marker(pos, { icon: stopIcon, zIndexOffset: 500 + idx })
+      .addTo(map)
+      .bindPopup(popupHtml);
+    markers.push({ marker, pos });
+  });
+
+  const bounds = L.latLngBounds(gcjPoints);
+  const fitAll = () => {
+    map.fitBounds(bounds, { padding: [52, 52], maxZoom: 15 });
+  };
+  fitAll();
+
+  // 恢复全景视野按钮
+  const resetBtn = document.getElementById("resetMapBoundsBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      map.closePopup();
+      fitAll();
+    });
+  }
+
+  // 点击下方图例快速定位到对应站点
+  document.querySelectorAll(".map-legend-stop").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = Number(btn.dataset.stopIdx);
+      const item = markers[idx];
+      if (!item) return;
+      map.flyTo(item.pos, Math.max(map.getZoom(), 14), { duration: 0.6 });
+      item.marker.openPopup();
+    });
+  });
+}
+
+/* ==========================================================================
    渲染每日行程 Tabs 与内容
    ========================================================================== */
 function renderDayTabs() {
@@ -783,6 +1080,14 @@ function renderDayPanel() {
       const tagsHtml = (step.tags || [])
         .map((t) => `<span class="tag tag-${t.type}">${t.text}</span>`)
         .join("");
+      const metroHtml = step.metro
+        ? `
+          <div class="metro-box">
+            <div class="metro-box-title">🚇 ${step.metro.title}</div>
+            <p class="metro-box-detail">${step.metro.detail}</p>
+          </div>
+        `
+        : "";
       const tipHtml = step.tip ? `<div class="timeline-tip">💡 ${step.tip}</div>` : "";
       return `
         <article class="timeline-card ${step.isNature ? "is-nature" : ""}">
@@ -792,6 +1097,7 @@ function renderDayPanel() {
           </div>
           <h4 class="timeline-title">${step.title}</h4>
           <p class="timeline-desc">${step.desc}</p>
+          ${metroHtml}
           ${tipHtml}
         </article>
       `;
@@ -808,6 +1114,49 @@ function renderDayPanel() {
     `
     )
     .join("");
+
+  const mapRoute = data.mapRoute;
+  const legendHtml = mapRoute
+    ? mapRoute.stops
+        .map((stop, idx) => {
+          const seg = mapRoute.segments && mapRoute.segments[idx];
+          const segHtml = seg ? `<div class="legend-seg-arrow">↓ ${seg.label}</div>` : "";
+          return `
+            <div class="map-legend-row">
+              <button type="button" class="map-legend-stop" data-stop-idx="${idx}">
+                <div class="legend-stop-main">
+                  <span class="legend-num" style="background:${mapRoute.color};">${idx + 1}</span>
+                  <div>
+                    <span class="legend-name">${stop.name}</span>
+                    <span class="legend-sub">${stop.metro ? `🚇 ${stop.metro} · ` : ""}${stop.note}</span>
+                  </div>
+                </div>
+                <span class="amap-btn amap-btn-sm">定位查看</span>
+              </button>
+              ${segHtml}
+            </div>
+          `;
+        })
+        .join("")
+    : "";
+
+  const mapSectionHtml = mapRoute
+    ? `
+      <section class="day-map-section" aria-label="本日路线地图">
+        <div class="day-map-head">
+          <h4 class="day-map-title">🗺️ Day ${data.day} 实景路线图（高德底图）</h4>
+          <div class="day-map-tools">
+            <button type="button" class="map-reset-btn" id="resetMapBoundsBtn">🔄 恢复全景视野</button>
+          </div>
+        </div>
+        <div id="dayRouteMap" class="day-map-canvas" role="region" aria-label="${mapRoute.subtitle}"></div>
+        <div class="map-legend">
+          <p class="map-legend-hint">👆 点击下方任意站点，地图将自动居中放大并显示详情与高德导航入口：</p>
+          <div class="map-legend-list">${legendHtml}</div>
+        </div>
+      </section>
+    `
+    : "";
 
   panel.innerHTML = `
     <div class="day-header">
@@ -826,13 +1175,15 @@ function renderDayPanel() {
       <div class="driver-list">${driverHtml}</div>
     </div>
 
-    <h4 class="sub-heading"><span aria-hidden="true">🕒</span> 时间线与景点亮点</h4>
+    <h4 class="sub-heading"><span aria-hidden="true">🕒</span> 时间线、地铁站指引与景点亮点</h4>
     <div class="timeline">${timelineHtml}</div>
 
     <div class="day-dining">
       <h4 class="sub-heading"><span aria-hidden="true">🍲</span> 本日餐饮推荐</h4>
       <div class="dining-list">${diningHtml}</div>
     </div>
+
+    ${mapSectionHtml}
   `;
 
   panel.querySelectorAll(".copy-btn").forEach((btn) => {
@@ -850,6 +1201,9 @@ function renderDayPanel() {
   prevBtn.disabled = currentDay === 1;
   nextBtn.disabled = currentDay === ITINERARY_DAYS.length;
   indicator.textContent = `第 ${currentDay} / ${ITINERARY_DAYS.length} 天`;
+
+  // 初始化本日高德实景路线图
+  renderDayRouteMap(data);
 }
 
 function selectDay(dayNum, shouldScroll = false) {
