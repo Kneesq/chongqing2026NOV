@@ -476,10 +476,10 @@ const ITINERARY_DAYS = [
   },
   {
     day: 6,
-    dateLabel: "12月5日–6日（周六/周日）",
-    shortTitle: "采买伴手礼与返程",
-    title: "Day 6｜悠闲采买与 12月6日返程送机",
-    route: ["自然醒休整", "大型超市采买伴手礼", "12月6日 11:05 江北机场 T3 飞往槟城"],
+    dateLabel: "12月5日（周六）",
+    shortTitle: "采买伴手礼休整",
+    title: "Day 6｜悠闲采买伴手礼与自由逛街",
+    route: ["自然醒休整", "大型超市 / 菜市场采买伴手礼", "解放碑周边漫步", "整理打包行李"],
     driverPins: [
       {
         spot: "伴手礼采买",
@@ -488,51 +488,108 @@ const ITINERARY_DAYS = [
         reason: "切勿在景区或特产店购买，大型超市或菜市场平价且正宗。"
       },
       {
-        spot: "返程送机（12月6日）",
-        pin: "重庆江北国际机场T3航站楼",
-        mapQuery: "重庆江北国际机场T3航站楼",
-        reason: "海南航空 HU7172 于 11:05 从 T3 航站楼起飞，请提前 2.5–3 小时出发送机。"
+        spot: "民宿休息",
+        pin: "湖广·富山江景美宿(重庆解放碑店)",
+        mapQuery: "湖广·富山江景美宿(重庆解放碑店)",
+        reason: "采买完回民宿整理行李，晚上早点休息迎接次日返程。"
       }
     ],
     timeline: [
       {
-        time: "12月5日 悠闲采买",
-        title: "大型超市 / 本地菜市场采买伴手礼",
-        desc: "火锅底料、怪味胡豆、江津米花糖、陈麻花等重庆特产，直接在正规大超市或本地菜市场选购，明码标价又正宗；晚上打包好行李早点休息。",
-        tags: [{ text: "避开景区高价特产店", type: "free" }]
+        time: "上午",
+        title: "自然醒休整 & 解放碑附近悠闲吃早餐",
+        desc: "前几天逛了山城夜景与武隆山水，今天安排轻松慢节奏，睡到自然醒，慢慢品尝重庆地道早点。",
+        tags: [{ text: "轻松慢游", type: "free" }]
       },
       {
-        time: "12月6日 上午",
+        time: "下午",
+        title: "大型超市 / 本地菜市场采买伴手礼",
+        desc: "火锅底料、怪味胡豆、江津米花糖、陈麻花等重庆特产，直接在正规大超市或本地菜市场选购，明码标价又正宗。",
+        tags: [{ text: "避开景区高价特产店", type: "free" }],
+        tip: "打包提示：液体或牛油火锅底料记得放入托运行李箱，切勿随身携带过安检。"
+      },
+      {
+        time: "晚上",
+        title: "告别山城晚餐 & 收拾行李早休息",
+        desc: "回民宿前吃一顿全家都爱吃的重庆晚餐，整理好所有证件、充电宝（随身带）与托运行李。",
+        tags: [{ text: "次日 08:00 出发机场", type: "book" }]
+      }
+    ],
+    dining: [
+      {
+        name: "早餐推荐：鬼包子 / 范孃孃糯米团",
+        detail: "早起顺路吃个酱肉包配热小米粥，或手工糯米裹黄豆粉白糖夹酥脆油条，暖心满足。"
+      },
+      {
+        name: "晚餐推荐：解放碑老店聚餐",
+        detail: "可在尘香传统川菜馆或三条凳饭店吃一顿暖胃告别晚餐。"
+      }
+    ],
+    mapRoute: {
+      color: "#1c7ed6",
+      subtitle: "解放碑采买休整线（湖广·富山美宿 ➔ 解放碑大型超市 ➔ 解放碑商圈）",
+      stops: [
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "自然醒出发，步行或短途打车都很近", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "解放碑大型超市", lat: 29.5582, lng: 106.5762, note: "平价采买火锅底料、怪味胡豆、陈麻花等特产", metro: "近 2号线 临江门站", query: "解放碑大型超市" },
+        { name: "解放碑八一好吃街", lat: 29.5574, lng: 106.5770, note: "自由补打卡小吃或甜品，轻松逛回民宿", metro: "近 1号线 较场口站", query: "重庆八一广场" }
+      ],
+      segments: [
+        { label: "🚐 包车/步行约8分钟", dashed: false },
+        { label: "🚶 步行约3分钟", dashed: false }
+      ]
+    }
+  },
+  {
+    day: 7,
+    dateLabel: "12月6日（周日）",
+    shortTitle: "返程送机回槟城",
+    title: "Day 7｜退房送机与平安返程回槟城",
+    route: ["08:00 民宿退房出发", "重庆江北机场 T3 值机", "11:05 HU7172 飞海口", "16:30 HU477 返回槟城"],
+    driverPins: [
+      {
+        spot: "返程送机（12月6日）",
+        pin: "重庆江北国际机场T3航站楼",
+        mapQuery: "重庆江北国际机场T3航站楼",
+        reason: "海南航空 HU7172 于 11:05 从 T3 航站楼起飞，建议 08:00 出发，留足值机与安检时间。"
+      }
+    ],
+    timeline: [
+      {
+        time: "08:00 出发",
         title: "民宿退房 ➔ 包车前往重庆江北国际机场 T3 航站楼",
-        desc: "11:05 搭乘海南航空 HU7172 飞往海口（T2 中转 3h15m，行李直挂），16:30 转乘 HU477 返回槟城。",
+        desc: "检查房间不遗漏护照、充电器、眼镜等物品，乘包车直达江北机场 T3 航站楼办理托运与值机。",
         tags: [
           { text: "T3 航站楼出发", type: "book" },
-          { text: "11:05 起飞", type: "ticket" }
+          { text: "行李直挂槟城", type: "free" }
         ],
         metro: {
           title: "机场备选地铁（行李较多首选包车直达）",
           detail: "如需搭地铁：<span class=\"line-chip line-6\">6号线</span> <strong>小什字站</strong> ➔ <strong>红土地站</strong> 换乘 <span class=\"line-chip line-10\">10号线</span> ➔ <strong>江北机场T3航站楼站</strong>（全程约 45 分钟，注意 10 号线直达 T3，3 号线仅到 T2）。"
         },
-        tip: "重要提醒：12月6日航班在江北机场 T3 航站楼起飞（非 T2），建议早上 08:00 左右从解放碑民宿出发，留足值机与安检时间。"
+        tip: "重要提醒：12月6日航班在江北机场 T3 航站楼起飞（非 T2），切勿跑错航站楼！"
+      },
+      {
+        time: "11:05 – 19:40",
+        title: "HU7172 飞海口（T2 中转 3h15m）➔ HU477 返回槟城",
+        desc: "11:05 起飞，13:15 抵达海口美兰 T2（行李直挂无需提取）；16:30 转乘 HU477，19:40 平安抵达槟城国际机场。",
+        tags: [{ text: "19:40 抵达槟城", type: "ticket" }]
       }
     ],
     dining: [
       {
-        name: "返程前推荐：鬼包子 / 范孃孃糯米团",
-        detail: "早起顺路吃个酱肉包配热小米粥，或手工糯米裹黄豆粉白糖夹酥脆油条，暖心满足。"
+        name: "出发前简餐 & 机场休息",
+        detail: "可在民宿附近买热包子/豆浆路上吃，或在江北机场 T3 候机厅吃碗热汤面。"
       }
     ],
     mapRoute: {
-      color: "#1c7ed6",
-      subtitle: "采买与送机返程线（湖广·富山美宿 ➔ 解放碑大型超市 ➔ 重庆江北国际机场 T3 航站楼）",
+      color: "#2e7350",
+      subtitle: "返程送机路线（湖广·富山美宿 ➔ 重庆江北国际机场 T3 航站楼）",
       stops: [
-        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "12月6日早上退房出发，建议 08:00 启程", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
-        { name: "解放碑大型超市", lat: 29.5582, lng: 106.5762, note: "12月5日平价采买火锅底料、怪味胡豆等特产", metro: "近 2号线 临江门站", query: "解放碑大型超市" },
-        { name: "江北国际机场 T3", lat: 29.7100, lng: 106.6513, note: "12月6日 11:05 海南航空 HU7172 起飞返回槟城", metro: "10号线 江北机场T3航站楼站", query: "重庆江北国际机场T3航站楼" }
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "12月6日早上 08:00 退房出发", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "江北国际机场 T3", lat: 29.7100, lng: 106.6513, note: "11:05 海南航空 HU7172 起飞经海口返回槟城", metro: "10号线 江北机场T3航站楼站", query: "重庆江北国际机场T3航站楼" }
       ],
       segments: [
-        { label: "🚐 包车/步行约8分钟", dashed: false },
-        { label: "🚐 送机约40分钟 / 🚇 6换10号线", dashed: false }
+        { label: "🚐 包车送机约40分钟 / 🚇 6换10号线", dashed: false }
       ]
     }
   }
@@ -1001,10 +1058,17 @@ function renderDayRouteMap(dayData) {
 /* ==========================================================================
    渲染每日行程 Tabs 与内容
    ========================================================================== */
+function splitDateLabel(label) {
+  const m = label.match(/^(.+?)（(.+?)）$/);
+  if (m) return { date: m[1], week: m[2] };
+  return { date: label, week: "" };
+}
+
 function renderDayTabs() {
   const container = document.getElementById("dayTabs");
   container.innerHTML = ITINERARY_DAYS.map((item) => {
     const active = item.day === currentDay;
+    const { date, week } = splitDateLabel(item.dateLabel);
     return `
       <button
         type="button"
@@ -1014,7 +1078,8 @@ function renderDayTabs() {
         class="day-tab ${active ? "is-active" : ""}"
         data-day="${item.day}"
       >
-        <span class="day-tab-num">DAY ${item.day}</span>
+        <span class="day-tab-date">${date}</span>
+        <span class="day-tab-week">${week} · Day ${item.day}</span>
         <span class="day-tab-short">${item.shortTitle}</span>
       </button>
     `;
@@ -1200,10 +1265,14 @@ function renderDayPanel() {
   const indicator = document.getElementById("pagerIndicator");
   prevBtn.disabled = currentDay === 1;
   nextBtn.disabled = currentDay === ITINERARY_DAYS.length;
-  indicator.textContent = `第 ${currentDay} / ${ITINERARY_DAYS.length} 天`;
+  const { date } = splitDateLabel(data.dateLabel);
+  indicator.textContent = `${date}（第 ${currentDay} / ${ITINERARY_DAYS.length} 天）`;
 
-  // 初始化本日高德实景路线图
-  renderDayRouteMap(data);
+  // 仅当「行程」面板处于可见状态时渲染 Leaflet 地图，避免隐藏容器宽高为 0
+  const itinPanel = document.getElementById("panel-itinerary");
+  if (itinPanel && !itinPanel.hidden) {
+    renderDayRouteMap(data);
+  }
 }
 
 function selectDay(dayNum, shouldScroll = false) {
@@ -1448,12 +1517,910 @@ function syncToggleAllTipsBtn() {
 }
 
 /* ==========================================================================
+   一、顶部 4 大类格子与手机底部导航切换（资讯 · 行程 · 行李 · 账本）
+   ========================================================================== */
+let currentMainTab = "info";
+const VALID_TABS = ["info", "itinerary", "packing", "ledger"];
+
+function switchMainTab(tabName, updateHash = true) {
+  if (!VALID_TABS.includes(tabName)) tabName = "info";
+  currentMainTab = tabName;
+
+  document.querySelectorAll(".hub-card").forEach((card) => {
+    const active = card.dataset.tab === tabName;
+    card.classList.toggle("is-active", active);
+    card.setAttribute("aria-selected", String(active));
+  });
+
+  document.querySelectorAll(".mobile-nav-item").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.tab === tabName);
+  });
+
+  VALID_TABS.forEach((t) => {
+    const panel = document.getElementById(`panel-${t}`);
+    if (!panel) return;
+    const isCurrent = t === tabName;
+    panel.hidden = !isCurrent;
+    panel.classList.toggle("is-active", isCurrent);
+  });
+
+  if (tabName === "itinerary") {
+    const data = ITINERARY_DAYS.find((d) => d.day === currentDay);
+    if (data) {
+      setTimeout(() => {
+        renderDayRouteMap(data);
+        if (activeDayMap) activeDayMap.invalidateSize();
+      }, 60);
+    }
+  }
+
+  if (updateHash && history.replaceState) {
+    history.replaceState(null, "", `#${tabName}`);
+  }
+}
+
+function initMainTabs() {
+  document.querySelectorAll(".hub-card, .mobile-nav-item").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      switchMainTab(btn.dataset.tab);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  const hashTab = window.location.hash.replace("#", "");
+  if (VALID_TABS.includes(hashTab)) {
+    switchMainTab(hashTab, false);
+  } else {
+    switchMainTab("info", false);
+  }
+}
+
+/* ==========================================================================
+   二、重庆旅行天气预报（11月30日 – 12月6日，温度 + 晴雨）
+   ========================================================================== */
+const TRIP_WEATHER_FALLBACK = [
+  { iso: "2026-11-30", date: "11月30日", week: "周一", icon: "⛅", cond: "多云", min: 10, max: 15, type: "cloudy" },
+  { iso: "2026-12-01", date: "12月1日", week: "周二", icon: "🌧️", cond: "小雨", min: 9, max: 13, type: "rain" },
+  { iso: "2026-12-02", date: "12月2日", week: "周三", icon: "☁️", cond: "阴天", min: 8, max: 13, type: "cloudy" },
+  { iso: "2026-12-03", date: "12月3日", week: "周四", icon: "⛅", cond: "多云", min: 8, max: 14, type: "cloudy" },
+  { iso: "2026-12-04", date: "12月4日", week: "周五", icon: "☀️", cond: "晴天", min: 9, max: 16, type: "sunny" },
+  { iso: "2026-12-05", date: "12月5日", week: "周六", icon: "🌧️", cond: "小雨", min: 9, max: 13, type: "rain" },
+  { iso: "2026-12-06", date: "12月6日", week: "周日", icon: "⛅", cond: "多云", min: 8, max: 14, type: "cloudy" }
+];
+
+function mapWmoWeather(code) {
+  if (code === 0) return { icon: "☀️", cond: "晴天", type: "sunny" };
+  if (code <= 2) return { icon: "⛅", cond: "多云", type: "cloudy" };
+  if (code === 3 || code === 45 || code === 48) return { icon: "☁️", cond: "阴天", type: "cloudy" };
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: "🌧️", cond: "雨天", type: "rain" };
+  if (code >= 95) return { icon: "⛈️", cond: "雷阵雨", type: "rain" };
+  return { icon: "☁️", cond: "阴天", type: "cloudy" };
+}
+
+function renderWeatherCards(list, badgeText) {
+  const grid = document.getElementById("weatherGrid");
+  const badge = document.getElementById("weatherSourceBadge");
+  if (!grid) return;
+
+  if (badge) badge.textContent = badgeText;
+
+  grid.innerHTML = list
+    .map((w) => {
+      const cardClass = w.type === "rain" ? "is-rain" : w.type === "sunny" ? "is-sunny" : "";
+      return `
+        <article class="weather-card ${cardClass}">
+          <div class="weather-date">${w.date}</div>
+          <div class="weather-weekday">${w.week}</div>
+          <div class="weather-icon" aria-hidden="true">${w.icon}</div>
+          <div class="weather-cond">${w.cond}</div>
+          <div class="weather-temp"><span class="weather-temp-min">${w.min}°</span> ~ ${w.max}°C</div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+async function loadChongqingWeather() {
+  // 先渲染参考天气，避免首屏空白
+  renderWeatherCards(TRIP_WEATHER_FALLBACK, "初冬参考天气");
+
+  try {
+    const url =
+      "https://api.open-meteo.com/v1/forecast?latitude=29.5630&longitude=106.5516&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&forecast_days=16";
+    const res = await fetch(url);
+    if (!res.ok) return;
+    const json = await res.json();
+    if (!json.daily || !json.daily.time) return;
+
+    const byDate = {};
+    json.daily.time.forEach((iso, idx) => {
+      byDate[iso] = {
+        code: json.daily.weathercode[idx],
+        min: Math.round(json.daily.temperature_2m_min[idx]),
+        max: Math.round(json.daily.temperature_2m_max[idx])
+      };
+    });
+
+    let matchedCount = 0;
+    const merged = TRIP_WEATHER_FALLBACK.map((item) => {
+      const live = byDate[item.iso];
+      if (live) {
+        matchedCount += 1;
+        const mapped = mapWmoWeather(live.code);
+        return {
+          ...item,
+          icon: mapped.icon,
+          cond: mapped.cond,
+          type: mapped.type,
+          min: live.min,
+          max: live.max
+        };
+      }
+      return item;
+    });
+
+    if (matchedCount > 0) {
+      const label = matchedCount === TRIP_WEATHER_FALLBACK.length ? "✨ 实时天气预报" : "✨ 部分已更新实时预报";
+      renderWeatherCards(merged, label);
+    }
+  } catch {
+    // 离线或接口不可达时静默保留参考天气
+  }
+}
+
+/* ==========================================================================
+   三、第三格：必带行李清单（带可爱物件 SVG 图案）
+   ========================================================================== */
+const STORAGE_KEY_PACKING_CHECKS = "cq2026_packing_checks_v1";
+const STORAGE_KEY_PACKING_CUSTOM = "cq2026_packing_custom_v1";
+let currentPackingFilter = "all";
+
+const PACKING_SVGS = {
+  passport: `<svg viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="4" fill="#B5382A" stroke="#781E14" stroke-width="2.2"/><rect x="13" y="9" width="22" height="30" rx="2" stroke="#F6CF71" stroke-width="1.4" stroke-dasharray="2 2"/><circle cx="24" cy="21" r="6.5" stroke="#F6CF71" stroke-width="1.8"/><ellipse cx="24" cy="21" rx="3" ry="6.5" stroke="#F6CF71" stroke-width="1.4"/><path d="M17.5 21H30.5M18.5 32H29.5" stroke="#F6CF71" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  idcard: `<svg viewBox="0 0 48 48" fill="none"><rect x="6" y="11" width="36" height="26" rx="5" fill="#E9F4FF" stroke="#2D6FC4" stroke-width="2.2"/><circle cx="16.5" cy="21.5" r="4" fill="#F4A261"/><path d="M11 31C11.8 27.8 14 26.5 16.5 26.5C19 26.5 21.2 27.8 22 31" stroke="#2D6FC4" stroke-width="2" stroke-linecap="round"/><path d="M26 19H36M26 24H36M26 29H33" stroke="#2D6FC4" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  phone: `<svg viewBox="0 0 48 48" fill="none"><rect x="13" y="6" width="22" height="36" rx="5" fill="#3D405B" stroke="#232538" stroke-width="2"/><rect x="16" y="11" width="16" height="24" rx="2" fill="#9BD1FA"/><circle cx="24" cy="38.5" r="1.6" fill="#F4F1DE"/><path d="M21 8.5H27" stroke="#A8ABB8" stroke-width="1.6" stroke-linecap="round"/><circle cx="21" cy="18" r="2" fill="#FFF"/><path d="M19 27L23 23L26 26L29 21" stroke="#1F6FEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  wallet: `<svg viewBox="0 0 48 48" fill="none"><rect x="7" y="13" width="34" height="24" rx="5" fill="#D9822B" stroke="#8C4E0E" stroke-width="2.2"/><path d="M7 19H41" stroke="#8C4E0E" stroke-width="2"/><rect x="28" y="22" width="13" height="8" rx="4" fill="#F7C97E" stroke="#8C4E0E" stroke-width="2"/><circle cx="33" cy="26" r="1.8" fill="#8C4E0E"/></svg>`,
+  coat: `<svg viewBox="0 0 48 48" fill="none"><path d="M16 10L10 15L6 29L13 31L15 22V39H33V22L35 31L42 29L38 15L32 10L28 13H20L16 10Z" fill="#E06D53" stroke="#8F3420" stroke-width="2.2" stroke-linejoin="round"/><path d="M24 13V39" stroke="#8F3420" stroke-width="2"/><path d="M18 10C18 14 21 16 24 16C27 16 30 14 30 10" fill="#FFF3E0" stroke="#8F3420" stroke-width="2"/><circle cx="21" cy="22" r="1.4" fill="#FFF3E0"/><circle cx="21" cy="29" r="1.4" fill="#FFF3E0"/></svg>`,
+  sweater: `<svg viewBox="0 0 48 48" fill="none"><path d="M15 11L9 17L7 30L13 31L15 22V38H33V22L35 31L41 30L39 17L33 11L29 14H19L15 11Z" fill="#63A375" stroke="#2D613D" stroke-width="2.2" stroke-linejoin="round"/><path d="M15 24H33M15 30H33" stroke="#DDF2E3" stroke-width="2.4" stroke-dasharray="4 3"/></svg>`,
+  scarf: `<svg viewBox="0 0 48 48" fill="none"><rect x="10" y="13" width="28" height="11" rx="5.5" fill="#F2B84B" stroke="#9C5B00" stroke-width="2.2"/><path d="M27 23H35V38L31 35L27 38V23Z" fill="#E06D53" stroke="#8F3420" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 13V24M22 13V24" stroke="#FFF4DC" stroke-width="2.2"/></svg>`,
+  sneakers: `<svg viewBox="0 0 48 48" fill="none"><path d="M8 29C8 24 11 19 15 18L20 22C24 23 29 24 35 26C39 27.3 41 29.5 41 32.5V35H8V29Z" fill="#4D90FE" stroke="#1E4B94" stroke-width="2.2" stroke-linejoin="round"/><rect x="7" y="34" width="35" height="4.5" rx="2.2" fill="#FFFFFF" stroke="#1E4B94" stroke-width="2"/><path d="M20 23L22 26M25 24L27 27" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/></svg>`,
+  socks: `<svg viewBox="0 0 48 48" fill="none"><path d="M17 9H28V24L35 29C37.5 31 37 35 34 37C31 39 27.5 38 25 36L17 29V9Z" fill="#F6BD60" stroke="#9C5B00" stroke-width="2.2" stroke-linejoin="round"/><path d="M17 14H28" stroke="#E06D53" stroke-width="3"/><circle cx="32" cy="33" r="3" fill="#FFF3D6"/></svg>`,
+  powerbank: `<svg viewBox="0 0 48 48" fill="none"><rect x="12" y="9" width="24" height="31" rx="5" fill="#52B788" stroke="#1F5C3F" stroke-width="2.2"/><path d="M25 16L19 25H24L22 33L29 23H24L25 16Z" fill="#FFE066" stroke="#8C5B00" stroke-width="1.4" stroke-linejoin="round"/><circle cx="18" cy="13" r="1.4" fill="#FFF"/><circle cx="22" cy="13" r="1.4" fill="#FFF"/></svg>`,
+  charger: `<svg viewBox="0 0 48 48" fill="none"><path d="M19 8V16M29 8V16" stroke="#534438" stroke-width="3" stroke-linecap="round"/><rect x="14" y="16" width="20" height="14" rx="4" fill="#FFFFFF" stroke="#534438" stroke-width="2.2"/><path d="M24 30V36C24 39 28 40 31 38" stroke="#D24D33" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  umbrella: `<svg viewBox="0 0 48 48" fill="none"><path d="M8 25C8 15.5 15.2 9 24 9C32.8 9 40 15.5 40 25H8Z" fill="#5EA3D6" stroke="#1E5280" stroke-width="2.2" stroke-linejoin="round"/><path d="M24 9V35C24 37.8 21.8 39.5 19.5 39.5C17.5 39.5 16 38 16 36" stroke="#8C4E0E" stroke-width="2.4" stroke-linecap="round"/><circle cx="17" cy="19" r="2" fill="#FFF"/><circle cx="29" cy="18" r="2" fill="#FFF"/><circle cx="23" cy="14" r="1.6" fill="#FFF"/></svg>`,
+  medicine: `<svg viewBox="0 0 48 48" fill="none"><rect x="8" y="13" width="32" height="25" rx="5" fill="#FFFFFF" stroke="#D24D33" stroke-width="2.4"/><path d="M18 13V10C18 8.9 18.9 8 20 8H28C29.1 8 30 8.9 30 10V13" stroke="#D24D33" stroke-width="2.4"/><path d="M24 19V31M18 25H30" stroke="#D24D33" stroke-width="3.4" stroke-linecap="round"/></svg>`,
+  thermos: `<svg viewBox="0 0 48 48" fill="none"><rect x="18" y="8" width="12" height="6" rx="2" fill="#534438"/><rect x="15" y="14" width="18" height="26" rx="5" fill="#F29E74" stroke="#9E421B" stroke-width="2.2"/><path d="M15 22H33" stroke="#FFF4E4" stroke-width="3"/><circle cx="24" cy="30" r="3" fill="#FFF4E4"/></svg>`,
+  toiletries: `<svg viewBox="0 0 48 48" fill="none"><rect x="13" y="16" width="14" height="23" rx="4" fill="#90D4F7" stroke="#226B94" stroke-width="2.2"/><path d="M20 16V11H26" stroke="#226B94" stroke-width="2.4" stroke-linecap="round"/><rect x="30" y="21" width="8" height="18" rx="3" fill="#F9B5AC" stroke="#A63F32" stroke-width="2"/></svg>`,
+  backpack: `<svg viewBox="0 0 48 48" fill="none"><path d="M18 12C18 8.8 20.6 7 24 7C27.4 7 30 8.8 30 12" stroke="#2E7350" stroke-width="2.6" stroke-linecap="round"/><rect x="11" y="13" width="26" height="27" rx="7" fill="#4E9A74" stroke="#1E5238" stroke-width="2.2"/><rect x="16" y="24" width="16" height="11" rx="3.5" fill="#E7F6EC" stroke="#1E5238" stroke-width="2"/><path d="M20 28H28" stroke="#D24D33" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  custom: `<svg viewBox="0 0 48 48" fill="none"><rect x="11" y="12" width="26" height="24" rx="5" fill="#FFE8A3" stroke="#A36B00" stroke-width="2.2"/><path d="M19 24L22.5 27.5L30 19.5" stroke="#2E7350" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+};
+
+const PACKING_CATEGORIES = [
+  {
+    id: "docs",
+    title: "🛂 重要证件与随身财物",
+    items: [
+      { id: "p-passport", icon: "passport", name: "护照 & 往返机票行程单", note: "确认护照有效期超过 6 个月，建议打印纸质行程单备用" },
+      { id: "p-idcard", icon: "idcard", name: "身份证 / 长辈优待证件", note: "70岁以上长辈游武隆等景点可享优待，务必随身带好" },
+      { id: "p-phone", icon: "phone", name: "手机 & 漫游 / 中国流量卡", note: "提前开通漫游或备好 eSIM/流量卡，装好高德地图与微信" },
+      { id: "p-wallet", icon: "wallet", name: "支付宝 / 微信支付 & 少量现金", note: "绑定好马来西亚银行卡，另备少量人民币现金应急" }
+    ]
+  },
+  {
+    id: "clothes",
+    title: "🧥 保暖衣物与鞋袜（重庆 8–15℃）",
+    items: [
+      { id: "p-coat", icon: "coat", name: "保暖寒衣 / 防风羽绒服", note: "重庆初冬湿冷、武隆山区风大更冷，必须带厚外套" },
+      { id: "p-sweater", icon: "sweater", name: "保暖内衣 & 针织毛衣", note: "洋葱式叠穿，室内有空调脱穿方便" },
+      { id: "p-scarf", icon: "scarf", name: "围巾 & 保暖毛线帽", note: "夜游洪崖洞、南岸江边及武隆仙女山防风护颈" },
+      { id: "p-sneakers", icon: "sneakers", name: "防滑舒适平底运动鞋", note: "山城坡道台阶多，切勿穿硬底鞋或易打滑的鞋子" },
+      { id: "p-socks", icon: "socks", name: "换洗衣物 & 保暖厚袜子", note: "连住 6 晚，多备几双厚袜子防脚凉" }
+    ]
+  },
+  {
+    id: "tech",
+    title: "🔋 电子设备与电源",
+    items: [
+      { id: "p-powerbank", icon: "powerbank", name: "充电宝（务必随身登机）", note: "拍照导航耗电快；充电宝不可托运，需随身携带" },
+      { id: "p-charger", icon: "charger", name: "手机充电线 & 转换插头", note: "中国常用两脚扁插/三脚斜插，备好马来西亚转接头" }
+    ]
+  },
+  {
+    id: "daily",
+    title: "☂️ 随身日用与常备药品",
+    items: [
+      { id: "p-umbrella", icon: "umbrella", name: "轻便折叠雨伞", note: "山城多雾偶有小雨，随身放包里最安心" },
+      { id: "p-medicine", icon: "medicine", name: "肠胃药、消食片与个人常备药", note: "重庆偏麻辣，备好肠胃药、感冒药及长辈日常用药" },
+      { id: "p-thermos", icon: "thermos", name: "轻便保温杯", note: "初冬随时喝口热水暖胃，机场安检前倒空即可" },
+      { id: "p-toiletries", icon: "toiletries", name: "润唇膏、护手霜与纸巾湿巾", note: "冬天偏干护手保湿，随身带小包纸巾很实用" },
+      { id: "p-backpack", icon: "backpack", name: "轻便双肩包 / 斜挎包", note: "解放双手方便搀扶长辈和随时拍照" }
+    ]
+  }
+];
+
+function loadPackingChecks() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_PACKING_CHECKS) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function savePackingChecks(map) {
+  try {
+    localStorage.setItem(STORAGE_KEY_PACKING_CHECKS, JSON.stringify(map));
+  } catch {
+    // ignore
+  }
+}
+
+function loadCustomPackingItems() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_PACKING_CUSTOM) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomPackingItems(list) {
+  try {
+    localStorage.setItem(STORAGE_KEY_PACKING_CUSTOM, JSON.stringify(list));
+  } catch {
+    // ignore
+  }
+}
+
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderPackingList() {
+  const container = document.getElementById("packingGroups");
+  if (!container) return;
+
+  const checks = loadPackingChecks();
+  const customItems = loadCustomPackingItems();
+
+  const allGroups = [
+    ...PACKING_CATEGORIES,
+    ...(customItems.length > 0
+      ? [{ id: "custom", title: "✨ 家人自定义行李", items: customItems }]
+      : [])
+  ];
+
+  let totalCount = 0;
+  let packedCount = 0;
+  allGroups.forEach((g) => {
+    g.items.forEach((it) => {
+      totalCount += 1;
+      if (checks[it.id]) packedCount += 1;
+    });
+  });
+
+  const pct = totalCount ? Math.round((packedCount / totalCount) * 100) : 0;
+  const progressText = document.getElementById("packingProgressText");
+  const progressFill = document.getElementById("packingProgressFill");
+  const hubSub = document.getElementById("hubPackingSub");
+
+  if (progressText) progressText.textContent = `已打包 ${packedCount} / ${totalCount} 件（${pct}%）`;
+  if (progressFill) progressFill.style.width = `${pct}%`;
+  if (hubSub) hubSub.textContent = `已打包 ${packedCount} / ${totalCount} 件`;
+
+  const html = allGroups
+    .map((group) => {
+      const filtered = group.items.filter((it) => {
+        const isDone = Boolean(checks[it.id]);
+        if (currentPackingFilter === "todo") return !isDone;
+        if (currentPackingFilter === "done") return isDone;
+        return true;
+      });
+      if (filtered.length === 0) return "";
+
+      const groupDone = group.items.filter((it) => Boolean(checks[it.id])).length;
+      const itemsHtml = filtered
+        .map((it) => {
+          const isDone = Boolean(checks[it.id]);
+          const svg = PACKING_SVGS[it.icon] || PACKING_SVGS.custom;
+          const delBtn = it.isCustom
+            ? `<button type="button" class="packing-del-btn" data-del-pack="${it.id}" aria-label="删除自定义行李">✕</button>`
+            : "";
+          return `
+            <label class="packing-item ${isDone ? "is-packed" : ""}">
+              <input type="checkbox" class="packing-checkbox" data-pack-id="${it.id}" ${isDone ? "checked" : ""} />
+              <span class="packing-svg-wrap" aria-hidden="true">${svg}</span>
+              <span class="packing-item-body">
+                <div class="packing-item-name">${escapeHtml(it.name)}</div>
+                ${it.note ? `<div class="packing-item-note">${escapeHtml(it.note)}</div>` : ""}
+              </span>
+              ${delBtn}
+            </label>
+          `;
+        })
+        .join("");
+
+      return `
+        <section class="packing-group">
+          <div class="packing-group-head">
+            <h3 class="packing-group-title">${group.title}</h3>
+            <span class="packing-group-count">${groupDone} / ${group.items.length}</span>
+          </div>
+          <div class="packing-grid">${itemsHtml}</div>
+        </section>
+      `;
+    })
+    .join("");
+
+  container.innerHTML =
+    html ||
+    `<div class="packing-group"><p class="ledger-empty">当前筛选下没有行李项目啦 🎉</p></div>`;
+
+  container.querySelectorAll(".packing-checkbox").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const map = loadPackingChecks();
+      map[cb.dataset.packId] = cb.checked;
+      savePackingChecks(map);
+      renderPackingList();
+    });
+  });
+
+  container.querySelectorAll(".packing-del-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.delPack;
+      const next = loadCustomPackingItems().filter((x) => x.id !== id);
+      saveCustomPackingItems(next);
+      const map = loadPackingChecks();
+      delete map[id];
+      savePackingChecks(map);
+      renderPackingList();
+      showToast("已删除该行李项目");
+    });
+  });
+}
+
+function initPackingChecklist() {
+  document.querySelectorAll(".packing-filter-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentPackingFilter = btn.dataset.packFilter;
+      document.querySelectorAll(".packing-filter-btn").forEach((b) => {
+        b.classList.toggle("is-active", b.dataset.packFilter === currentPackingFilter);
+      });
+      renderPackingList();
+    });
+  });
+
+  const form = document.getElementById("packingAddForm");
+  const input = document.getElementById("packingNewInput");
+  if (form && input) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = input.value.trim();
+      if (!name) return;
+      const list = loadCustomPackingItems();
+      list.push({
+        id: `custom-${Date.now()}`,
+        icon: "custom",
+        name,
+        note: "自定义添加",
+        isCustom: true
+      });
+      saveCustomPackingItems(list);
+      input.value = "";
+      renderPackingList();
+      showToast(`已添加行李：「${name}」`);
+    });
+  }
+
+  renderPackingList();
+}
+
+/* ==========================================================================
+   四、第四格：旅行记账本（出发前费用 + Day 1–7 每日开销 + 拍照加入账单）
+   ========================================================================== */
+const STORAGE_KEY_LEDGER = "cq2026_ledger_entries_v1";
+const STORAGE_KEY_RATE = "cq2026_exchange_rate_v1";
+
+const LEDGER_GROUPS = [
+  { id: "pre", title: "📌 出发前费用（航班 · 住宿 · 保险及其他）", isPre: true },
+  { id: "day1", title: "Day 1 · 11月30日（周一）抵达重庆" },
+  { id: "day2", title: "Day 2 · 12月1日（周二）古建索道与南岸" },
+  { id: "day3", title: "Day 3 · 12月2日（周三）乌江画廊与古镇" },
+  { id: "day4", title: "Day 4 · 12月3日（周四）武隆奇观与返城" },
+  { id: "day5", title: "Day 5 · 12月4日（周五）历史文化与商圈" },
+  { id: "day6", title: "Day 6 · 12月5日（周六）采买伴手礼休整" },
+  { id: "day7", title: "Day 7 · 12月6日（周日）返程送机回槟城" }
+];
+
+const EXPENSE_CAT_ICONS = {
+  food: "🍜",
+  transport: "🚐",
+  ticket: "🎟️",
+  shopping: "🛍️",
+  stay: "🏠",
+  flight: "✈️",
+  insurance: "🛡️",
+  other: "📦"
+};
+
+const DEFAULT_LEDGER_ENTRIES = [
+  {
+    id: "pre-flight",
+    section: "pre",
+    title: "往返航班（海南航空 PEN ⇄ CKG）",
+    amount: 0,
+    currency: "MYR",
+    category: "flight",
+    note: "点击右侧「编辑」填入实际机票总金额，也可拍照存订单",
+    photo: ""
+  },
+  {
+    id: "pre-stay",
+    section: "pre",
+    title: "重庆住宿（湖广·富山江景美宿 6晚）",
+    amount: 0,
+    currency: "MYR",
+    category: "stay",
+    note: "三居室整套民宿 11/30–12/6，点击「编辑」填入实际房费",
+    photo: ""
+  },
+  {
+    id: "pre-insurance",
+    section: "pre",
+    title: "全家旅行保险",
+    amount: 0,
+    currency: "MYR",
+    category: "insurance",
+    note: "点击「编辑」填入保费金额，可附加保单照片",
+    photo: ""
+  }
+];
+
+let pendingReceiptDataUrl = "";
+let selectedExpenseCat = "food";
+
+function loadLedgerEntries() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_LEDGER);
+    if (!raw) {
+      localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(DEFAULT_LEDGER_ENTRIES));
+      return [...DEFAULT_LEDGER_ENTRIES];
+    }
+    return JSON.parse(raw);
+  } catch {
+    return [...DEFAULT_LEDGER_ENTRIES];
+  }
+}
+
+function saveLedgerEntries(entries) {
+  try {
+    localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(entries));
+    return true;
+  } catch {
+    showToast("存储空间不足，请减少照片或删除旧照片后重试");
+    return false;
+  }
+}
+
+function getExchangeRate() {
+  const input = document.getElementById("exchangeRateInput");
+  const val = parseFloat(input && input.value);
+  return Number.isFinite(val) && val > 0 ? val : 1.65;
+}
+
+function formatMoney(currency, amount) {
+  const n = Number(amount) || 0;
+  const formatted = n.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return currency === "MYR" ? `RM ${formatted}` : `¥ ${formatted}`;
+}
+
+function renderLedger() {
+  const entries = loadLedgerEntries();
+  const rate = getExchangeRate();
+
+  let totalCny = 0;
+  let totalMyr = 0;
+  let preCny = 0;
+  let preMyr = 0;
+  let dailyCny = 0;
+  let dailyMyr = 0;
+
+  entries.forEach((e) => {
+    const amt = Number(e.amount) || 0;
+    if (e.currency === "MYR") {
+      totalMyr += amt;
+      if (e.section === "pre") preMyr += amt;
+      else dailyMyr += amt;
+    } else {
+      totalCny += amt;
+      if (e.section === "pre") preCny += amt;
+      else dailyCny += amt;
+    }
+  });
+
+  const combinedMyr = totalMyr + totalCny / rate;
+  const perPersonMyr = combinedMyr / 6;
+
+  const setElText = (id, txt) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  };
+
+  setElText("totalCnyVal", formatMoney("CNY", totalCny));
+  setElText("totalMyrVal", formatMoney("MYR", totalMyr));
+  setElText("totalCombinedVal", formatMoney("MYR", combinedMyr));
+  setElText("totalPerPersonVal", `6 人人均约 ${formatMoney("MYR", perPersonMyr)}`);
+  setElText("preTripSubStat", `¥${preCny.toFixed(0)} / RM${preMyr.toFixed(0)}`);
+  setElText("dailySubStat", `¥${dailyCny.toFixed(0)} / RM${dailyMyr.toFixed(0)}`);
+  setElText(
+    "hubLedgerSub",
+    combinedMyr > 0 ? `已记约 RM ${combinedMyr.toFixed(0)}` : "记账 · 拍照存账单"
+  );
+
+  const container = document.getElementById("ledgerSections");
+  if (!container) return;
+
+  container.innerHTML = LEDGER_GROUPS.map((group) => {
+    const list = entries.filter((e) => e.section === group.id);
+    let gCny = 0;
+    let gMyr = 0;
+    list.forEach((e) => {
+      if (e.currency === "MYR") gMyr += Number(e.amount) || 0;
+      else gCny += Number(e.amount) || 0;
+    });
+
+    const subParts = [];
+    if (gCny > 0) subParts.push(formatMoney("CNY", gCny));
+    if (gMyr > 0) subParts.push(formatMoney("MYR", gMyr));
+    const subText = subParts.length ? `小计：${subParts.join(" + ")}` : "暂无已填金额";
+
+    const itemsHtml = list.length
+      ? list
+          .map((item) => {
+            const amt = Number(item.amount) || 0;
+            const icon = EXPENSE_CAT_ICONS[item.category] || "📦";
+            const photoBtn = item.photo
+              ? `<button type="button" class="expense-thumb-btn" data-view-photo="${item.id}" title="点击查看账单照片"><img src="${item.photo}" alt="账单照片" /></button>`
+              : "";
+            return `
+              <div class="expense-item">
+                <div class="expense-left">
+                  <span class="expense-cat-icon" aria-hidden="true">${icon}</span>
+                  <div class="expense-info">
+                    <div class="expense-title">${escapeHtml(item.title)}</div>
+                    ${item.note ? `<div class="expense-note">${escapeHtml(item.note)}</div>` : ""}
+                  </div>
+                </div>
+                <div class="expense-right">
+                  ${photoBtn}
+                  <span class="expense-amount ${amt === 0 ? "is-zero" : ""}">
+                    ${amt === 0 ? "待填金额" : formatMoney(item.currency, amt)}
+                  </span>
+                  <button type="button" class="expense-op-btn" data-edit-exp="${item.id}">编辑</button>
+                  <button type="button" class="expense-op-btn is-del" data-del-exp="${item.id}">删</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("")
+      : `<p class="ledger-empty">当天还没有记账，点右上角「＋ 加入开销」或「📷 拍照记账」即可记录</p>`;
+
+    return `
+      <section class="ledger-group ${group.isPre ? "is-pre" : ""}">
+        <div class="ledger-group-head">
+          <div class="ledger-group-title-wrap">
+            <h3 class="ledger-group-title">${group.title}</h3>
+            <span class="ledger-group-subtotal">${subText}</span>
+          </div>
+          <div class="ledger-group-actions">
+            <button type="button" class="ledger-add-btn" data-add-sec="${group.id}">＋ 加入开销</button>
+            <button type="button" class="ledger-cam-btn" data-cam-sec="${group.id}">📷 拍照记账</button>
+          </div>
+        </div>
+        <div class="ledger-list">${itemsHtml}</div>
+      </section>
+    `;
+  }).join("");
+
+  container.querySelectorAll("[data-add-sec]").forEach((btn) => {
+    btn.addEventListener("click", () => openExpenseModal({ section: btn.dataset.addSec }));
+  });
+
+  container.querySelectorAll("[data-cam-sec]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openExpenseModal({ section: btn.dataset.camSec, triggerCamera: true });
+    });
+  });
+
+  container.querySelectorAll("[data-edit-exp]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = loadLedgerEntries().find((x) => x.id === btn.dataset.editExp);
+      if (target) openExpenseModal({ entry: target });
+    });
+  });
+
+  container.querySelectorAll("[data-del-exp]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.delExp;
+      const next = loadLedgerEntries().filter((x) => x.id !== id);
+      saveLedgerEntries(next);
+      renderLedger();
+      showToast("已删除该笔记录");
+    });
+  });
+
+  container.querySelectorAll("[data-view-photo]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = loadLedgerEntries().find((x) => x.id === btn.dataset.viewPhoto);
+      if (target && target.photo) {
+        openLightbox(target.photo, `${target.title}（${formatMoney(target.currency, target.amount)}）`);
+      }
+    });
+  });
+}
+
+function setSelectedExpenseCat(cat) {
+  selectedExpenseCat = cat || "food";
+  document.querySelectorAll("#expenseCategoryGrid .cat-chip").forEach((chip) => {
+    chip.classList.toggle("is-active", chip.dataset.cat === selectedExpenseCat);
+  });
+}
+
+function updateReceiptPreview(dataUrl) {
+  pendingReceiptDataUrl = dataUrl || "";
+  const box = document.getElementById("receiptPreviewBox");
+  const img = document.getElementById("receiptPreviewImg");
+  if (!box || !img) return;
+  if (pendingReceiptDataUrl) {
+    img.src = pendingReceiptDataUrl;
+    box.hidden = false;
+  } else {
+    img.removeAttribute("src");
+    box.hidden = true;
+  }
+}
+
+function openExpenseModal({ section = "day1", entry = null, triggerCamera = false } = {}) {
+  const modal = document.getElementById("expenseModal");
+  if (!modal) return;
+
+  const titleEl = document.getElementById("expenseModalTitle");
+  const idInput = document.getElementById("expenseIdInput");
+  const secSelect = document.getElementById("expenseSectionSelect");
+  const nameInput = document.getElementById("expenseTitleInput");
+  const currSelect = document.getElementById("expenseCurrencySelect");
+  const amtInput = document.getElementById("expenseAmountInput");
+  const noteInput = document.getElementById("expenseNoteInput");
+
+  if (entry) {
+    titleEl.textContent = "✏️ 编辑开销记录";
+    idInput.value = entry.id;
+    secSelect.value = entry.section;
+    nameInput.value = entry.title;
+    currSelect.value = entry.currency || "CNY";
+    amtInput.value = entry.amount ? String(entry.amount) : "";
+    noteInput.value = entry.note || "";
+    setSelectedExpenseCat(entry.category || "other");
+    updateReceiptPreview(entry.photo || "");
+  } else {
+    titleEl.textContent = triggerCamera ? "📷 拍照加入账单" : "➕ 加入一笔开销";
+    idInput.value = "";
+    secSelect.value = section;
+    nameInput.value = "";
+    currSelect.value = section === "pre" ? "MYR" : "CNY";
+    amtInput.value = "";
+    noteInput.value = "";
+    setSelectedExpenseCat(section === "pre" ? "other" : "food");
+    updateReceiptPreview("");
+  }
+
+  modal.hidden = false;
+
+  if (triggerCamera) {
+    const camInput = document.getElementById("expenseCameraInput");
+    if (camInput) {
+      setTimeout(() => camInput.click(), 80);
+    }
+  } else {
+    setTimeout(() => nameInput.focus(), 60);
+  }
+}
+
+function closeExpenseModal() {
+  const modal = document.getElementById("expenseModal");
+  if (modal) modal.hidden = true;
+  const camInput = document.getElementById("expenseCameraInput");
+  const albInput = document.getElementById("expenseAlbumInput");
+  if (camInput) camInput.value = "";
+  if (albInput) albInput.value = "";
+}
+
+function compressImageFile(file, maxWidth = 800, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleReceiptFile(file) {
+  if (!file) return;
+  try {
+    const dataUrl = await compressImageFile(file);
+    updateReceiptPreview(dataUrl);
+    showToast("账单照片已添加 ✓");
+  } catch {
+    showToast("图片读取失败，请重试");
+  }
+}
+
+function openLightbox(src, caption) {
+  const lb = document.getElementById("photoLightbox");
+  const img = document.getElementById("lightboxImg");
+  const cap = document.getElementById("lightboxCaption");
+  if (!lb || !img) return;
+  img.src = src;
+  if (cap) cap.textContent = caption || "";
+  lb.hidden = false;
+}
+
+function closeLightbox() {
+  const lb = document.getElementById("photoLightbox");
+  if (lb) lb.hidden = true;
+}
+
+function exportLedgerSummary() {
+  const entries = loadLedgerEntries();
+  const rate = getExchangeRate();
+  let totalCny = 0;
+  let totalMyr = 0;
+
+  const lines = ["【重庆临时之旅 · 账单汇总】"];
+  LEDGER_GROUPS.forEach((group) => {
+    const list = entries.filter((e) => e.section === group.id && (Number(e.amount) || 0) > 0);
+    if (!list.length) return;
+    lines.push(`\n${group.title}`);
+    list.forEach((it) => {
+      const amt = Number(it.amount) || 0;
+      if (it.currency === "MYR") totalMyr += amt;
+      else totalCny += amt;
+      const notePart = it.note ? `（${it.note}）` : "";
+      lines.push(`- ${it.title}：${formatMoney(it.currency, amt)}${notePart}`);
+    });
+  });
+
+  const combinedMyr = totalMyr + totalCny / rate;
+  lines.push(`\n人民币合计：${formatMoney("CNY", totalCny)}`);
+  lines.push(`马币合计：${formatMoney("MYR", totalMyr)}`);
+  lines.push(`按 1 RM = ${rate} ¥ 折合约：${formatMoney("MYR", combinedMyr)}（6人均约 ${formatMoney("MYR", combinedMyr / 6)}）`);
+
+  copyText(lines.join("\n"));
+}
+
+function initLedger() {
+  const rateInput = document.getElementById("exchangeRateInput");
+  if (rateInput) {
+    const savedRate = localStorage.getItem(STORAGE_KEY_RATE);
+    if (savedRate) rateInput.value = savedRate;
+    rateInput.addEventListener("change", () => {
+      try {
+        localStorage.setItem(STORAGE_KEY_RATE, rateInput.value);
+      } catch {
+        // ignore
+      }
+      renderLedger();
+    });
+  }
+
+  document.querySelectorAll("#expenseCategoryGrid .cat-chip").forEach((chip) => {
+    chip.addEventListener("click", () => setSelectedExpenseCat(chip.dataset.cat));
+  });
+
+  const camInput = document.getElementById("expenseCameraInput");
+  const albInput = document.getElementById("expenseAlbumInput");
+  if (camInput) camInput.addEventListener("change", () => handleReceiptFile(camInput.files[0]));
+  if (albInput) albInput.addEventListener("change", () => handleReceiptFile(albInput.files[0]));
+
+  const removeReceiptBtn = document.getElementById("removeReceiptBtn");
+  if (removeReceiptBtn) removeReceiptBtn.addEventListener("click", () => updateReceiptPreview(""));
+
+  const closeBtn = document.getElementById("closeExpenseModalBtn");
+  const cancelBtn = document.getElementById("cancelExpenseBtn");
+  const modal = document.getElementById("expenseModal");
+  if (closeBtn) closeBtn.addEventListener("click", closeExpenseModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeExpenseModal);
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeExpenseModal();
+    });
+  }
+
+  const form = document.getElementById("expenseForm");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = document.getElementById("expenseIdInput").value;
+      const section = document.getElementById("expenseSectionSelect").value;
+      const title = document.getElementById("expenseTitleInput").value.trim();
+      const currency = document.getElementById("expenseCurrencySelect").value;
+      const amount = parseFloat(document.getElementById("expenseAmountInput").value);
+      const note = document.getElementById("expenseNoteInput").value.trim();
+
+      if (!title || !Number.isFinite(amount) || amount < 0) {
+        showToast("请填写消费项目与有效金额");
+        return;
+      }
+
+      const entries = loadLedgerEntries();
+      const record = {
+        id: id || `exp-${Date.now()}`,
+        section,
+        title,
+        amount,
+        currency,
+        category: selectedExpenseCat,
+        note,
+        photo: pendingReceiptDataUrl
+      };
+
+      const idx = entries.findIndex((x) => x.id === record.id);
+      if (idx >= 0) entries[idx] = record;
+      else entries.push(record);
+
+      if (saveLedgerEntries(entries)) {
+        closeExpenseModal();
+        renderLedger();
+        showToast(idx >= 0 ? "已更新该笔开销 ✓" : "已记入账本 ✓");
+      }
+    });
+  }
+
+  const exportBtn = document.getElementById("exportLedgerBtn");
+  if (exportBtn) exportBtn.addEventListener("click", exportLedgerSummary);
+
+  const closeLb = document.getElementById("closeLightboxBtn");
+  const lb = document.getElementById("photoLightbox");
+  if (closeLb) closeLb.addEventListener("click", closeLightbox);
+  if (lb) {
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) closeLightbox();
+    });
+  }
+
+  renderLedger();
+}
+
+/* ==========================================================================
    启动初始化
    ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   initFontScale();
   renderDayTabs();
   renderDayPanel();
+  initMainTabs();
+  loadChongqingWeather();
 
   document.getElementById("prevDayBtn").addEventListener("click", () => {
     selectDay(currentDay - 1, true);
@@ -1472,4 +2439,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initFoodFilters();
   renderFoodGuide();
   renderTipsAccordion();
+
+  initPackingChecklist();
+  initLedger();
 });
+
