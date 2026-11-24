@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>重庆 6天5夜 · 家庭包车慢游指南（长辈友好大字版）</title>
+  <meta name="description" content="重庆6天5夜6人家庭包车慢游攻略：每日行程路线、司机精准导航定位一键复制、预约清单、长辈友好美食指南与避坑贴士。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-font-scale="normal">
+  <!-- 顶部导航与字号切换 -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="返回顶部">
+        <span class="brand-badge" aria-hidden="true">渝</span>
+        <span class="brand-text">重庆家庭慢游手账</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="主导航">
+        <a href="#itinerary" class="nav-link">每日行程</a>
+        <a href="#reservations" class="nav-link">预约清单</a>
+        <a href="#food" class="nav-link">美食指南</a>
+        <a href="#tips" class="nav-link">避坑贴士</a>
+      </nav>
+
+      <div class="font-control" role="group" aria-label="字号大小切换">
+        <span class="font-control-label">字号</span>
+        <button type="button" class="font-btn is-active" data-scale="normal" id="fontNormalBtn">大字</button>
+        <button type="button" class="font-btn" data-scale="large" id="fontLargeBtn">超大</button>
+        <button type="button" class="font-btn" data-scale="xlarge" id="fontXlargeBtn">特大</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- 一、顶部概览卡片 -->
+    <section class="hero-card" aria-labelledby="hero-title">
+      <div class="hero-banner-wrap">
+        <img
+          src="assets/chongqing_banner.jpg"
+          alt="重庆山城手绘插画：洪崖洞吊脚楼、长江索道、穿楼轻轨与江畔漫步的家人"
+          class="hero-banner-img"
+        />
+        <div class="hero-stamp" aria-hidden="true">
+          <span>6天5夜</span>
+          <small>慢游手账</small>
+        </div>
+      </div>
+
+      <div class="hero-body">
+        <h1 id="hero-title" class="hero-title">重庆 6天5夜 家庭包车慢游指南</h1>
+        <p class="hero-subtitle">专为 6 人家庭团（含长辈）定制 · 低体力消耗 · 少爬坡 · 舒适慢节奏</p>
+
+        <div class="hero-pills" aria-label="行程核心特点">
+          <div class="hero-pill pill-warm">
+            <span class="pill-icon" aria-hidden="true">👨‍👩‍👧‍👦</span>
+            <div>
+              <strong>出行人数</strong>
+              <span>6人家庭团（含长辈）</span>
+            </div>
+          </div>
+          <div class="hero-pill pill-sage">
+            <span class="pill-icon" aria-hidden="true">🚐</span>
+            <div>
+              <strong>交通方式</strong>
+              <span>全程包车 · 点对点接送</span>
+            </div>
+          </div>
+          <div class="hero-pill pill-honey">
+            <span class="pill-icon" aria-hidden="true">🌿</span>
+            <div>
+              <strong>游玩节奏</strong>
+              <span>少爬坡 · 多直梯 · 慢逛不累</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 住宿与交通速览 -->
+        <div class="overview-info-grid">
+          <article class="info-box info-stay">
+            <h2 class="info-box-title"><span aria-hidden="true">🏨</span> 住宿区域建议</h2>
+            <ul class="clean-list">
+              <li>
+                <strong>七星岗 / 两路口周边：</strong>位置居中、闹中取静、包车上下客不拥挤。
+              </li>
+              <li>
+                <strong>南滨路（上新街 / 龙门浩一带）：</strong>直面渝中半岛江景、环境安静（订房请核对实际离江距离）。
+              </li>
+            </ul>
+          </article>
+
+          <article class="info-box info-transit">
+            <h2 class="info-box-title"><span aria-hidden="true">🚇</span> 包车与地铁衔接</h2>
+            <p>
+              全程包车点对点接送，省去爬坡找路烦恼。若市区晚高峰遇拥堵，可灵活换乘地铁：打开<strong>支付宝 / 微信</strong>搜索
+              <button type="button" class="inline-copy-chip" data-copy="重庆轨道交通乘车码" title="点击复制">
+                「重庆轨道交通乘车码」<span class="chip-copy-tag">复制</span>
+              </button>
+              扫码进站即可。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 二、每日行程切换 (Day 1 - Day 6 Tabs) -->
+    <section id="itinerary" class="section-block" aria-labelledby="itinerary-heading">
+      <div class="section-header">
+        <div class="section-kicker">DAILY ITINERARY</div>
+        <h2 id="itinerary-heading" class="section-title">每日行程与司机导航定位</h2>
+        <p class="section-desc">点击下方天数切换每日安排，黄色卡片为<strong>司机精准导航定位</strong>，点一下即可复制发给司机师傅。</p>
+      </div>
+
+      <!-- Day 1 - Day 6 切换标签 -->
+      <div class="day-tabs" id="dayTabs" role="tablist" aria-label="每日行程切换"></div>
+
+      <!-- 当前天详情面板 -->
+      <div class="day-panel" id="dayPanel" role="tabpanel" aria-live="polite"></div>
+
+      <!-- 底部上下天快速切换 -->
+      <div class="day-pager" aria-label="切换上一天或下一天">
+        <button type="button" class="pager-btn" id="prevDayBtn">← 上一天</button>
+        <span class="pager-indicator" id="pagerIndicator">第 1 / 6 天</span>
+        <button type="button" class="pager-btn pager-btn-next" id="nextDayBtn">下一天 →</button>
+      </div>
+    </section>
+
+    <!-- 三、预约倒计时 / 清单模块 -->
+    <section id="reservations" class="section-block" aria-labelledby="reservations-heading">
+      <div class="section-header">
+        <div class="section-kicker">BOOKING CHECKLIST</div>
+        <h2 id="reservations-heading" class="section-title">景点预约倒计时与清单</h2>
+        <p class="section-desc">勾选已完成预约的项目（自动保存），输入出发日期还可自动换算建议预约日。</p>
+      </div>
+
+      <div class="reservation-toolbar">
+        <div class="date-calc-box">
+          <label for="departureDateInput" class="date-label">📅 预计出发日期（选填）：</label>
+          <input type="date" id="departureDateInput" class="date-input" />
+          <button type="button" id="clearDateBtn" class="btn-ghost-sm" hidden>清除</button>
+        </div>
+        <div class="progress-badge" id="reservationProgress" aria-live="polite">
+          已预约 0 / 5 项
+        </div>
+      </div>
+
+      <div class="reservation-groups" id="reservationGroups"></div>
+    </section>
+
+    <!-- 四、长辈友好美食指南 -->
+    <section id="food" class="section-block" aria-labelledby="food-heading">
+      <div class="section-header">
+        <div class="section-kicker">ELDER-FRIENDLY FOOD GUIDE</div>
+        <h2 id="food-heading" class="section-title">长辈友好美食与小吃指南</h2>
+        <p class="section-desc">清晰区分「不辣 / 温和家常菜」与「地道老火锅 / 解辣小吃」，一家老小都能吃得舒心。</p>
+      </div>
+
+      <div class="food-filters" role="tablist" aria-label="美食分类筛选">
+        <button type="button" class="filter-btn is-active" data-filter="all" id="foodFilterAll">全部推荐</button>
+        <button type="button" class="filter-btn filter-mild" data-filter="mild" id="foodFilterMild">🌿 不辣 / 温和家常菜（长辈首选）</button>
+        <button type="button" class="filter-btn filter-spicy" data-filter="spicy" id="foodFilterSpicy">🌶️ 地道老火锅与解辣小吃</button>
+      </div>
+
+      <div class="food-grid" id="foodGrid"></div>
+    </section>
+
+    <!-- 五、避坑与出行贴士折叠面板 -->
+    <section id="tips" class="section-block" aria-labelledby="tips-heading">
+      <div class="section-header section-header-row">
+        <div>
+          <div class="section-kicker">TRAVEL TIPS &amp; SAFETY</div>
+          <h2 id="tips-heading" class="section-title">避坑与出行安全贴士</h2>
+          <p class="section-desc">点击卡片即可展开或收起，出发前和家人一起看一遍更安心。</p>
+        </div>
+        <button type="button" class="btn-outline" id="toggleAllTipsBtn">全部展开</button>
+      </div>
+
+      <div class="accordion-list" id="tipsAccordion"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-title">祝全家人重庆之旅平安顺心、吃得开心、玩得轻松！</p>
+      <p class="footer-note">温馨提示：景点开放时间与预约规则以出行当日官方公众号公告为准。</p>
+      <a href="#top" class="back-top-btn">↑ 回到页面顶部</a>
+    </div>
+  </footer>
+
+  <!-- 手机端底部快捷导航栏 -->
+  <nav class="mobile-bottom-nav" aria-label="手机快捷导航">
+    <a href="#itinerary" class="mobile-nav-item">
+      <span class="m-icon" aria-hidden="true">🗺️</span>
+      <span>每日行程</span>
+    </a>
+    <a href="#reservations" class="mobile-nav-item">
+      <span class="m-icon" aria-hidden="true">✅</span>
+      <span>预约清单</span>
+    </a>
+    <a href="#food" class="mobile-nav-item">
+      <span class="m-icon" aria-hidden="true">🍲</span>
+      <span>美食指南</span>
+    </a>
+    <a href="#tips" class="mobile-nav-item">
+      <span class="m-icon" aria-hidden="true">🛡️</span>
+      <span>避坑贴士</span>
+    </a>
+  </nav>
+
+  <!-- 复制成功提示 Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
