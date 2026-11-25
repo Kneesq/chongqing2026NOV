@@ -118,19 +118,23 @@ const ITINERARY_DAYS = [
     ],
     mapRoute: {
       color: "#1d68c4",
-      subtitle: "渝中核心夜景环线（江北机场 T3 接机 ➔ 民宿 ➔ 解放碑 ➔ 白象居 ➔ 洪崖洞 ➔ 江滩公园）",
+      subtitle: "住宿出发 ➔ 小什字站 ➔ 1号线至较场口(解放碑) ➔ 白象居 ➔ 洪崖洞 ➔ 6号线过江至大剧院江滩公园",
       stops: [
-        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "14:15 从江北机场 T3 包车直达民宿入住休整", metro: "近 1/6号线 小什字站（步行5分钟）", query: "湖广·富山江景美宿(重庆解放碑店)" },
-        { name: "解放碑(八一广场)", lat: 29.5574, lng: 106.5770, note: "重庆城市地标纪念碑 & 八一好吃街", metro: "近 2号线 临江门站 / 1号线 较场口站", query: "重庆八一广场" },
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "从住宿出发，步行约 5 分钟到小什字地铁站", metro: "步行约 290 米至小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "小什字站（1号线）", isMetro: true, lat: 29.5603, lng: 106.5825, note: "进站乘 1 号线（坐 1 站）前往较场口站", metro: "1号线 上车站", query: "小什字地铁站" },
+        { name: "较场口站 · 解放碑", isMetro: true, lat: 29.5574, lng: 106.5770, note: "1号线出站即达解放碑纪念碑 & 八一好吃街", metro: "1号线 下车站", query: "重庆八一广场" },
         { name: "白象居3号楼", lat: 29.5565, lng: 106.5831, note: "长江索道穿楼经典机位，直达免爬长台阶", metro: "近 1/6号线 小什字站", query: "白象居3号楼" },
-        { name: "洪崖洞", lat: 29.5632, lng: 106.5790, note: "19:30–23:00 亮灯，嘉滨路马路下层看全貌", metro: "近 1/6号线 小什字站", query: "嘉滨路洪崖洞公交站" },
-        { name: "江滩公园(大剧院)", lat: 29.5686, lng: 106.5804, note: "隔江拍洪崖洞与千厮门大桥全景最佳免费机位", metro: "6号线 大剧院站（2/3号口）", query: "重庆大剧院江滩公园" }
+        { name: "洪崖洞（嘉滨路）", lat: 29.5632, lng: 106.5790, note: "19:30–23:00 亮灯，嘉滨路马路下层看全貌", metro: "看完步行回小什字站乘6号线过江", query: "嘉滨路洪崖洞公交站" },
+        { name: "小什字站（6号线）", isMetro: true, lat: 29.5603, lng: 106.5825, note: "晚高峰乘 6 号线（坐 1 站）3 分钟过江避开堵车", metro: "6号线 上车站", query: "小什字地铁站" },
+        { name: "大剧院站 · 江滩公园", isMetro: true, lat: 29.5686, lng: 106.5804, note: "6号线大剧院站 2/3 号口出，隔江拍洪崖洞全景", metro: "6号线 下车站（看完坐1站回小什字）", query: "重庆大剧院江滩公园" }
       ],
       segments: [
-        { label: "🚐 包车约8分钟", dashed: false },
-        { label: "🚐 包车约8分钟", dashed: false },
-        { label: "🚐 包车约10分钟", dashed: false },
-        { label: "🚇 6号线1站(3分钟)", dashed: true }
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#d92626" },
+        { mode: "car" },
+        { mode: "car" },
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#d63d86" }
       ]
     }
   },
@@ -219,17 +223,23 @@ const ITINERARY_DAYS = [
     ],
     mapRoute: {
       color: "#d95f24",
-      subtitle: "渝中跨江南岸线（湖广会馆 ➔ 长江索道 ➔ 下浩里/龙门浩 ➔ 弹子石老街夜景）",
+      subtitle: "住宿出发 ➔ 湖广会馆 ➔ 长江索道过江 ➔ 下浩里/龙门浩 ➔ 上新街站(环线) ➔ 弹子石老街",
       stops: [
-        { name: "湖广会馆东门", lat: 29.5608, lng: 106.5844, note: "清代明黄古建群，齐安公所喝茶看戏", metro: "近 1/6号线 小什字站（7/8号口）", query: "湖广会馆东门" },
-        { name: "长江索道南站", lat: 29.5554, lng: 106.5889, note: "跨长江空中索道，南站排队少一半", metro: "近 6号线/环线 上新街站", query: "长江索道南站" },
-        { name: "下浩里/龙门浩", lat: 29.5589, lng: 106.5936, note: "上新街1号口由上往下逛，多部直梯扶梯不废腿", metro: "6号线/环线 上新街站（1/2号口）", query: "上新街地铁站1号口" },
-        { name: "弹子石老街", lat: 29.5798, lng: 106.5924, note: "弹子石广场观景台赏两江交汇璀璨夜景", metro: "近 环线 弹子石站", query: "弹子石广场观景台" }
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "从住宿出发，步行约 5 分钟即达湖广会馆东门", metro: "步行出发", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "湖广会馆东门", lat: 29.5608, lng: 106.5844, note: "清代明黄古建群，齐安公所喝茶看戏", metro: "逛完步行至小什字/索道北站", query: "湖广会馆东门" },
+        { name: "长江索道北站", lat: 29.5596, lng: 106.5841, note: "近小什字 5B 口，乘空中索道跨长江（或包车去南站反向坐）", metro: "索道出发站", query: "长江索道北站" },
+        { name: "长江索道南站", lat: 29.5554, lng: 106.5889, note: "抵达南岸，步行进入下浩里与龙门浩老街", metro: "近 6号线/环线 上新街站", query: "长江索道南站" },
+        { name: "下浩里 / 龙门浩", lat: 29.5589, lng: 106.5936, note: "上新街1号口由上往下逛，多部直梯扶梯不废腿", metro: "紧邻上新街地铁站", query: "上新街地铁站1号口" },
+        { name: "上新街站（环线）", isMetro: true, lat: 29.5579, lng: 106.5944, note: "进站乘 环线（坐 2 站）前往弹子石站", metro: "环线 上车站", query: "上新街地铁站" },
+        { name: "弹子石站 · 弹子石老街", isMetro: true, lat: 29.5798, lng: 106.5924, note: "观景台赏两江交汇璀璨夜景（返程可乘6号线回小什字）", metro: "环线 下车站", query: "弹子石广场观景台" }
       ],
       segments: [
-        { label: "🚡 索道/包车约10分钟", dashed: true },
-        { label: "🚐 包车/步行约6分钟", dashed: false },
-        { label: "🚐 包车12分钟 / 🚇 环线2站", dashed: false }
+        { mode: "walk" },
+        { mode: "walk" },
+        { mode: "cable", lineColor: "#d95f24" },
+        { mode: "walk" },
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#c98600" }
       ]
     }
   },
@@ -304,10 +314,10 @@ const ITINERARY_DAYS = [
         { name: "武隆仙女山镇", lat: 29.4295, lng: 107.7525, note: "抵达武隆仙女山镇休息，次日游天生三桥", metro: "包车直达", query: "武隆仙女山镇" }
       ],
       segments: [
-        { label: "🚐 包车高速约2.5h", dashed: false },
-        { label: "🚐 包车约20分钟", dashed: false },
-        { label: "⛴️ 乌江游船2–2.5h", dashed: true },
-        { label: "🚐 包车约1.5–2h", dashed: false }
+        { mode: "car" },
+        { mode: "car" },
+        { mode: "ferry", lineColor: "#1f8a5b" },
+        { mode: "car" }
       ]
     }
   },
@@ -383,10 +393,10 @@ const ITINERARY_DAYS = [
         { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "返回解放碑民宿休息", metro: "1号线 七星岗 ➔ 小什字(2站)", query: "湖广·富山江景美宿(重庆解放碑店)" }
       ],
       segments: [
-        { label: "🚌 环保车约15分钟", dashed: true },
-        { label: "🚐 包车约25分钟", dashed: false },
-        { label: "🚐 包车返城约2.5h", dashed: false },
-        { label: "🚐 包车8分钟 / 🚇 1号线2站", dashed: false }
+        { mode: "car" },
+        { mode: "car" },
+        { mode: "car" },
+        { mode: "metro", lineColor: "#d92626" }
       ]
     }
   },
@@ -458,19 +468,21 @@ const ITINERARY_DAYS = [
     ],
     mapRoute: {
       color: "#c75a16",
-      subtitle: "渝中文化+网红单轨+观音桥（鹅岭公园 ➔ 李子坝 ➔ 2号线单轨 ➔ 三峡博物馆/大礼堂 ➔ 观音桥）",
+      subtitle: "住宿出发 ➔ 小什字站(1号线) ➔ 鹅岭站 ➔ 李子坝站(2号线) ➔ 曾家岩站/三峡博物馆 ➔ 观音桥",
       stops: [
-        { name: "鹅岭公园(瞰胜楼)", lat: 29.5512, lng: 106.5356, note: "登高俯瞰两江与渝中半岛全景", metro: "近 1号线 鹅岭站（1/2A口）", query: "鹅岭公园" },
-        { name: "李子坝观景台", lat: 29.5550, lng: 106.5387, note: "马路下层拍 2 号线轻轨穿楼奇观", metro: "2号线 李子坝站", query: "李子坝观景台" },
-        { name: "三峡博物馆", lat: 29.5619, lng: 106.5503, note: "了解三峡与巴渝历史文化（需提前1天预约）", metro: "2号线 曾家岩站 / 10号线 大礼堂站", query: "重庆中国三峡博物馆" },
-        { name: "人民大礼堂", lat: 29.5620, lng: 106.5535, note: "重庆地标宫殿建筑，外观广场出片", metro: "10号线 大礼堂站", query: "重庆市人民大礼堂" },
-        { name: "观音桥(久悠茶坊)", lat: 29.5754, lng: 106.5326, note: "北仓 ➔ 塔坪社区 ➔「我在重庆」大屏，一路下坡", metro: "3/9号线 观音桥站", query: "久悠茶坊" }
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "从住宿出发，步行约 5 分钟到小什字地铁站", metro: "步行至小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "小什字站（1号线）", isMetro: true, lat: 29.5603, lng: 106.5825, note: "乘 1 号线（坐 5 站）前往鹅岭站", metro: "1号线 上车站", query: "小什字地铁站" },
+        { name: "鹅岭站 · 鹅岭公园", isMetro: true, lat: 29.5512, lng: 106.5356, note: "1号/2A口出登瞰胜楼俯瞰两江全景", metro: "1号线 下车站", query: "鹅岭公园" },
+        { name: "李子坝站（2号线）", isMetro: true, lat: 29.5550, lng: 106.5387, note: "拍轻轨穿楼后直接进站乘 2 号线江景单轨（坐 2 站）", metro: "2号线 上车站", query: "李子坝观景台" },
+        { name: "曾家岩站 · 三峡博物馆", isMetro: true, lat: 29.5619, lng: 106.5503, note: "A口出步行游三峡博物馆与对面人民大礼堂", metro: "2号线 下车站 / 近10号线大礼堂站", query: "重庆中国三峡博物馆" },
+        { name: "观音桥站 · 久悠茶坊", isMetro: true, lat: 29.5754, lng: 106.5326, note: "10号线换9号线至观音桥（或包车直达），一路下坡逛北仓塔坪", metro: "3/9号线 观音桥站", query: "久悠茶坊" }
       ],
       segments: [
-        { label: "🚐 包车6分钟", dashed: false },
-        { label: "🚇 2号线2站至曾家岩", dashed: true },
-        { label: "🚶 步行4分钟", dashed: false },
-        { label: "🚐 包车15分钟 / 🚇 10换9号线", dashed: true }
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#d92626" },
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#0f7b3e" },
+        { mode: "metro", lineColor: "#6531a8" }
       ]
     }
   },
@@ -527,15 +539,17 @@ const ITINERARY_DAYS = [
     ],
     mapRoute: {
       color: "#1c7ed6",
-      subtitle: "解放碑采买休整线（湖广·富山美宿 ➔ 解放碑大型超市 ➔ 解放碑商圈）",
+      subtitle: "住宿出发 ➔ 小什字站(1号线) ➔ 较场口站/大型超市 ➔ 八一好吃街",
       stops: [
-        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "自然醒出发，步行或短途打车都很近", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
-        { name: "解放碑大型超市", lat: 29.5582, lng: 106.5762, note: "平价采买火锅底料、怪味胡豆、陈麻花等特产", metro: "近 2号线 临江门站", query: "解放碑大型超市" },
-        { name: "解放碑八一好吃街", lat: 29.5574, lng: 106.5770, note: "自由补打卡小吃或甜品，轻松逛回民宿", metro: "近 1号线 较场口站", query: "重庆八一广场" }
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "自然醒从住宿出发，步行约 5 分钟到小什字站", metro: "步行至小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "小什字站（1号线）", isMetro: true, lat: 29.5603, lng: 106.5825, note: "乘 1 号线坐 1 站至较场口站（或步行约12分钟）", metro: "1号线 上车站", query: "小什字地铁站" },
+        { name: "较场口站 · 解放碑大超市", isMetro: true, lat: 29.5582, lng: 106.5762, note: "平价采买火锅底料、怪味胡豆、陈麻花等特产", metro: "1号线 下车站", query: "解放碑大型超市" },
+        { name: "解放碑八一好吃街", lat: 29.5574, lng: 106.5770, note: "自由补打卡小吃或甜品，轻松逛回民宿打包", metro: "步行返回", query: "重庆八一广场" }
       ],
       segments: [
-        { label: "🚐 包车/步行约8分钟", dashed: false },
-        { label: "🚶 步行约3分钟", dashed: false }
+        { mode: "walk" },
+        { mode: "metro", lineColor: "#d92626" },
+        { mode: "walk" }
       ]
     }
   },
@@ -585,11 +599,11 @@ const ITINERARY_DAYS = [
       color: "#2e7350",
       subtitle: "返程送机路线（湖广·富山美宿 ➔ 重庆江北国际机场 T3 航站楼）",
       stops: [
-        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "12月6日早上 08:00 退房出发", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "12月6日早上 08:00 退房包车出发", metro: "近 1/6号线 小什字站", query: "湖广·富山江景美宿(重庆解放碑店)" },
         { name: "江北国际机场 T3", lat: 29.7100, lng: 106.6513, note: "11:05 海南航空 HU7172 起飞经海口返回槟城", metro: "10号线 江北机场T3航站楼站", query: "重庆江北国际机场T3航站楼" }
       ],
       segments: [
-        { label: "🚐 包车送机约40分钟 / 🚇 6换10号线", dashed: false }
+        { mode: "car" }
       ]
     }
   }
@@ -932,12 +946,12 @@ function applyFontScale(scale) {
    ========================================================================== */
 const roadRouteCache = {};
 
-async function fetchRoadSegmentGcj(stopA, stopB) {
-  const key = `${stopA.lng},${stopA.lat}->${stopB.lng},${stopB.lat}`;
+async function fetchRoadSegmentGcj(stopA, stopB, profile = "driving") {
+  const key = `${profile}:${stopA.lng},${stopA.lat}->${stopB.lng},${stopB.lat}`;
   if (roadRouteCache[key]) return roadRouteCache[key];
 
   try {
-    const url = `https://router.project-osrm.org/route/v1/driving/${stopA.lng},${stopA.lat};${stopB.lng},${stopB.lat}?overview=full&geometries=geojson`;
+    const url = `https://router.project-osrm.org/route/v1/${profile}/${stopA.lng},${stopA.lat};${stopB.lng},${stopB.lat}?overview=full&geometries=geojson`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const json = await res.json();
@@ -993,31 +1007,35 @@ function renderDayRouteMap(dayData) {
   });
   amapTile.addTo(map);
 
-  // 分段绘制路线（不放文字标签遮挡画面；马路路段异步拉取真实道路轨迹，地铁/索道/游船用虚线）
+  // 分段绘制路线：步行/驾车沿真实马路实线，地铁路线用对应地铁官方色虚线，索道/游船用虚线
   for (let i = 0; i < gcjPoints.length - 1; i += 1) {
     const p1 = gcjPoints[i];
     const p2 = gcjPoints[i + 1];
-    const seg = (segments && segments[i]) || { dashed: false };
+    const seg = (segments && segments[i]) || { mode: "car" };
+    const mode = seg.mode || "car";
+    const isTransit = mode === "metro" || mode === "cable" || mode === "ferry";
+    const segColor = seg.lineColor || (mode === "walk" ? "#2e7350" : color);
 
     const outlineLine = L.polyline([p1, p2], {
       color: "#ffffff",
-      weight: 8,
-      opacity: 0.9,
+      weight: isTransit ? 9 : 8,
+      opacity: 0.92,
       lineCap: "round",
       lineJoin: "round"
     }).addTo(map);
 
     const routeLine = L.polyline([p1, p2], {
-      color,
-      weight: 4.5,
+      color: segColor,
+      weight: isTransit ? 5 : 4.5,
       opacity: 0.95,
-      dashArray: seg.dashed ? "9 8" : null,
+      dashArray: mode === "metro" ? "10 6" : isTransit ? "6 7" : null,
       lineCap: "round",
       lineJoin: "round"
     }).addTo(map);
 
-    if (!seg.dashed) {
-      fetchRoadSegmentGcj(stops[i], stops[i + 1]).then((roadCoords) => {
+    if (mode === "walk" || mode === "car") {
+      const osrmProfile = mode === "walk" ? "foot" : "driving";
+      fetchRoadSegmentGcj(stops[i], stops[i + 1], osrmProfile).then((roadCoords) => {
         if (activeDayMap !== map || !roadCoords) return;
         outlineLine.setLatLngs(roadCoords);
         routeLine.setLatLngs(roadCoords);
@@ -1025,17 +1043,18 @@ function renderDayRouteMap(dayData) {
     }
   }
 
-  // 绘制干净的编号站点标记：起点突出标出「1 起点」，后续依次 2、3、4...
+  // 绘制干净的编号站点标记：起点标「1 起点」，地铁站带 🚇，后续依次 2、3、4...
   const markers = [];
   stops.forEach((stop, idx) => {
     const pos = gcjPoints[idx];
     const isStart = idx === 0;
-    const pillBg = isStart ? "#d24d33" : color;
+    const pillBg = isStart ? "#d24d33" : stop.isMetro ? "#1f6feb" : color;
     const startTag = isStart ? `<span class="map-start-tag">起点</span>` : "";
+    const metroPrefix = stop.isMetro && !isStart ? `<span aria-hidden="true">🚇</span>` : "";
 
     const stopIcon = L.divIcon({
       className: "map-stop-icon-wrap",
-      html: `<div class="map-stop-pill ${isStart ? "is-start" : ""}" style="background:${pillBg};"><span class="map-stop-num" style="color:${pillBg};">${idx + 1}</span>${startTag}<span>${stop.name}</span></div>`,
+      html: `<div class="map-stop-pill ${isStart ? "is-start" : ""}" style="background:${pillBg};"><span class="map-stop-num" style="color:${pillBg};">${idx + 1}</span>${startTag}${metroPrefix}<span>${stop.name}</span></div>`,
       iconSize: [0, 0]
     });
 
