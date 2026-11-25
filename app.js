@@ -1310,14 +1310,41 @@ function renderDayPanel() {
     { key: "dinner", icon: "🌙", label: "晚餐" }
   ];
 
-  const mealTabsHtml = MEAL_DEFS.map((m) => {
-    const count = (data.dining && data.dining[m.key] && data.dining[m.key].length) || 0;
+  const mealRowsHtml = MEAL_DEFS.map((m) => {
+    const items = (data.dining && data.dining[m.key]) || [];
+    const itemsHtml = items.length
+      ? items
+          .map(
+            (d) => `
+            <div class="dining-item">
+              <div class="dining-item-head">
+                <h4 class="dining-name">${m.icon} ${d.name}</h4>
+                ${
+                  d.mapQuery
+                    ? `<a class="amap-btn amap-btn-sm" href="${buildAmapUrl(d.mapQuery)}" target="_blank" rel="noopener noreferrer">🗺️ 高德搜店</a>`
+                    : ""
+                }
+              </div>
+              <p class="dining-detail">${d.detail}</p>
+            </div>
+          `
+          )
+          .join("")
+      : `<p class="ledger-empty">该餐暂无特别推荐</p>`;
+
     return `
-      <button type="button" class="meal-tile-btn" data-meal-key="${m.key}" aria-expanded="false">
-        <span class="meal-tile-icon" aria-hidden="true">${m.icon}</span>
-        <span class="meal-tile-label">${m.label}</span>
-        <span class="meal-tile-sub">${count} 项推荐</span>
-      </button>
+      <details class="meal-row-details">
+        <summary class="meal-row-summary">
+          <span class="meal-row-left">
+            <span class="meal-tile-icon" aria-hidden="true">${m.icon}</span>
+            <span class="meal-tile-label">${m.label}</span>
+          </span>
+          <span class="meal-row-pill">${items.length} 项推荐 · 点击查看</span>
+        </summary>
+        <div class="meal-row-body">
+          <div class="dining-list-single">${itemsHtml}</div>
+        </div>
+      </details>
     `;
   }).join("");
 
@@ -1418,9 +1445,8 @@ function renderDayPanel() {
     <div class="timeline">${timelineHtml}</div>
 
     <div class="day-dining">
-      <h4 class="sub-heading"><span aria-hidden="true">🍲</span> 本日餐饮推荐（点击早 / 午 / 晚餐查看）</h4>
-      <div class="meal-tiles-grid" id="mealTilesGrid">${mealTabsHtml}</div>
-      <div class="meal-detail-panel" id="mealDetailPanel" hidden></div>
+      <h4 class="sub-heading"><span aria-hidden="true">🍲</span> 本日餐饮推荐（点击展开）</h4>
+      <div class="meal-rows-stack">${mealRowsHtml}</div>
     </div>
 
     ${mapSectionHtml}
@@ -1434,61 +1460,6 @@ function renderDayPanel() {
   if (copyAllBtn) {
     copyAllBtn.addEventListener("click", () => copyText(copyAllBtn.dataset.copyAll));
   }
-
-  // 本日餐饮：点击 早餐 / 午餐 / 晚餐 展开或收起推荐餐厅
-  let openedMealKey = null;
-  const mealDetailPanel = panel.querySelector("#mealDetailPanel");
-  panel.querySelectorAll(".meal-tile-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.mealKey;
-      if (openedMealKey === key) {
-        openedMealKey = null;
-        btn.classList.remove("is-active");
-        btn.setAttribute("aria-expanded", "false");
-        if (mealDetailPanel) {
-          mealDetailPanel.hidden = true;
-          mealDetailPanel.innerHTML = "";
-        }
-        return;
-      }
-
-      openedMealKey = key;
-      panel.querySelectorAll(".meal-tile-btn").forEach((b) => {
-        const active = b.dataset.mealKey === key;
-        b.classList.toggle("is-active", active);
-        b.setAttribute("aria-expanded", String(active));
-      });
-
-      const items = (data.dining && data.dining[key]) || [];
-      const mealDef = MEAL_DEFS.find((m) => m.key === key);
-      if (mealDetailPanel) {
-        mealDetailPanel.innerHTML = items.length
-          ? `
-            <div class="dining-list">
-              ${items
-                .map(
-                  (d) => `
-                <div class="dining-item">
-                  <div class="dining-item-head">
-                    <h4 class="dining-name">${mealDef ? mealDef.icon : "🍽️"} ${d.name}</h4>
-                    ${
-                      d.mapQuery
-                        ? `<a class="amap-btn amap-btn-sm" href="${buildAmapUrl(d.mapQuery)}" target="_blank" rel="noopener noreferrer">🗺️ 高德搜店</a>`
-                        : ""
-                    }
-                  </div>
-                  <p class="dining-detail">${d.detail}</p>
-                </div>
-              `
-                )
-                .join("")}
-            </div>
-          `
-          : `<p class="ledger-empty">该餐暂无特别推荐</p>`;
-        mealDetailPanel.hidden = false;
-      }
-    });
-  });
 
   // 站点隐藏（点击按钮或手机左滑）与恢复事件
   const handleHideStop = (idx) => {

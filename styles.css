@@ -3597,69 +3597,92 @@ input {
   padding: 12px 0;
 }
 
-/* 本日餐饮三格：早餐 / 午餐 / 晚餐 */
-.meal-tiles-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* 本日餐饮：早餐 / 午餐 / 晚餐 整行上下排列，展开餐厅亦为整行单列 */
+.meal-rows-stack {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
-.meal-tile-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 12px 8px;
-  border-radius: var(--radius-md);
-  border: 2px solid #b9ddc4;
+.meal-row-details {
   background: #ffffff;
-  color: var(--ink-primary);
-  cursor: pointer;
-  transition: transform 0.14s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  border: 2px solid #b9ddc4;
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
-.meal-tile-btn:hover {
+.meal-row-details[open] {
   border-color: var(--accent-sage);
-  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(46, 115, 80, 0.12);
 }
 
-.meal-tile-btn.is-active {
+.meal-row-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 16px;
+  cursor: pointer;
+  transition: background-color 0.16s ease;
+}
+
+.meal-row-summary::-webkit-details-marker {
+  display: none;
+}
+
+.meal-row-summary:hover {
+  background: #f4fbf6;
+}
+
+.meal-row-details[open] .meal-row-summary {
   background: var(--accent-sage);
-  border-color: var(--accent-sage-dark);
   color: #ffffff;
-  box-shadow: 0 5px 14px rgba(46, 115, 80, 0.22);
+}
+
+.meal-row-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .meal-tile-icon {
-  font-size: 1.45rem;
-  line-height: 1.1;
+  font-size: 1.35rem;
+  line-height: 1;
 }
 
 .meal-tile-label {
-  font-size: 1.04rem;
+  font-size: 1.08rem;
   font-weight: 900;
 }
 
-.meal-tile-sub {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: var(--ink-muted);
+.meal-row-pill {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent-sage-dark);
+  background: var(--bg-soft-sage);
+  border: 1.5px solid #bfe0c9;
+  padding: 3px 11px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
-.meal-tile-btn.is-active .meal-tile-sub {
-  color: rgba(255, 255, 255, 0.88);
+.meal-row-details[open] .meal-row-pill {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
 }
 
-.meal-detail-panel {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 2px dashed #bfe0c9;
-  animation: panelFadeIn 0.18s ease;
+.meal-row-body {
+  padding: 12px 14px 14px;
+  background: #f9fdfb;
+  border-top: 2px dashed #c8e5d1;
 }
 
-.meal-detail-panel[hidden] {
-  display: none !important;
+.dining-list-single {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dining-item-head {
