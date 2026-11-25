@@ -1586,88 +1586,86 @@ function initMainTabs() {
 }
 
 /* ==========================================================================
-   二、重庆旅行天气预报（一天一行，从上到下；横向早上到晚上温度与晴雨）
+   二、重庆旅行天气预报（一天一行，06:00–22:00 每2小时温度曲线 + 晴雨）
    ========================================================================== */
-const WEATHER_TIME_SLOTS = [
-  { hour: "08:00", label: "早上" },
-  { hour: "12:00", label: "中午" },
-  { hour: "17:00", label: "傍晚" },
-  { hour: "21:00", label: "晚上" }
-];
+const WEATHER_HOURS = ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"];
+
+function buildFallbackDay(iso, date, week, temps, codes) {
+  return {
+    iso,
+    date,
+    week,
+    slots: WEATHER_HOURS.map((hour, i) => {
+      const mapped = mapWmoWeather(codes[i], hour);
+      return { hour, temp: temps[i], ...mapped };
+    })
+  };
+}
+
+function mapWmoWeather(code, hour = "12:00") {
+  const hr = parseInt(hour.slice(0, 2), 10);
+  const isNight = hr >= 20 || hr <= 6;
+  if (code === 0) return { icon: isNight ? "🌙" : "☀️", cond: "晴", type: "sunny" };
+  if (code <= 2) return { icon: isNight ? "☁️" : "⛅", cond: "多云", type: "cloudy" };
+  if (code === 3 || code === 45 || code === 48) return { icon: "☁️", cond: "阴", type: "cloudy" };
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: "🌧️", cond: "雨", type: "rain" };
+  if (code >= 95) return { icon: "⛈️", cond: "雷雨", type: "rain" };
+  return { icon: "☁️", cond: "阴", type: "cloudy" };
+}
 
 const TRIP_WEATHER_FALLBACK = [
-  {
-    iso: "2026-11-30", date: "11月30日", week: "周一",
-    slots: [
-      { label: "早上", icon: "⛅", cond: "多云", temp: 10, type: "cloudy" },
-      { label: "中午", icon: "⛅", cond: "多云", temp: 15, type: "cloudy" },
-      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 13, type: "cloudy" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 11, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-01", date: "12月1日", week: "周二",
-    slots: [
-      { label: "早上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" },
-      { label: "中午", icon: "🌧️", cond: "小雨", temp: 13, type: "rain" },
-      { label: "傍晚", icon: "🌧️", cond: "小雨", temp: 12, type: "rain" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-02", date: "12月2日", week: "周三",
-    slots: [
-      { label: "早上", icon: "☁️", cond: "阴天", temp: 8, type: "cloudy" },
-      { label: "中午", icon: "⛅", cond: "多云", temp: 13, type: "cloudy" },
-      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 11, type: "cloudy" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-03", date: "12月3日", week: "周四",
-    slots: [
-      { label: "早上", icon: "⛅", cond: "多云", temp: 8, type: "cloudy" },
-      { label: "中午", icon: "☀️", cond: "晴天", temp: 14, type: "sunny" },
-      { label: "傍晚", icon: "⛅", cond: "多云", temp: 12, type: "cloudy" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 9, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-04", date: "12月4日", week: "周五",
-    slots: [
-      { label: "早上", icon: "☀️", cond: "晴天", temp: 9, type: "sunny" },
-      { label: "中午", icon: "☀️", cond: "晴天", temp: 16, type: "sunny" },
-      { label: "傍晚", icon: "⛅", cond: "多云", temp: 14, type: "cloudy" },
-      { label: "晚上", icon: "⛅", cond: "多云", temp: 11, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-05", date: "12月5日", week: "周六",
-    slots: [
-      { label: "早上", icon: "🌧️", cond: "小雨", temp: 9, type: "rain" },
-      { label: "中午", icon: "🌧️", cond: "小雨", temp: 13, type: "rain" },
-      { label: "傍晚", icon: "☁️", cond: "阴天", temp: 12, type: "cloudy" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
-    ]
-  },
-  {
-    iso: "2026-12-06", date: "12月6日", week: "周日",
-    slots: [
-      { label: "早上", icon: "⛅", cond: "多云", temp: 8, type: "cloudy" },
-      { label: "中午", icon: "☀️", cond: "晴天", temp: 14, type: "sunny" },
-      { label: "傍晚", icon: "⛅", cond: "多云", temp: 13, type: "cloudy" },
-      { label: "晚上", icon: "☁️", cond: "阴天", temp: 10, type: "cloudy" }
-    ]
-  }
+  buildFallbackDay("2026-11-30", "11月30日", "周一", [10, 10, 12, 14, 15, 15, 13, 12, 11], [3, 2, 2, 1, 1, 2, 3, 3, 3]),
+  buildFallbackDay("2026-12-01", "12月1日", "周二", [9, 9, 10, 12, 13, 12, 11, 10, 9], [3, 3, 61, 61, 61, 61, 3, 3, 3]),
+  buildFallbackDay("2026-12-02", "12月2日", "周三", [8, 8, 10, 12, 13, 13, 11, 10, 9], [3, 3, 2, 2, 2, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-03", "12月3日", "周四", [8, 9, 11, 13, 15, 14, 12, 10, 9], [2, 2, 1, 0, 0, 1, 2, 3, 3]),
+  buildFallbackDay("2026-12-04", "12月4日", "周五", [9, 10, 12, 15, 17, 16, 14, 12, 10], [2, 1, 0, 0, 0, 0, 1, 2, 2]),
+  buildFallbackDay("2026-12-05", "12月5日", "周六", [9, 9, 10, 12, 13, 12, 11, 10, 9], [61, 61, 61, 61, 3, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-06", "12月6日", "周日", [8, 9, 11, 13, 15, 14, 12, 11, 9], [2, 2, 1, 0, 0, 1, 2, 2, 3])
 ];
 
-function mapWmoWeather(code) {
-  if (code === 0) return { icon: "☀️", cond: "晴天", type: "sunny" };
-  if (code <= 2) return { icon: "⛅", cond: "多云", type: "cloudy" };
-  if (code === 3 || code === 45 || code === 48) return { icon: "☁️", cond: "阴天", type: "cloudy" };
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return { icon: "🌧️", cond: "下雨", type: "rain" };
-  if (code >= 95) return { icon: "⛈️", cond: "雷雨", type: "rain" };
-  return { icon: "☁️", cond: "阴天", type: "cloudy" };
+function buildTempCurveSvg(slots, dotFillColor) {
+  const width = 648;
+  const height = 74;
+  const colW = width / slots.length;
+  const temps = slots.map((s) => s.temp);
+  const minT = Math.min(...temps);
+  const maxT = Math.max(...temps);
+  const span = Math.max(maxT - minT, 4);
+
+  const yTop = 34;
+  const yBottom = 60;
+
+  const pts = slots.map((s, idx) => {
+    const x = colW * (idx + 0.5);
+    const ratio = (s.temp - minT) / span;
+    const y = yBottom - ratio * (yBottom - yTop);
+    return { x, y, temp: s.temp };
+  });
+
+  // 平滑二次/三次贝塞尔曲线连接每个 2 小时节点
+  let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i += 1) {
+    const p0 = pts[i];
+    const p1 = pts[i + 1];
+    const cx = ((p0.x + p1.x) / 2).toFixed(1);
+    d += ` C ${cx} ${p0.y.toFixed(1)}, ${cx} ${p1.y.toFixed(1)}, ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`;
+  }
+
+  const dotsAndLabels = pts
+    .map(
+      (p) => `
+      <text x="${p.x.toFixed(1)}" y="${(p.y - 12).toFixed(1)}" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="800" font-family="Noto Sans SC, PingFang SC, sans-serif">${p.temp}°</text>
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.2" fill="${dotFillColor}" stroke="#ffffff" stroke-width="2.2" />
+    `
+    )
+    .join("");
+
+  return `
+    <svg class="weather-curve-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="${d}" fill="none" stroke="rgba(255,255,255,0.68)" stroke-width="2.2" stroke-linecap="round" />
+      ${dotsAndLabels}
+    </svg>
+  `;
 }
 
 function renderWeatherCards(list, badgeText) {
@@ -1685,19 +1683,23 @@ function renderWeatherCards(list, badgeText) {
       const hasRain = day.slots.some((s) => s.type === "rain");
       const hasSunny = day.slots.some((s) => s.type === "sunny");
       const rowClass = hasRain ? "is-rain" : hasSunny ? "is-sunny" : "is-cloudy";
+      const dotFill = hasRain ? "#4b5c72" : hasSunny ? "#4d739c" : "#5c708a";
 
-      const slotsHtml = day.slots
-        .map((s) => {
-          const slotClass = s.type === "rain" ? "is-rain" : s.type === "sunny" ? "is-sunny" : "";
-          return `
-            <div class="weather-slot ${slotClass}">
-              <span class="weather-slot-label">${s.label}</span>
-              <span class="weather-slot-icon" aria-hidden="true">${s.icon}</span>
-              <span class="weather-slot-cond">${s.cond}</span>
-              <span class="weather-slot-temp">${s.temp}°C</span>
-            </div>
-          `;
-        })
+      const hoursRow = day.slots
+        .map((s) => `<span class="weather-hour-label">${s.hour}</span>`)
+        .join("");
+
+      const iconsRow = day.slots
+        .map((s) => `<span class="weather-hour-icon" aria-label="${s.cond}">${s.icon}</span>`)
+        .join("");
+
+      const curveSvg = buildTempCurveSvg(day.slots, dotFill);
+
+      const condRow = day.slots
+        .map(
+          (s) =>
+            `<span class="weather-cond-cell"><span class="weather-cond-pill is-${s.type}">${s.cond}</span></span>`
+        )
         .join("");
 
       return `
@@ -1707,9 +1709,19 @@ function renderWeatherCards(list, badgeText) {
               <span class="weather-row-date">${day.date}</span>
               <span class="weather-row-week">${day.week}</span>
             </div>
-            <span class="weather-row-range">${minT}° ~ ${maxT}°C</span>
+            <div class="weather-row-meta">
+              <span class="weather-row-range">${minT}° ~ ${maxT}°C</span>
+            </div>
           </div>
-          <div class="weather-slots-strip">${slotsHtml}</div>
+          <div class="weather-scroll-wrap">
+            <div class="weather-track">
+              <div class="weather-grid-9">${hoursRow}</div>
+              <div class="weather-grid-9">${iconsRow}</div>
+              ${curveSvg}
+              <div class="weather-grid-9">${condRow}</div>
+            </div>
+          </div>
+          <span class="weather-scroll-hint">← 左右滑动查看 06:00 – 22:00 →</span>
         </article>
       `;
     })
@@ -1737,16 +1749,14 @@ async function loadChongqingWeather() {
 
     let matchedDays = 0;
     const merged = TRIP_WEATHER_FALLBACK.map((day) => {
-      const liveSlots = WEATHER_TIME_SLOTS.map((slot) => {
-        const entry = byTime[`${day.iso}T${slot.hour}`];
+      const liveSlots = WEATHER_HOURS.map((hour) => {
+        const entry = byTime[`${day.iso}T${hour}`];
         if (!entry) return null;
-        const mapped = mapWmoWeather(entry.code);
+        const mapped = mapWmoWeather(entry.code, hour);
         return {
-          label: slot.label,
-          icon: mapped.icon,
-          cond: mapped.cond,
-          type: mapped.type,
-          temp: entry.temp
+          hour,
+          temp: entry.temp,
+          ...mapped
         };
       });
 

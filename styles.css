@@ -3223,37 +3223,29 @@ input {
 }
 
 /* ==========================================================================
-   天气预报：一天一行从上到下，每行横向展示早上到晚上温度与晴雨
+   天气预报：一天一行从上到下，仿参考图蓝灰天空底 + 每2小时温度曲线（06:00–22:00）
    ========================================================================== */
 .weather-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .weather-day-row {
-  background: var(--bg-card);
-  border: 2px solid var(--border-soft);
-  border-radius: var(--radius-lg);
-  padding: 14px 16px;
-  box-shadow: var(--shadow-soft);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.weather-day-row.is-rain {
-  border-left: 6px solid var(--accent-amap);
-  background: linear-gradient(90deg, #f5f9ff 0%, #ffffff 32%);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  color: #ffffff;
+  background: linear-gradient(180deg, #6e819b 0%, #5c708a 100%);
+  box-shadow: 0 8px 22px rgba(45, 62, 86, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
 }
 
 .weather-day-row.is-sunny {
-  border-left: 6px solid #e6a21e;
-  background: linear-gradient(90deg, #fffaf0 0%, #ffffff 32%);
+  background: linear-gradient(180deg, #5e86b0 0%, #4d739c 100%);
 }
 
-.weather-day-row.is-cloudy {
-  border-left: 6px solid var(--border-strong);
+.weather-day-row.is-rain {
+  background: linear-gradient(180deg, #607288 0%, #4b5c72 100%);
 }
 
 .weather-row-head {
@@ -3262,6 +3254,9 @@ input {
   justify-content: space-between;
   gap: 10px;
   flex-wrap: wrap;
+  padding: 12px 18px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .weather-row-date-wrap {
@@ -3271,97 +3266,128 @@ input {
 }
 
 .weather-row-date {
-  font-size: 1.08rem;
+  font-size: 1.06rem;
   font-weight: 900;
-  color: var(--ink-primary);
+  color: #ffffff;
+  letter-spacing: 0.02em;
 }
 
 .weather-row-week {
   font-size: 0.84rem;
-  font-weight: 800;
-  color: var(--ink-muted);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.82);
 }
 
-.weather-row-range {
-  font-size: 0.9rem;
-  font-weight: 900;
-  color: var(--accent-persimmon-dark);
-  background: var(--bg-soft-warm);
-  border: 1.5px solid #f0d7b5;
-  padding: 2px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.weather-slots-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.weather-row-meta {
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
 
-.weather-slot {
-  background: var(--bg-paper);
-  border: 1.5px solid var(--border-soft);
-  border-radius: 12px;
-  padding: 10px 6px;
-  text-align: center;
+.weather-row-range {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 3px 11px;
+  border-radius: var(--radius-pill);
+}
+
+.weather-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 10px 16px;
+}
+
+.weather-scroll-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+
+.weather-scroll-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.weather-track {
+  min-width: 648px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 4px;
+}
+
+.weather-grid-9 {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
   align-items: center;
-  gap: 3px;
+  text-align: center;
 }
 
-.weather-slot.is-rain {
-  background: #eef5ff;
-  border-color: #c2daf8;
+.weather-hour-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
 }
 
-.weather-slot.is-sunny {
-  background: #fff8e6;
-  border-color: #f3d796;
+.weather-hour-icon {
+  font-size: 1.55rem;
+  line-height: 1.3;
+  margin: 4px 0 2px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.16));
 }
 
-.weather-slot-label {
-  font-size: 0.78rem;
+.weather-curve-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.weather-cond-cell {
+  display: flex;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.weather-cond-pill {
+  display: inline-block;
+  min-width: 34px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.74rem;
   font-weight: 900;
-  color: var(--ink-muted);
+  line-height: 1.3;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.22);
 }
 
-.weather-slot-icon {
-  font-size: 1.45rem;
-  line-height: 1.15;
+.weather-cond-pill.is-sunny {
+  background: #f5a623;
+  color: #ffffff;
 }
 
-.weather-slot-cond {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--ink-secondary);
+.weather-cond-pill.is-cloudy {
+  background: #47c947;
+  color: #ffffff;
 }
 
-.weather-slot-temp {
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--ink-primary);
+.weather-cond-pill.is-rain {
+  background: #339af0;
+  color: #ffffff;
+}
+
+.weather-scroll-hint {
+  display: block;
+  text-align: right;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.68);
+  padding: 0 14px 8px;
 }
 
 @media (min-width: 720px) {
-  .weather-day-row {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .weather-row-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    min-width: 145px;
-    flex-shrink: 0;
-  }
-
-  .weather-slots-strip {
-    flex: 1;
-    gap: 10px;
+  .weather-scroll-hint {
+    display: none;
   }
 }
 
