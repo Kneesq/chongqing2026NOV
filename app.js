@@ -106,16 +106,18 @@ const ITINERARY_DAYS = [
         tip: "避坑提醒：洪崖洞所有电梯和通道均免费，无需进景区挤电梯，也不要相信收费快速通道。"
       }
     ],
-    dining: [
-      {
-        name: "尘香传统川菜馆（解放碑14年老店）",
-        detail: "长辈友好温和川菜：推荐鸡豆花、宫保虾球、鱼香肉丝、手工汤圆。"
-      },
-      {
-        name: "三条凳饭店（磨坊巷居民楼下）",
-        detail: "暖胃家常菜：招牌软烂蹄花汤、红烧肘子，口感软糯不辣。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "海口美兰机场 T2 候机简餐", detail: "11月30日中午 12:00 起飞前在 T2 航站楼轻松吃碗热汤粉或海南粉垫肚子。" }
+      ],
+      lunch: [
+        { name: "航班机餐 / 抵达后轻食", detail: "14:15 抵达重庆江北机场 T3，放好行李后可在八一好吃街尝少量小吃垫胃。" }
+      ],
+      dinner: [
+        { name: "尘香传统川菜馆（解放碑14年老店）", mapQuery: "尘香传统川菜馆 解放碑", detail: "长辈友好温和川菜：推荐鸡豆花、宫保虾球、鱼香肉丝、手工汤圆。" },
+        { name: "三条凳饭店（磨坊巷居民楼下）", mapQuery: "三条凳饭店 解放碑", detail: "暖胃家常菜：招牌软烂蹄花汤、红烧肘子，口感软糯不辣。" }
+      ]
+    },
     mapRoute: {
       color: "#1d68c4",
       subtitle: "住宿出发 ➔ 小什字站 ➔ 1号线至较场口(解放碑) ➔ 白象居 ➔ 洪崖洞 ➔ 6号线过江至大剧院江滩公园",
@@ -211,16 +213,19 @@ const ITINERARY_DAYS = [
         tip: "省力设施：园内览月台旁、比利时大使馆旧址旁、福门天桥等处均设有便民直梯和扶梯。"
       }
     ],
-    dining: [
-      {
-        name: "老街江景茶馆歇脚 & 海关荤豆花",
-        detail: "三鲜小锅约30元，含猪肝、瘦肉、豆芽、番茄、鹌鹑蛋等，汤鲜温润，长辈很爱吃。"
-      },
-      {
-        name: "南大人烤肉（南滨路一线江景）",
-        detail: "营业时间 16:00–24:00，边吃烤肉边赏南滨路一线夜景。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "鬼包子 / 范孃孃糯米团（解放碑片区）", mapQuery: "鬼包子", detail: "酱肉包配热小米粥，或手工糯米裹黄豆粉白糖夹油条，暖胃好消化。" }
+      ],
+      lunch: [
+        { name: "海关荤豆花（南岸 / 市区）", mapQuery: "海关荤豆花", detail: "三鲜小锅约30元，含猪肝、瘦肉、豆芽、番茄、鹌鹑蛋等，汤鲜温润，长辈很爱吃。" },
+        { name: "下浩里 / 龙门浩江景茶馆", mapQuery: "下浩里老街", detail: "逛老街累了随时进江景茶馆喝杯热茶歇脚吃点心。" }
+      ],
+      dinner: [
+        { name: "南大人烤肉（南滨路一线江景）", mapQuery: "南大人烤肉 南滨路", detail: "营业时间 16:00–24:00，边吃烤肉边赏南滨路一线夜景。" },
+        { name: "弹子石老街江湖菜 / 清汤鱼", mapQuery: "弹子石老街", detail: "老街内有多家川菜与清汤鱼馆，可按长辈口味点不辣或微辣。" }
+      ]
+    },
     mapRoute: {
       color: "#d95f24",
       subtitle: "住宿出发 ➔ 湖广会馆 ➔ 长江索道过江 ➔ 下浩里/龙门浩 ➔ 上新街站(环线) ➔ 弹子石老街",
@@ -297,12 +302,17 @@ const ITINERARY_DAYS = [
         tip: "省力贴士：龚滩古镇沿主街青石板路慢行即可，避开陡峭小巷台阶。"
       }
     ],
-    dining: [
-      {
-        name: "龚滩古镇地方风味餐馆",
-        detail: "推荐品尝鲜嫩的乌江鱼、土家老腊肉等地方特色菜（点单可嘱咐少辣或清汤）。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "民宿附近早点打包上车", mapQuery: "小什字早餐", detail: "早起出发前买热包子、豆浆、鸡蛋，包车路上吃更轻松。" }
+      ],
+      lunch: [
+        { name: "龚滩古镇 · 乌江鱼地方风味馆", mapQuery: "龚滩古镇乌江鱼", detail: "推荐品尝鲜嫩的乌江鱼、土家老腊肉与青菜豆腐汤（可嘱咐清汤或少辣）。" }
+      ],
+      dinner: [
+        { name: "武隆仙女山镇 · 热汤羊肉 / 土家菜", mapQuery: "武隆仙女山镇", detail: "抵达仙女山镇后吃顿热乎乎的羊肉汤锅或清炒时蔬，暖身解乏。" }
+      ]
+    },
     mapRoute: {
       color: "#1f8a5b",
       subtitle: "渝东南乌江山水包车+游船线（解放碑出发 ➔ 彭水万足码头 ➔ 乘船至龚滩古镇 ➔ 武隆仙女山镇）",
@@ -372,16 +382,17 @@ const ITINERARY_DAYS = [
         tip: "备选夜游：若体力充沛且当晚续住武隆，可在镇上吃过晚饭后包车前往观看露天实景演出《印象武隆》（注意山谷夜间防风保暖）。"
       }
     ],
-    dining: [
-      {
-        name: "午餐：仙女山镇 · 武隆碗碗羊肉",
-        detail: "热乎鲜香的本地招牌羊肉，暖胃又补体力，非常适合山区微凉天气。"
-      },
-      {
-        name: "晚餐：德福火锅（七星岗店）",
-        detail: "二十多年居民楼老店，锅底免费！耙鸡脚、耙牛肉软烂入味很适合长辈，记得点鸳鸯锅。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "仙女山镇酒店 / 镇上热粥面条", mapQuery: "武隆仙女山镇", detail: "进景区前吃饱热乎早餐，山区微凉多喝热水。" }
+      ],
+      lunch: [
+        { name: "仙女山镇 · 武隆碗碗羊肉", mapQuery: "武隆碗碗羊肉 仙女山镇", detail: "热乎鲜香的本地招牌羊肉，暖胃又补体力，非常适合山区微凉天气。" }
+      ],
+      dinner: [
+        { name: "德福火锅（七星岗店）", mapQuery: "德福火锅七星岗店", detail: "二十多年居民楼老店，锅底免费！耙鸡脚、耙牛肉软烂入味很适合长辈，记得点鸳鸯锅。" }
+      ]
+    },
     mapRoute: {
       color: "#6c3ec7",
       subtitle: "武隆喀斯特奇观 ➔ 返程重庆市区（游客中心 ➔ 天生三桥 ➔ 仙女山小火车 ➔ 德福火锅 ➔ 民宿）",
@@ -456,16 +467,18 @@ const ITINERARY_DAYS = [
         }
       }
     ],
-    dining: [
-      {
-        name: "午餐：李子坝梁山鸡（公园二鸡哥店）",
-        detail: "看完轻轨穿楼步行可达！药膳江湖菜，芋儿一抿就化，可点微辣。"
-      },
-      {
-        name: "晚餐：观音桥美食街 或 王胖娃面",
-        detail: "王胖娃面推荐现炒番茄杂酱面、莲藕抄手，清爽不辣，长辈吃着很舒服。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "重庆素小面 / 豌杂面（民宿周边）", mapQuery: "小什字小面", detail: "素小面约 7–10 元，可嘱咐微辣或不辣，开启活力一天。" }
+      ],
+      lunch: [
+        { name: "李子坝梁山鸡（公园二鸡哥店）", mapQuery: "李子坝梁山鸡", detail: "看完轻轨穿楼步行可达！药膳江湖菜，芋儿一抿就化，可点微辣。" }
+      ],
+      dinner: [
+        { name: "王胖娃面（现炒番茄杂酱面 / 莲藕抄手）", mapQuery: "王胖娃面", detail: "酸甜鲜香、清爽不辣，长辈吃着很舒服。" },
+        { name: "观音桥美食街 & 李若桃酸奶", mapQuery: "观音桥好吃街", detail: "逛商圈顺便尝鲜小吃，配一杯白糯米手作酸奶清爽解腻。" }
+      ]
+    },
     mapRoute: {
       color: "#c75a16",
       subtitle: "住宿出发 ➔ 小什字站(1号线) ➔ 鹅岭站 ➔ 李子坝站(2号线) ➔ 曾家岩站/三峡博物馆 ➔ 观音桥",
@@ -527,16 +540,17 @@ const ITINERARY_DAYS = [
         tags: [{ text: "次日 08:00 出发机场", type: "book" }]
       }
     ],
-    dining: [
-      {
-        name: "早餐推荐：鬼包子 / 范孃孃糯米团",
-        detail: "早起顺路吃个酱肉包配热小米粥，或手工糯米裹黄豆粉白糖夹酥脆油条，暖心满足。"
-      },
-      {
-        name: "晚餐推荐：解放碑老店聚餐",
-        detail: "可在尘香传统川菜馆或三条凳饭店吃一顿暖胃告别晚餐。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "鬼包子 / 范孃孃糯米团", mapQuery: "鬼包子", detail: "自然醒后吃个酱肉包配热小米粥，或手工糯米团，暖心满足。" }
+      ],
+      lunch: [
+        { name: "三条凳饭店 / 解放碑家常菜", mapQuery: "三条凳饭店 解放碑", detail: "采买特产前吃顿软烂蹄花汤与家常炒菜，轻松舒服。" }
+      ],
+      dinner: [
+        { name: "尘香传统川菜馆 / 告别老火锅", mapQuery: "尘香传统川菜馆 解放碑", detail: "返程前一晚在解放碑老店聚餐，吃顿大家都爱吃的告别晚餐。" }
+      ]
+    },
     mapRoute: {
       color: "#1c7ed6",
       subtitle: "住宿出发 ➔ 小什字站(1号线) ➔ 较场口站/大型超市 ➔ 八一好吃街",
@@ -589,12 +603,17 @@ const ITINERARY_DAYS = [
         tags: [{ text: "19:40 抵达槟城", type: "ticket" }]
       }
     ],
-    dining: [
-      {
-        name: "出发前简餐 & 机场休息",
-        detail: "可在民宿附近买热包子/豆浆路上吃，或在江北机场 T3 候机厅吃碗热汤面。"
-      }
-    ],
+    dining: {
+      breakfast: [
+        { name: "民宿附近早点 / 江北机场 T3 热汤面", mapQuery: "重庆江北国际机场T3航站楼", detail: "08:00 出发前买热包子豆浆，或到 T3 候机厅吃碗热汤面。" }
+      ],
+      lunch: [
+        { name: "海口美兰机场 T2 中转午餐", detail: "13:15 抵达海口 T2 中转 3 小时，可在航站楼内悠闲吃顿海南鸡饭或汤粉。" }
+      ],
+      dinner: [
+        { name: "航班机餐 / 19:40 返抵槟城晚餐", detail: "平安回到槟城后再吃顿熟悉的本地宵夜或回家休息。" }
+      ]
+    },
     mapRoute: {
       color: "#2e7350",
       subtitle: "返程送机路线（湖广·富山美宿 ➔ 重庆江北国际机场 T3 航站楼）",
@@ -965,6 +984,67 @@ async function fetchRoadSegmentGcj(stopA, stopB, profile = "driving") {
   }
 }
 
+const STORAGE_KEY_HIDDEN_STOPS = "cq2026_hidden_stops_v1";
+
+function loadHiddenStopsMap() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_HIDDEN_STOPS) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveHiddenStopsMap(map) {
+  try {
+    localStorage.setItem(STORAGE_KEY_HIDDEN_STOPS, JSON.stringify(map));
+  } catch {
+    // ignore
+  }
+}
+
+function getHiddenStopsForDay(dayNum) {
+  const map = loadHiddenStopsMap();
+  const arr = map[String(dayNum)];
+  return Array.isArray(arr) ? arr : [];
+}
+
+function hideStopForDay(dayNum, stopIdx) {
+  const map = loadHiddenStopsMap();
+  const key = String(dayNum);
+  const current = Array.isArray(map[key]) ? map[key] : [];
+  if (!current.includes(stopIdx)) {
+    current.push(stopIdx);
+    map[key] = current;
+    saveHiddenStopsMap(map);
+  }
+}
+
+function restoreLastStopForDay(dayNum) {
+  const map = loadHiddenStopsMap();
+  const key = String(dayNum);
+  const current = Array.isArray(map[key]) ? map[key] : [];
+  if (current.length > 0) {
+    current.pop();
+    map[key] = current;
+    saveHiddenStopsMap(map);
+  }
+}
+
+function restoreAllStopsForDay(dayNum) {
+  const map = loadHiddenStopsMap();
+  delete map[String(dayNum)];
+  saveHiddenStopsMap(map);
+}
+
+function buildTeardropPinSvg(num, fillColor) {
+  return `
+    <svg class="map-teardrop-svg" viewBox="0 0 36 46" width="34" height="44" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 44 C18 44 4 28.5 4 17.5 C4 9.5 10.3 3 18 3 C25.7 3 32 9.5 32 17.5 C32 28.5 18 44 18 44 Z" fill="${fillColor}" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round" />
+      <text x="18" y="22.5" text-anchor="middle" fill="#ffffff" font-size="15.5" font-weight="900" font-family="Noto Sans SC, PingFang SC, sans-serif">${num}</text>
+    </svg>
+  `;
+}
+
 function renderDayRouteMap(dayData) {
   if (activeDayMap) {
     activeDayMap.remove();
@@ -1007,8 +1087,12 @@ function renderDayRouteMap(dayData) {
   });
   amapTile.addTo(map);
 
-  // 分段绘制路线：步行/驾车沿真实马路实线，地铁路线用对应地铁官方色虚线，索道/游船用虚线
+  // 根据已隐藏的站点筛选显示路线与倒立水滴数字标点
+  const hiddenSet = new Set(getHiddenStopsForDay(dayData.day));
+
+  // 分段绘制路线：仅显示未完全隐藏的路段（或两头均未隐藏的路段）
   for (let i = 0; i < gcjPoints.length - 1; i += 1) {
+    if (hiddenSet.has(i) || hiddenSet.has(i + 1)) continue;
     const p1 = gcjPoints[i];
     const p2 = gcjPoints[i + 1];
     const seg = (segments && segments[i]) || { mode: "car" };
@@ -1043,37 +1127,45 @@ function renderDayRouteMap(dayData) {
     }
   }
 
-  // 绘制干净的编号站点标记：起点标「1 起点」，地铁站带 🚇，后续依次 2、3、4...
-  const markers = [];
+  // 地图上只放倒立水滴形数字标点（1、2、3、4...），清爽不遮挡路网
+  const markers = {};
+  const visiblePoints = [];
   stops.forEach((stop, idx) => {
+    if (hiddenSet.has(idx)) return;
     const pos = gcjPoints[idx];
-    const isStart = idx === 0;
-    const pillBg = isStart ? "#d24d33" : stop.isMetro ? "#1f6feb" : color;
-    const startTag = isStart ? `<span class="map-start-tag">起点</span>` : "";
-    const metroPrefix = stop.isMetro && !isStart ? `<span aria-hidden="true">🚇</span>` : "";
+    visiblePoints.push(pos);
+    const isFirstVisible = visiblePoints.length === 1;
+    const pinColor = isFirstVisible ? "#d24d33" : stop.isMetro ? "#1f6feb" : color;
 
     const stopIcon = L.divIcon({
-      className: "map-stop-icon-wrap",
-      html: `<div class="map-stop-pill ${isStart ? "is-start" : ""}" style="background:${pillBg};"><span class="map-stop-num" style="color:${pillBg};">${idx + 1}</span>${startTag}${metroPrefix}<span>${stop.name}</span></div>`,
-      iconSize: [0, 0]
+      className: "map-teardrop-wrap",
+      html: buildTeardropPinSvg(idx + 1, pinColor),
+      iconSize: [34, 44],
+      iconAnchor: [17, 43],
+      popupAnchor: [0, -38]
     });
 
     const popupHtml = `
-      <div class="map-popup-title">${isStart ? "🚩 起点 · " : ""}${idx + 1}. ${stop.name}</div>
+      <div class="map-popup-title">${idx + 1}. ${stop.name}</div>
       <p class="map-popup-note">${stop.note}</p>
       ${stop.metro ? `<div class="map-popup-metro">🚇 ${stop.metro}</div>` : ""}
       <a class="map-popup-link" href="${buildAmapUrl(stop.query || stop.name)}" target="_blank" rel="noopener noreferrer">🗺️ 在高德地图打开</a>
     `;
 
-    const marker = L.marker(pos, { icon: stopIcon, zIndexOffset: isStart ? 700 : 500 + idx })
+    const marker = L.marker(pos, { icon: stopIcon, zIndexOffset: isFirstVisible ? 700 : 500 + idx })
       .addTo(map)
       .bindPopup(popupHtml);
-    markers.push({ marker, pos });
+    markers[idx] = { marker, pos };
   });
 
-  const bounds = L.latLngBounds(gcjPoints);
+  const fitTargets = visiblePoints.length ? visiblePoints : gcjPoints;
+  const bounds = L.latLngBounds(fitTargets);
   const fitAll = () => {
-    map.fitBounds(bounds, { padding: [52, 52], maxZoom: 15 });
+    if (fitTargets.length === 1) {
+      map.setView(fitTargets[0], 15);
+    } else {
+      map.fitBounds(bounds, { padding: [52, 52], maxZoom: 15 });
+    }
   };
   fitAll();
 
@@ -1212,53 +1304,88 @@ function renderDayPanel() {
     })
     .join("");
 
-  const diningHtml = data.dining
-    .map(
-      (d) => `
-      <div class="dining-item">
-        <h4 class="dining-name">🍽️ ${d.name}</h4>
-        <p class="dining-detail">${d.detail}</p>
-      </div>
-    `
-    )
-    .join("");
+  const MEAL_DEFS = [
+    { key: "breakfast", icon: "🌅", label: "早餐" },
+    { key: "lunch", icon: "☀️", label: "午餐" },
+    { key: "dinner", icon: "🌙", label: "晚餐" }
+  ];
+
+  const mealTabsHtml = MEAL_DEFS.map((m) => {
+    const count = (data.dining && data.dining[m.key] && data.dining[m.key].length) || 0;
+    return `
+      <button type="button" class="meal-tile-btn" data-meal-key="${m.key}" aria-expanded="false">
+        <span class="meal-tile-icon" aria-hidden="true">${m.icon}</span>
+        <span class="meal-tile-label">${m.label}</span>
+        <span class="meal-tile-sub">${count} 项推荐</span>
+      </button>
+    `;
+  }).join("");
 
   const mapRoute = data.mapRoute;
-  const legendHtml = mapRoute
+  const hiddenList = mapRoute ? getHiddenStopsForDay(data.day) : [];
+  const hiddenSet = new Set(hiddenList);
+
+  const visibleStops = mapRoute
     ? mapRoute.stops
-        .map((stop, idx) => {
-          const isStart = idx === 0;
-          const badgeBg = isStart ? "#d24d33" : mapRoute.color;
-          return `
-            <div class="map-legend-row">
-              <button type="button" class="map-legend-stop" data-stop-idx="${idx}">
-                <div class="legend-stop-main">
-                  <span class="legend-num" style="background:${badgeBg};">${idx + 1}</span>
-                  <div>
-                    <span class="legend-name">${isStart ? "🚩 起点 · " : ""}${stop.name}</span>
-                    <span class="legend-sub">${stop.metro ? `🚇 ${stop.metro} · ` : ""}${stop.note}</span>
-                  </div>
+        .map((stop, idx) => ({ stop, idx }))
+        .filter(({ idx }) => !hiddenSet.has(idx))
+    : [];
+
+  const restoreBarHtml =
+    hiddenList.length > 0
+      ? `
+        <div class="map-restore-bar">
+          <span>已划走隐藏 ${hiddenList.length} 站</span>
+          <div class="map-restore-actions">
+            <button type="button" class="map-restore-btn" id="restoreLastStopBtn">↺ 恢复上一站</button>
+            <button type="button" class="map-restore-btn is-all" id="restoreAllStopsBtn">恢复全部</button>
+          </div>
+        </div>
+      `
+      : "";
+
+  const legendHtml = mapRoute
+    ? visibleStops.length > 0
+      ? visibleStops
+          .map(({ stop, idx }, visPos) => {
+            const isCurrentTop = visPos === 0;
+            const badgeBg = isCurrentTop ? "#d24d33" : stop.isMetro ? "#1f6feb" : mapRoute.color;
+            return `
+              <div class="map-legend-row" data-swipe-idx="${idx}">
+                <div class="map-legend-card ${isCurrentTop ? "is-next-stop" : ""}">
+                  <button type="button" class="map-legend-stop" data-stop-idx="${idx}">
+                    <div class="legend-stop-main">
+                      <span class="legend-num" style="background:${badgeBg};">${idx + 1}</span>
+                      <div>
+                        <span class="legend-name">${isCurrentTop ? "📍 当前/下一站 · " : ""}${stop.name}</span>
+                        <span class="legend-sub">${stop.metro ? `🚇 ${stop.metro} · ` : ""}${stop.note}</span>
+                      </div>
+                    </div>
+                  </button>
+                  <button type="button" class="stop-hide-btn" data-hide-idx="${idx}" title="此站已完成，隐藏它">
+                    ✓ 完成隐藏
+                  </button>
                 </div>
-                <span class="amap-btn amap-btn-sm">定位查看</span>
-              </button>
-            </div>
-          `;
-        })
-        .join("")
+              </div>
+            `;
+          })
+          .join("")
+      : `<p class="ledger-empty">本日全部站点已完成并隐藏 🎉 点上方「恢复全部」可重新查看</p>`
     : "";
 
   const mapSectionHtml = mapRoute
     ? `
       <section class="day-map-section" aria-label="本日路线地图">
         <div class="day-map-head">
-          <h4 class="day-map-title">🗺️ Day ${data.day} 实景路线图（起点 1 → ${mapRoute.stops.length}）</h4>
+          <h4 class="day-map-title">🗺️ Day ${data.day} 实景路线图（剩余 ${visibleStops.length} / ${mapRoute.stops.length} 站）</h4>
           <div class="day-map-tools">
             <button type="button" class="map-reset-btn" id="resetMapBoundsBtn">🔄 恢复全景视野</button>
           </div>
         </div>
         <div id="dayRouteMap" class="day-map-canvas" role="region" aria-label="${mapRoute.subtitle}"></div>
         <div class="map-legend">
-          <p class="map-legend-hint">🖱️ 鼠标在地图内可直接滚轮放大/缩小，移出地图外正常上下滑动；点击下方站点可快速定位：</p>
+          <p class="map-legend-hint">💧 地图中倒立水滴仅标数字，详细站名见下方；某站结束后可<strong>点「完成隐藏」或向左划走</strong>，下一站会自动顶到最上方：</p>
+          ${restoreBarHtml}
           <div class="map-legend-list">${legendHtml}</div>
         </div>
       </section>
@@ -1272,22 +1399,28 @@ function renderDayPanel() {
       <div class="route-trail" aria-label="当日路线">${routeHtml}</div>
     </div>
 
-    <div class="driver-box" aria-label="司机精准导航定位">
-      <div class="driver-box-header">
-        <h4 class="driver-box-title"><span aria-hidden="true">🚐</span> 司机精准导航定位（高德地图 / 一键复制）</h4>
-        <button type="button" class="copy-all-btn" data-copy-all="${allPinsSummary}">
-          一键复制本日全部定位
-        </button>
+    <details class="driver-box-details" aria-label="司机精准导航定位">
+      <summary class="driver-box-summary">
+        <span class="driver-box-title"><span aria-hidden="true">🚐</span> 司机精准导航定位（高德地图 / 一键复制）</span>
+        <span class="driver-summary-pill">共 ${data.driverPins.length} 个 · 点击展开</span>
+      </summary>
+      <div class="driver-box-body">
+        <div class="driver-body-toolbar">
+          <button type="button" class="copy-all-btn" data-copy-all="${allPinsSummary}">
+            📋 一键复制本日全部定位
+          </button>
+        </div>
+        <div class="driver-list">${driverHtml}</div>
       </div>
-      <div class="driver-list">${driverHtml}</div>
-    </div>
+    </details>
 
     <h4 class="sub-heading"><span aria-hidden="true">🕒</span> 时间线、地铁站指引与景点亮点</h4>
     <div class="timeline">${timelineHtml}</div>
 
     <div class="day-dining">
-      <h4 class="sub-heading"><span aria-hidden="true">🍲</span> 本日餐饮推荐</h4>
-      <div class="dining-list">${diningHtml}</div>
+      <h4 class="sub-heading"><span aria-hidden="true">🍲</span> 本日餐饮推荐（点击早 / 午 / 晚餐查看）</h4>
+      <div class="meal-tiles-grid" id="mealTilesGrid">${mealTabsHtml}</div>
+      <div class="meal-detail-panel" id="mealDetailPanel" hidden></div>
     </div>
 
     ${mapSectionHtml}
@@ -1300,6 +1433,116 @@ function renderDayPanel() {
   const copyAllBtn = panel.querySelector(".copy-all-btn");
   if (copyAllBtn) {
     copyAllBtn.addEventListener("click", () => copyText(copyAllBtn.dataset.copyAll));
+  }
+
+  // 本日餐饮：点击 早餐 / 午餐 / 晚餐 展开或收起推荐餐厅
+  let openedMealKey = null;
+  const mealDetailPanel = panel.querySelector("#mealDetailPanel");
+  panel.querySelectorAll(".meal-tile-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.mealKey;
+      if (openedMealKey === key) {
+        openedMealKey = null;
+        btn.classList.remove("is-active");
+        btn.setAttribute("aria-expanded", "false");
+        if (mealDetailPanel) {
+          mealDetailPanel.hidden = true;
+          mealDetailPanel.innerHTML = "";
+        }
+        return;
+      }
+
+      openedMealKey = key;
+      panel.querySelectorAll(".meal-tile-btn").forEach((b) => {
+        const active = b.dataset.mealKey === key;
+        b.classList.toggle("is-active", active);
+        b.setAttribute("aria-expanded", String(active));
+      });
+
+      const items = (data.dining && data.dining[key]) || [];
+      const mealDef = MEAL_DEFS.find((m) => m.key === key);
+      if (mealDetailPanel) {
+        mealDetailPanel.innerHTML = items.length
+          ? `
+            <div class="dining-list">
+              ${items
+                .map(
+                  (d) => `
+                <div class="dining-item">
+                  <div class="dining-item-head">
+                    <h4 class="dining-name">${mealDef ? mealDef.icon : "🍽️"} ${d.name}</h4>
+                    ${
+                      d.mapQuery
+                        ? `<a class="amap-btn amap-btn-sm" href="${buildAmapUrl(d.mapQuery)}" target="_blank" rel="noopener noreferrer">🗺️ 高德搜店</a>`
+                        : ""
+                    }
+                  </div>
+                  <p class="dining-detail">${d.detail}</p>
+                </div>
+              `
+                )
+                .join("")}
+            </div>
+          `
+          : `<p class="ledger-empty">该餐暂无特别推荐</p>`;
+        mealDetailPanel.hidden = false;
+      }
+    });
+  });
+
+  // 站点隐藏（点击按钮或手机左滑）与恢复事件
+  const handleHideStop = (idx) => {
+    hideStopForDay(data.day, idx);
+    renderDayPanel();
+    showToast(`已隐藏第 ${idx + 1} 站，下一站已移至最上方`);
+  };
+
+  panel.querySelectorAll(".stop-hide-btn").forEach((btn) => {
+    btn.addEventListener("click", () => handleHideStop(Number(btn.dataset.hideIdx)));
+  });
+
+  panel.querySelectorAll(".map-legend-row[data-swipe-idx]").forEach((row) => {
+    let startX = 0;
+    let startY = 0;
+    row.addEventListener(
+      "touchstart",
+      (e) => {
+        if (!e.touches[0]) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
+    row.addEventListener(
+      "touchend",
+      (e) => {
+        if (!e.changedTouches[0]) return;
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = Math.abs(e.changedTouches[0].clientY - startY);
+        if (dx < -65 && dy < 45) {
+          handleHideStop(Number(row.dataset.swipeIdx));
+        }
+      },
+      { passive: true }
+    );
+  });
+
+  const restoreLastBtn = panel.querySelector("#restoreLastStopBtn");
+  if (restoreLastBtn) {
+    restoreLastBtn.addEventListener("click", () => {
+      restoreLastStopForDay(data.day);
+      renderDayPanel();
+      showToast("已恢复上一站");
+    });
+  }
+
+  const restoreAllBtn = panel.querySelector("#restoreAllStopsBtn");
+  if (restoreAllBtn) {
+    restoreAllBtn.addEventListener("click", () => {
+      restoreAllStopsForDay(data.day);
+      renderDayPanel();
+      showToast("已恢复本日全部站点");
+    });
   }
 
   const prevBtn = document.getElementById("prevDayBtn");

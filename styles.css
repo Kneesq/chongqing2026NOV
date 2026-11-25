@@ -3542,3 +3542,238 @@ input {
   border-radius: var(--radius-pill);
   white-space: nowrap;
 }
+
+/* ==========================================================================
+   司机导航折叠卡 + 本日餐饮三格（早/午/晚） + 倒立水滴标点与划走隐藏站点
+   ========================================================================== */
+.driver-box-details {
+  background: var(--accent-honey-bg);
+  border: 2.5px solid var(--accent-honey-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.driver-box-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.driver-box-summary::-webkit-details-marker {
+  display: none;
+}
+
+.driver-summary-pill {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #7c4700;
+  background: #fff;
+  border: 1.5px solid var(--accent-honey-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.driver-box-details[open] .driver-summary-pill {
+  background: var(--accent-honey);
+  color: #fff;
+  border-color: var(--accent-honey);
+}
+
+.driver-box-body {
+  padding: 0 16px 16px;
+  border-top: 2px dashed var(--accent-honey-border);
+}
+
+.driver-body-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 0;
+}
+
+/* 本日餐饮三格：早餐 / 午餐 / 晚餐 */
+.meal-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.meal-tile-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 12px 8px;
+  border-radius: var(--radius-md);
+  border: 2px solid #b9ddc4;
+  background: #ffffff;
+  color: var(--ink-primary);
+  cursor: pointer;
+  transition: transform 0.14s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.meal-tile-btn:hover {
+  border-color: var(--accent-sage);
+  transform: translateY(-1px);
+}
+
+.meal-tile-btn.is-active {
+  background: var(--accent-sage);
+  border-color: var(--accent-sage-dark);
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(46, 115, 80, 0.22);
+}
+
+.meal-tile-icon {
+  font-size: 1.45rem;
+  line-height: 1.1;
+}
+
+.meal-tile-label {
+  font-size: 1.04rem;
+  font-weight: 900;
+}
+
+.meal-tile-sub {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.meal-tile-btn.is-active .meal-tile-sub {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.meal-detail-panel {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px dashed #bfe0c9;
+  animation: panelFadeIn 0.18s ease;
+}
+
+.meal-detail-panel[hidden] {
+  display: none !important;
+}
+
+.dining-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+/* 地图倒立水滴数字标点 */
+.map-teardrop-wrap {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-teardrop-svg {
+  display: block;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.32));
+  transition: transform 0.15s ease;
+}
+
+.map-teardrop-wrap:hover .map-teardrop-svg {
+  transform: scale(1.12);
+}
+
+/* 地图下方：恢复栏与可隐藏/左滑站点行 */
+.map-restore-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--bg-soft-warm);
+  border: 1.5px solid #efd5b0;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+}
+
+.map-restore-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.map-restore-btn {
+  border: 1.5px solid var(--border-strong);
+  background: #fff;
+  color: var(--ink-primary);
+  border-radius: var(--radius-pill);
+  padding: 4px 11px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.map-restore-btn:hover {
+  border-color: var(--accent-persimmon);
+  color: var(--accent-persimmon);
+}
+
+.map-restore-btn.is-all {
+  background: var(--accent-persimmon);
+  border-color: var(--accent-persimmon);
+  color: #fff;
+}
+
+.map-legend-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 6px;
+  border-radius: 14px;
+  border: 2px solid var(--border-soft);
+  background: var(--bg-paper);
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.map-legend-card.is-next-stop {
+  background: #fff6f3;
+  border-color: #f0b5a4;
+}
+
+.map-legend-card .map-legend-stop {
+  border: none;
+  background: transparent;
+  padding: 6px 8px;
+  flex: 1;
+}
+
+.map-legend-card .map-legend-stop:hover {
+  background: transparent;
+}
+
+.stop-hide-btn {
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: 6px 11px;
+  border-radius: 10px;
+  border: 1.5px solid #b5dbc0;
+  background: var(--bg-soft-sage);
+  color: var(--accent-sage-dark);
+  font-size: 0.8rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stop-hide-btn:hover {
+  background: var(--accent-sage);
+  border-color: var(--accent-sage);
+  color: #fff;
+}
