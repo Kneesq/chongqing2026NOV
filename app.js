@@ -928,8 +928,29 @@ function applyFontScale(scale) {
 }
 
 /* ==========================================================================
-   渲染每日底部高德实景路线图（小红书风标号站点 + 黄色交通耗时标签）
+   渲染每日底部高德实景路线图（清晰编号起点 1 → 2 → 3 + 沿真实马路/轨交连线）
    ========================================================================== */
+const roadRouteCache = {};
+
+async function fetchRoadSegmentGcj(stopA, stopB) {
+  const key = `${stopA.lng},${stopA.lat}->${stopB.lng},${stopB.lat}`;
+  if (roadRouteCache[key]) return roadRouteCache[key];
+
+  try {
+    const url = `https://router.project-osrm.org/route/v1/driving/${stopA.lng},${stopA.lat};${stopB.lng},${stopB.lat}?overview=full&geometries=geojson`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const coords = json && json.routes && json.routes[0] && json.routes[0].geometry && json.routes[0].geometry.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) return null;
+    const gcjLine = coords.map(([lng, lat]) => wgs84ToGcj02(lat, lng));
+    roadRouteCache[key] = gcjLine;
+    return gcjLine;
+  } catch {
+    return null;
+  }
+}
+
 function renderDayRouteMap(dayData) {
   if (activeDayMap) {
     activeDayMap.remove();
@@ -942,8 +963,9 @@ function renderDayRouteMap(dayData) {
   const { color, stops, segments } = dayData.mapRoute;
   const gcjPoints = stops.map((s) => wgs84ToGcj02(s.lat, s.lng));
 
+  // 鼠标在地图内滚轮缩放，移出地图外恢复页面正常上下滑动
   const map = L.map(mapEl, {
-    scrollWheelZoom: false,
+    scrollWheelZoom: true,
     zoomControl: true
   });
   activeDayMap = map;
@@ -971,58 +993,60 @@ function renderDayRouteMap(dayData) {
   });
   amapTile.addTo(map);
 
-  // 分段绘制路线折线 & 路段中点黄色耗时标签
+  // 分段绘制路线（不放文字标签遮挡画面；马路路段异步拉取真实道路轨迹，地铁/索道/游船用虚线）
   for (let i = 0; i < gcjPoints.length - 1; i += 1) {
     const p1 = gcjPoints[i];
     const p2 = gcjPoints[i + 1];
-    const seg = (segments && segments[i]) || { label: "", dashed: false };
+    const seg = (segments && segments[i]) || { dashed: false };
 
-    // 白色外描边增强在底图上的清晰度
-    L.polyline([p1, p2], {
+    const outlineLine = L.polyline([p1, p2], {
       color: "#ffffff",
-      weight: 9,
+      weight: 8,
       opacity: 0.9,
-      lineCap: "round"
+      lineCap: "round",
+      lineJoin: "round"
     }).addTo(map);
 
-    L.polyline([p1, p2], {
+    const routeLine = L.polyline([p1, p2], {
       color,
-      weight: 5,
+      weight: 4.5,
       opacity: 0.95,
-      dashArray: seg.dashed ? "10 8" : null,
-      lineCap: "round"
+      dashArray: seg.dashed ? "9 8" : null,
+      lineCap: "round",
+      lineJoin: "round"
     }).addTo(map);
 
-    if (seg.label) {
-      const midLat = (p1[0] + p2[0]) / 2;
-      const midLng = (p1[1] + p2[1]) / 2;
-      const segIcon = L.divIcon({
-        className: "map-seg-icon-wrap",
-        html: `<div class="map-seg-badge">${seg.label}</div>`,
-        iconSize: [0, 0]
+    if (!seg.dashed) {
+      fetchRoadSegmentGcj(stops[i], stops[i + 1]).then((roadCoords) => {
+        if (activeDayMap !== map || !roadCoords) return;
+        outlineLine.setLatLngs(roadCoords);
+        routeLine.setLatLngs(roadCoords);
       });
-      L.marker([midLat, midLng], { icon: segIcon, interactive: false, zIndexOffset: 200 }).addTo(map);
     }
   }
 
-  // 绘制带编号的彩色站点标签
+  // 绘制干净的编号站点标记：起点突出标出「1 起点」，后续依次 2、3、4...
   const markers = [];
   stops.forEach((stop, idx) => {
     const pos = gcjPoints[idx];
+    const isStart = idx === 0;
+    const pillBg = isStart ? "#d24d33" : color;
+    const startTag = isStart ? `<span class="map-start-tag">起点</span>` : "";
+
     const stopIcon = L.divIcon({
       className: "map-stop-icon-wrap",
-      html: `<div class="map-stop-pill" style="background:${color};"><span class="map-stop-num" style="color:${color};">${idx + 1}</span><span>${stop.name}</span></div>`,
+      html: `<div class="map-stop-pill ${isStart ? "is-start" : ""}" style="background:${pillBg};"><span class="map-stop-num" style="color:${pillBg};">${idx + 1}</span>${startTag}<span>${stop.name}</span></div>`,
       iconSize: [0, 0]
     });
 
     const popupHtml = `
-      <div class="map-popup-title">${idx + 1}. ${stop.name}</div>
+      <div class="map-popup-title">${isStart ? "🚩 起点 · " : ""}${idx + 1}. ${stop.name}</div>
       <p class="map-popup-note">${stop.note}</p>
       ${stop.metro ? `<div class="map-popup-metro">🚇 ${stop.metro}</div>` : ""}
       <a class="map-popup-link" href="${buildAmapUrl(stop.query || stop.name)}" target="_blank" rel="noopener noreferrer">🗺️ 在高德地图打开</a>
     `;
 
-    const marker = L.marker(pos, { icon: stopIcon, zIndexOffset: 500 + idx })
+    const marker = L.marker(pos, { icon: stopIcon, zIndexOffset: isStart ? 700 : 500 + idx })
       .addTo(map)
       .bindPopup(popupHtml);
     markers.push({ marker, pos });
@@ -1049,7 +1073,7 @@ function renderDayRouteMap(dayData) {
       const idx = Number(btn.dataset.stopIdx);
       const item = markers[idx];
       if (!item) return;
-      map.flyTo(item.pos, Math.max(map.getZoom(), 14), { duration: 0.6 });
+      map.flyTo(item.pos, Math.max(map.getZoom(), 15), { duration: 0.6 });
       item.marker.openPopup();
     });
   });
@@ -1184,21 +1208,20 @@ function renderDayPanel() {
   const legendHtml = mapRoute
     ? mapRoute.stops
         .map((stop, idx) => {
-          const seg = mapRoute.segments && mapRoute.segments[idx];
-          const segHtml = seg ? `<div class="legend-seg-arrow">↓ ${seg.label}</div>` : "";
+          const isStart = idx === 0;
+          const badgeBg = isStart ? "#d24d33" : mapRoute.color;
           return `
             <div class="map-legend-row">
               <button type="button" class="map-legend-stop" data-stop-idx="${idx}">
                 <div class="legend-stop-main">
-                  <span class="legend-num" style="background:${mapRoute.color};">${idx + 1}</span>
+                  <span class="legend-num" style="background:${badgeBg};">${idx + 1}</span>
                   <div>
-                    <span class="legend-name">${stop.name}</span>
+                    <span class="legend-name">${isStart ? "🚩 起点 · " : ""}${stop.name}</span>
                     <span class="legend-sub">${stop.metro ? `🚇 ${stop.metro} · ` : ""}${stop.note}</span>
                   </div>
                 </div>
                 <span class="amap-btn amap-btn-sm">定位查看</span>
               </button>
-              ${segHtml}
             </div>
           `;
         })
@@ -1209,14 +1232,14 @@ function renderDayPanel() {
     ? `
       <section class="day-map-section" aria-label="本日路线地图">
         <div class="day-map-head">
-          <h4 class="day-map-title">🗺️ Day ${data.day} 实景路线图（高德底图）</h4>
+          <h4 class="day-map-title">🗺️ Day ${data.day} 实景路线图（起点 1 → ${mapRoute.stops.length}）</h4>
           <div class="day-map-tools">
             <button type="button" class="map-reset-btn" id="resetMapBoundsBtn">🔄 恢复全景视野</button>
           </div>
         </div>
         <div id="dayRouteMap" class="day-map-canvas" role="region" aria-label="${mapRoute.subtitle}"></div>
         <div class="map-legend">
-          <p class="map-legend-hint">👆 点击下方任意站点，地图将自动居中放大并显示详情与高德导航入口：</p>
+          <p class="map-legend-hint">🖱️ 鼠标在地图内可直接滚轮放大/缩小，移出地图外正常上下滑动；点击下方站点可快速定位：</p>
           <div class="map-legend-list">${legendHtml}</div>
         </div>
       </section>

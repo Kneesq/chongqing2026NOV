@@ -1861,12 +1861,12 @@ input {
 .map-stop-pill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px 4px 5px;
-  border-radius: 9px;
+  gap: 4px;
+  padding: 3px 9px 3px 4px;
+  border-radius: 999px;
   color: #fff;
   font-weight: 900;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.2;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
@@ -1875,16 +1875,30 @@ input {
   cursor: pointer;
 }
 
+.map-stop-pill.is-start {
+  padding: 4px 10px 4px 4px;
+  font-size: 13.5px;
+  box-shadow: 0 0 0 3px rgba(210, 77, 51, 0.32), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.map-start-tag {
+  font-size: 11px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.24);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
 .map-stop-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
   background: #fff;
   font-weight: 900;
-  font-size: 13px;
+  font-size: 12.5px;
   flex-shrink: 0;
 }
 
