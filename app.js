@@ -1628,9 +1628,15 @@ function initMainTabs() {
 }
 
 /* ==========================================================================
-   二、重庆旅行天气预报（一天一行，06:00–22:00 每2小时温度曲线 + 晴雨）
+   二、重庆旅行天气预报（一天一行，06:00–24:00 每2小时温度曲线 + 晴雨）
    ========================================================================== */
-const WEATHER_HOURS = ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"];
+const WEATHER_HOURS = ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"];
+
+function getNextIsoDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(y, m - 1, d + 1);
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+}
 
 function buildFallbackDay(iso, date, week, temps, codes) {
   return {
@@ -1656,26 +1662,26 @@ function mapWmoWeather(code, hour = "12:00") {
 }
 
 const TRIP_WEATHER_FALLBACK = [
-  buildFallbackDay("2026-11-30", "11月30日", "周一", [10, 10, 12, 14, 15, 15, 13, 12, 11], [3, 2, 2, 1, 1, 2, 3, 3, 3]),
-  buildFallbackDay("2026-12-01", "12月1日", "周二", [9, 9, 10, 12, 13, 12, 11, 10, 9], [3, 3, 61, 61, 61, 61, 3, 3, 3]),
-  buildFallbackDay("2026-12-02", "12月2日", "周三", [8, 8, 10, 12, 13, 13, 11, 10, 9], [3, 3, 2, 2, 2, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-03", "12月3日", "周四", [8, 9, 11, 13, 15, 14, 12, 10, 9], [2, 2, 1, 0, 0, 1, 2, 3, 3]),
-  buildFallbackDay("2026-12-04", "12月4日", "周五", [9, 10, 12, 15, 17, 16, 14, 12, 10], [2, 1, 0, 0, 0, 0, 1, 2, 2]),
-  buildFallbackDay("2026-12-05", "12月5日", "周六", [9, 9, 10, 12, 13, 12, 11, 10, 9], [61, 61, 61, 61, 3, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-06", "12月6日", "周日", [8, 9, 11, 13, 15, 14, 12, 11, 9], [2, 2, 1, 0, 0, 1, 2, 2, 3])
+  buildFallbackDay("2026-11-30", "11月30日", "周一", [10, 10, 12, 14, 15, 15, 13, 12, 11, 10], [3, 2, 2, 1, 1, 2, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-01", "12月1日", "周二", [9, 9, 10, 12, 13, 12, 11, 10, 9, 8], [3, 3, 61, 61, 61, 61, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-02", "12月2日", "周三", [8, 8, 10, 12, 13, 13, 11, 10, 9, 8], [3, 3, 2, 2, 2, 3, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-03", "12月3日", "周四", [8, 9, 11, 13, 15, 14, 12, 10, 9, 8], [2, 2, 1, 0, 0, 1, 2, 3, 3, 3]),
+  buildFallbackDay("2026-12-04", "12月4日", "周五", [9, 10, 12, 15, 17, 16, 14, 12, 10, 9], [2, 1, 0, 0, 0, 0, 1, 2, 2, 2]),
+  buildFallbackDay("2026-12-05", "12月5日", "周六", [9, 9, 10, 12, 13, 12, 11, 10, 9, 8], [61, 61, 61, 61, 3, 3, 3, 3, 3, 3]),
+  buildFallbackDay("2026-12-06", "12月6日", "周日", [8, 9, 11, 13, 15, 14, 12, 11, 9, 8], [2, 2, 1, 0, 0, 1, 2, 2, 3, 3])
 ];
 
 function buildTempCurveSvg(slots, dotFillColor) {
-  const width = 648;
-  const height = 74;
+  const width = 680;
+  const height = 52;
   const colW = width / slots.length;
   const temps = slots.map((s) => s.temp);
   const minT = Math.min(...temps);
   const maxT = Math.max(...temps);
   const span = Math.max(maxT - minT, 4);
 
-  const yTop = 34;
-  const yBottom = 60;
+  const yTop = 24;
+  const yBottom = 42;
 
   const pts = slots.map((s, idx) => {
     const x = colW * (idx + 0.5);
@@ -1684,7 +1690,6 @@ function buildTempCurveSvg(slots, dotFillColor) {
     return { x, y, temp: s.temp };
   });
 
-  // 平滑二次/三次贝塞尔曲线连接每个 2 小时节点
   let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
   for (let i = 0; i < pts.length - 1; i += 1) {
     const p0 = pts[i];
@@ -1696,15 +1701,15 @@ function buildTempCurveSvg(slots, dotFillColor) {
   const dotsAndLabels = pts
     .map(
       (p) => `
-      <text x="${p.x.toFixed(1)}" y="${(p.y - 12).toFixed(1)}" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="800" font-family="Noto Sans SC, PingFang SC, sans-serif">${p.temp}°</text>
-      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.2" fill="${dotFillColor}" stroke="#ffffff" stroke-width="2.2" />
+      <text x="${p.x.toFixed(1)}" y="${(p.y - 10).toFixed(1)}" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="800" font-family="Noto Sans SC, PingFang SC, sans-serif">${p.temp}°</text>
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.6" fill="${dotFillColor}" stroke="#ffffff" stroke-width="2" />
     `
     )
     .join("");
 
   return `
     <svg class="weather-curve-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="${d}" fill="none" stroke="rgba(255,255,255,0.68)" stroke-width="2.2" stroke-linecap="round" />
+      <path d="${d}" fill="none" stroke="rgba(255,255,255,0.68)" stroke-width="2" stroke-linecap="round" />
       ${dotsAndLabels}
     </svg>
   `;
@@ -1757,13 +1762,13 @@ function renderWeatherCards(list, badgeText) {
           </div>
           <div class="weather-scroll-wrap">
             <div class="weather-track">
-              <div class="weather-grid-9">${hoursRow}</div>
-              <div class="weather-grid-9">${iconsRow}</div>
+              <div class="weather-grid-10">${hoursRow}</div>
+              <div class="weather-grid-10">${iconsRow}</div>
               ${curveSvg}
-              <div class="weather-grid-9">${condRow}</div>
+              <div class="weather-grid-10">${condRow}</div>
             </div>
           </div>
-          <span class="weather-scroll-hint">← 左右滑动查看 06:00 – 22:00 →</span>
+          <span class="weather-scroll-hint">← 左右滑动查看 06:00 – 24:00 →</span>
         </article>
       `;
     })
@@ -1791,8 +1796,12 @@ async function loadChongqingWeather() {
 
     let matchedDays = 0;
     const merged = TRIP_WEATHER_FALLBACK.map((day) => {
+      const nextIso = getNextIsoDate(day.iso);
       const liveSlots = WEATHER_HOURS.map((hour) => {
-        const entry = byTime[`${day.iso}T${hour}`];
+        const entry =
+          hour === "24:00"
+            ? byTime[`${nextIso}T00:00`] || byTime[`${day.iso}T23:00`]
+            : byTime[`${day.iso}T${hour}`];
         if (!entry) return null;
         const mapped = mapWmoWeather(entry.code, hour);
         return {

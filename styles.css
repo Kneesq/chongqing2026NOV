@@ -3237,20 +3237,20 @@ input {
 }
 
 /* ==========================================================================
-   天气预报：一天一行从上到下，仿参考图蓝灰天空底 + 每2小时温度曲线（06:00–22:00）
+   天气预报：一天一行从上到下，紧凑版蓝灰天空底 + 每2小时温度曲线（06:00–24:00）
    ========================================================================== */
 .weather-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
 }
 
 .weather-day-row {
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   color: #ffffff;
   background: linear-gradient(180deg, #6e819b 0%, #5c708a 100%);
-  box-shadow: 0 8px 22px rgba(45, 62, 86, 0.18);
+  box-shadow: 0 5px 14px rgba(45, 62, 86, 0.16);
   border: 1.5px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -3266,9 +3266,9 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  padding: 12px 18px 10px;
+  padding: 7px 14px 6px;
   background: rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
@@ -3276,18 +3276,18 @@ input {
 .weather-row-date-wrap {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 7px;
 }
 
 .weather-row-date {
-  font-size: 1.06rem;
+  font-size: 0.98rem;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: 0.02em;
 }
 
 .weather-row-week {
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.82);
 }
@@ -3295,26 +3295,26 @@ input {
 .weather-row-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .weather-row-range {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 900;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.16);
-  padding: 3px 11px;
+  padding: 2px 9px;
   border-radius: var(--radius-pill);
 }
 
 .weather-scroll-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 14px 10px 16px;
+  padding: 8px 8px 9px;
 }
 
 .weather-scroll-wrap::-webkit-scrollbar {
-  height: 6px;
+  height: 5px;
 }
 
 .weather-scroll-wrap::-webkit-scrollbar-thumb {
@@ -3323,32 +3323,32 @@ input {
 }
 
 .weather-track {
-  min-width: 648px;
+  min-width: 680px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
 }
 
-.weather-grid-9 {
+.weather-grid-10 {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   align-items: center;
   text-align: center;
 }
 
 .weather-hour-label {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
-  letter-spacing: 0.02em;
+  line-height: 1.15;
 }
 
 .weather-hour-icon {
-  font-size: 1.55rem;
-  line-height: 1.3;
-  margin: 4px 0 2px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.16));
+  font-size: 1.3rem;
+  line-height: 1.15;
+  margin: 1px 0 0;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.16));
 }
 
 .weather-curve-svg {
@@ -3361,17 +3361,17 @@ input {
 .weather-cond-cell {
   display: flex;
   justify-content: center;
-  padding-top: 2px;
+  padding-top: 0;
 }
 
 .weather-cond-pill {
   display: inline-block;
-  min-width: 34px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 0.74rem;
+  min-width: 30px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  font-size: 0.7rem;
   font-weight: 900;
-  line-height: 1.3;
+  line-height: 1.25;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.22);
 }
@@ -3394,9 +3394,9 @@ input {
 .weather-scroll-hint {
   display: block;
   text-align: right;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.68);
-  padding: 0 14px 8px;
+  padding: 0 12px 5px;
 }
 
 @media (min-width: 720px) {
