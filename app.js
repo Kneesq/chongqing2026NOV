@@ -38,6 +38,68 @@ function wgs84ToGcj02(lat, lng) {
 
 const ITINERARY_DAYS = [
   {
+    day: 0,
+    dayTag: "出发日",
+    dateLabel: "11月29日（周日）",
+    shortTitle: "海口转机住宿",
+    title: "出发日｜槟城飞海口 · 美兰机场 T2 转机",
+    route: ["20:45 槟城机场 HU478 起飞", "次日 00:10 抵达海口美兰 T2", "行李直挂无需提取", "前往中转住宿柜台休息"],
+    driverPins: [
+      {
+        spot: "去程出发机场",
+        pin: "槟城国际机场 (PEN)",
+        mapQuery: "槟城国际机场",
+        reason: "海南航空 HU478 于 20:45 起飞，建议提前 2.5–3 小时抵达办理值机与行李直挂重庆。"
+      },
+      {
+        spot: "海口中转机场",
+        pin: "海口美兰国际机场T2航站楼",
+        mapQuery: "海口美兰国际机场T2航站楼",
+        reason: "次日 00:10 抵达 T2 航站楼，中转 11 小时 50 分，次日 12:00 搭 HU7271 飞重庆。"
+      }
+    ],
+    timeline: [
+      {
+        time: "20:45 起飞",
+        title: "槟城国际机场 (PEN) ➔ 海口美兰国际机场 T2 (HAK)",
+        desc: "搭乘海南航空 HU478（波音 737 MAX 8，飞行 3h 25m）。值机时确认联程行李直挂重庆，海口中转无需提取及重新托运。",
+        tags: [
+          { text: "海南航空 HU478", type: "book" },
+          { text: "行李直挂重庆", type: "free" }
+        ]
+      },
+      {
+        time: "次日 00:10 抵达",
+        title: "海口美兰机场 T2 · 寻找中转住宿柜台路线",
+        desc: "抵达海口美兰机场 T2 后，按机场中转指引前往中转住宿柜台办理休息住宿，好好睡一觉准备次日中午 12:00 搭乘 HU7271 飞往重庆。",
+        tags: [
+          { text: "中转 11小时50分", type: "ticket" },
+          { text: "待上传路线截图", type: "book" }
+        ],
+        tip: "📌 预留位置：上传海口机场寻找中转住宿柜台的截图后，这里将更新完整图文路线指引！"
+      }
+    ],
+    dining: {
+      breakfast: [
+        { name: "槟城家中 / 附近早餐", detail: "出发日白天在家轻松收拾行李、检查护照与充电宝。" }
+      ],
+      lunch: [
+        { name: "槟城本地午餐", detail: "出发前吃顿舒服清淡的午餐，晚上搭红眼航班更轻松。" }
+      ],
+      dinner: [
+        { name: "槟城机场候机简餐 & HU478 机餐", detail: "20:45 起飞前可在机场垫肚子，抵达海口后也可在航站楼便利店买热饮宵夜。" }
+      ]
+    },
+    mapRoute: {
+      color: "#0b7285",
+      subtitle: "海口美兰国际机场 T2 航站楼中转",
+      stops: [
+        { name: "海口美兰国际机场 T2", lat: 19.9349, lng: 110.4590, note: "次日 00:10 抵达 T2，行李直挂重庆，前往中转住宿柜台休息", metro: "次日 12:00 T2 搭 HU7271 飞重庆", query: "海口美兰国际机场T2航站楼" }
+      ],
+      segments: []
+    }
+  },
+  {
     day: 1,
     dateLabel: "11月30日（周一）",
     shortTitle: "抵达与经典夜景",
@@ -837,7 +899,7 @@ const TIPS_ACCORDION = [
 /* ==========================================================================
    状态与工具函数
    ========================================================================== */
-let currentDay = 1;
+let currentDay = 0;
 let currentFoodFilter = "all";
 let activeDayMap = null;
 const DEFAULT_ARRIVAL_DATE = "2026-11-30";
@@ -1193,6 +1255,70 @@ function renderDayRouteMap(dayData) {
 /* ==========================================================================
    渲染每日行程 Tabs 与内容
    ========================================================================== */
+const STORAGE_KEY_HIDDEN_DAYS = "cq2026_hidden_days_v1";
+
+function getHiddenDays() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(STORAGE_KEY_HIDDEN_DAYS) || "[]");
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHiddenDays(arr) {
+  try {
+    localStorage.setItem(STORAGE_KEY_HIDDEN_DAYS, JSON.stringify(arr));
+  } catch {
+    // ignore
+  }
+}
+
+function getVisibleDays() {
+  const hiddenSet = new Set(getHiddenDays());
+  return ITINERARY_DAYS.filter((d) => !hiddenSet.has(d.day));
+}
+
+function ensureValidCurrentDay() {
+  const visible = getVisibleDays();
+  if (visible.length === 0) {
+    currentDay = null;
+    return null;
+  }
+  if (!visible.some((d) => d.day === currentDay)) {
+    currentDay = visible[0].day;
+  }
+  return currentDay;
+}
+
+function hideDayAndAdvance(dayId) {
+  const hidden = getHiddenDays();
+  if (!hidden.includes(dayId)) {
+    hidden.push(dayId);
+    saveHiddenDays(hidden);
+  }
+  ensureValidCurrentDay();
+  renderDayTabs();
+  renderDayPanel();
+}
+
+function restoreLastHiddenDay() {
+  const hidden = getHiddenDays();
+  if (!hidden.length) return;
+  const restoredDay = hidden.pop();
+  saveHiddenDays(hidden);
+  currentDay = restoredDay;
+  renderDayTabs();
+  renderDayPanel();
+}
+
+function restoreAllHiddenDays() {
+  saveHiddenDays([]);
+  currentDay = ITINERARY_DAYS[0].day;
+  renderDayTabs();
+  renderDayPanel();
+}
+
 function splitDateLabel(label) {
   const m = label.match(/^(.+?)（(.+?)）$/);
   if (m) return { date: m[1], week: m[2] };
@@ -1200,25 +1326,63 @@ function splitDateLabel(label) {
 }
 
 function renderDayTabs() {
+  ensureValidCurrentDay();
+  const hidden = getHiddenDays();
+  const visible = getVisibleDays();
+
+  const restoreBar = document.getElementById("dayRestoreBar");
+  if (restoreBar) {
+    if (hidden.length > 0) {
+      restoreBar.hidden = false;
+      restoreBar.innerHTML = `
+        <span>✓ 已隐藏 ${hidden.length} 天已结束行程（刷新后保持记住）</span>
+        <div class="map-restore-actions">
+          <button type="button" class="map-restore-btn" id="restoreLastDayBtn">↺ 恢复上一天</button>
+          <button type="button" class="map-restore-btn is-all" id="restoreAllDaysBtn">恢复全部天数</button>
+        </div>
+      `;
+      const lastBtn = document.getElementById("restoreLastDayBtn");
+      const allBtn = document.getElementById("restoreAllDaysBtn");
+      if (lastBtn) {
+        lastBtn.addEventListener("click", () => {
+          restoreLastHiddenDay();
+          showToast("已恢复上一天行程");
+        });
+      }
+      if (allBtn) {
+        allBtn.addEventListener("click", () => {
+          restoreAllHiddenDays();
+          showToast("已恢复全部行程日期");
+        });
+      }
+    } else {
+      restoreBar.hidden = true;
+      restoreBar.innerHTML = "";
+    }
+  }
+
   const container = document.getElementById("dayTabs");
-  container.innerHTML = ITINERARY_DAYS.map((item) => {
-    const active = item.day === currentDay;
-    const { date, week } = splitDateLabel(item.dateLabel);
-    return `
-      <button
-        type="button"
-        role="tab"
-        id="dayTab-${item.day}"
-        aria-selected="${active ? "true" : "false"}"
-        class="day-tab ${active ? "is-active" : ""}"
-        data-day="${item.day}"
-      >
-        <span class="day-tab-date">${date}</span>
-        <span class="day-tab-week">${week} · Day ${item.day}</span>
-        <span class="day-tab-short">${item.shortTitle}</span>
-      </button>
-    `;
-  }).join("");
+  container.innerHTML = visible
+    .map((item) => {
+      const active = item.day === currentDay;
+      const { date, week } = splitDateLabel(item.dateLabel);
+      const subTag = item.dayTag ? `${week} · ${item.dayTag}` : `${week} · Day ${item.day}`;
+      return `
+        <button
+          type="button"
+          role="tab"
+          id="dayTab-${item.day}"
+          aria-selected="${active ? "true" : "false"}"
+          class="day-tab ${active ? "is-active" : ""}"
+          data-day="${item.day}"
+        >
+          <span class="day-tab-date">${date}</span>
+          <span class="day-tab-week">${subTag}</span>
+          <span class="day-tab-short">${item.shortTitle}</span>
+        </button>
+      `;
+    })
+    .join("");
 
   container.querySelectorAll(".day-tab").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -1228,10 +1392,37 @@ function renderDayTabs() {
 }
 
 function renderDayPanel() {
+  ensureValidCurrentDay();
+  const panel = document.getElementById("dayPanel");
+  const pager = document.getElementById("dayPager");
+  const visibleDays = getVisibleDays();
+
+  if (visibleDays.length === 0) {
+    if (activeDayMap) {
+      activeDayMap.remove();
+      activeDayMap = null;
+    }
+    if (pager) pager.hidden = true;
+    panel.innerHTML = `
+      <div class="all-days-done-card">
+        <h3>🎉 本次重庆临时之旅的全部行程都已完成并隐藏啦！</h3>
+        <p>如果想回顾任何一天的安排，随时可以一键恢复。</p>
+        <button type="button" class="copy-btn" id="restoreAllFromEmptyBtn">↺ 恢复全部行程日期</button>
+      </div>
+    `;
+    const btn = document.getElementById("restoreAllFromEmptyBtn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        restoreAllHiddenDays();
+        showToast("已恢复全部行程日期");
+      });
+    }
+    return;
+  }
+
+  if (pager) pager.hidden = false;
   const data = ITINERARY_DAYS.find((d) => d.day === currentDay);
   if (!data) return;
-
-  const panel = document.getElementById("dayPanel");
 
   const routeHtml = data.route
     .map((step, idx) => {
@@ -1419,9 +1610,14 @@ function renderDayPanel() {
     `
     : "";
 
+  const dayBadgeLabel = data.dayTag ? `${data.dayTag} · ${data.dateLabel}` : `第 ${data.day} 天 · ${data.dateLabel}`;
+
   panel.innerHTML = `
     <div class="day-header">
-      <span class="day-badge">第 ${data.day} 天 · ${data.dateLabel}</span>
+      <div class="day-header-top">
+        <span class="day-badge">${dayBadgeLabel}</span>
+        <button type="button" class="hide-day-btn" id="hideCurrentDayBtn">✓ 隐藏今天（已结束）</button>
+      </div>
       <h3 class="day-title">${data.title}</h3>
       <div class="route-trail" aria-label="当日路线">${routeHtml}</div>
     </div>
@@ -1451,6 +1647,15 @@ function renderDayPanel() {
 
     ${mapSectionHtml}
   `;
+
+  const hideDayBtn = panel.querySelector("#hideCurrentDayBtn");
+  if (hideDayBtn) {
+    hideDayBtn.addEventListener("click", () => {
+      const { date } = splitDateLabel(data.dateLabel);
+      hideDayAndAdvance(data.day);
+      showToast(`已隐藏 ${date}，下次打开会直接显示下一天`);
+    });
+  }
 
   panel.querySelectorAll(".copy-btn").forEach((btn) => {
     btn.addEventListener("click", () => copyText(btn.dataset.copy, btn));
@@ -1519,10 +1724,11 @@ function renderDayPanel() {
   const prevBtn = document.getElementById("prevDayBtn");
   const nextBtn = document.getElementById("nextDayBtn");
   const indicator = document.getElementById("pagerIndicator");
-  prevBtn.disabled = currentDay === 1;
-  nextBtn.disabled = currentDay === ITINERARY_DAYS.length;
+  const visIdx = visibleDays.findIndex((d) => d.day === currentDay);
+  prevBtn.disabled = visIdx <= 0;
+  nextBtn.disabled = visIdx < 0 || visIdx >= visibleDays.length - 1;
   const { date } = splitDateLabel(data.dateLabel);
-  indicator.textContent = `${date}（第 ${currentDay} / ${ITINERARY_DAYS.length} 天）`;
+  indicator.textContent = `${date}（剩余第 ${visIdx + 1} / ${visibleDays.length} 天）`;
 
   // 仅当「行程」面板处于可见状态时渲染 Leaflet 地图，避免隐藏容器宽高为 0
   const itinPanel = document.getElementById("panel-itinerary");
@@ -1532,7 +1738,8 @@ function renderDayPanel() {
 }
 
 function selectDay(dayNum, shouldScroll = false) {
-  currentDay = Math.max(1, Math.min(ITINERARY_DAYS.length, dayNum));
+  if (!ITINERARY_DAYS.some((d) => d.day === dayNum)) return;
+  currentDay = dayNum;
   renderDayTabs();
   renderDayPanel();
   if (shouldScroll) {
@@ -2301,6 +2508,7 @@ const STORAGE_KEY_RATE = "cq2026_exchange_rate_v1";
 
 const LEDGER_GROUPS = [
   { id: "pre", title: "📌 出发前费用（航班 · 住宿 · 保险及其他）", isPre: true },
+  { id: "day0", title: "出发日 · 11月29日（周日）海口转机" },
   { id: "day1", title: "Day 1 · 11月30日（周一）抵达重庆" },
   { id: "day2", title: "Day 2 · 12月1日（周二）古建索道与南岸" },
   { id: "day3", title: "Day 3 · 12月2日（周三）乌江画廊与古镇" },
@@ -3017,10 +3225,14 @@ document.addEventListener("DOMContentLoaded", () => {
   loadChongqingWeather();
 
   document.getElementById("prevDayBtn").addEventListener("click", () => {
-    selectDay(currentDay - 1, true);
+    const visible = getVisibleDays();
+    const idx = visible.findIndex((d) => d.day === currentDay);
+    if (idx > 0) selectDay(visible[idx - 1].day, true);
   });
   document.getElementById("nextDayBtn").addEventListener("click", () => {
-    selectDay(currentDay + 1, true);
+    const visible = getVisibleDays();
+    const idx = visible.findIndex((d) => d.day === currentDay);
+    if (idx >= 0 && idx < visible.length - 1) selectDay(visible[idx + 1].day, true);
   });
 
   // 航班与住宿区复制按钮

@@ -343,19 +343,22 @@
         <div class="section-header">
           <div class="section-kicker">DAILY ITINERARY</div>
           <h2 id="itinerary-heading" class="section-title">📅 每日行程安排</h2>
-          <p class="section-desc">点击下方<strong>日期卡片</strong>即可打开当天的完整行程、司机高德定位与实景路线图。</p>
+          <p class="section-desc">点击下方<strong>日期卡片</strong>查看当天行程；某天结束后点<strong>「✓ 隐藏今天」</strong>，下次打开或刷新就会直接显示下一天。</p>
         </div>
 
-        <!-- 日期切换卡片（11月30日 – 12月6日） -->
+        <!-- 已隐藏天数恢复栏（有隐藏天数时自动显示） -->
+        <div id="dayRestoreBar" class="day-restore-bar" hidden></div>
+
+        <!-- 日期切换卡片（11月29日 – 12月6日） -->
         <div class="day-tabs" id="dayTabs" role="tablist" aria-label="按日期选择每日行程"></div>
 
         <!-- 当前选中日期的行程面板 -->
         <div class="day-panel" id="dayPanel" role="tabpanel" aria-live="polite"></div>
 
         <!-- 底部上下天快速切换 -->
-        <div class="day-pager" aria-label="切换上一天或下一天">
+        <div class="day-pager" id="dayPager" aria-label="切换上一天或下一天">
           <button type="button" class="pager-btn" id="prevDayBtn">← 上一天</button>
-          <span class="pager-indicator" id="pagerIndicator">11月30日（第 1 / 7 天）</span>
+          <span class="pager-indicator" id="pagerIndicator">11月29日</span>
           <button type="button" class="pager-btn pager-btn-next" id="nextDayBtn">下一天 →</button>
         </div>
       </section>
@@ -510,6 +513,7 @@
           <label for="expenseSectionSelect" class="form-label">记在哪一栏</label>
           <select id="expenseSectionSelect" class="form-control">
             <option value="pre">出发前费用（航班/住宿/保险等）</option>
+            <option value="day0">出发日 · 11月29日（周日）海口转机</option>
             <option value="day1">Day 1 · 11月30日（周一）</option>
             <option value="day2">Day 2 · 12月1日（周二）</option>
             <option value="day3">Day 3 · 12月2日（周三）</option>
