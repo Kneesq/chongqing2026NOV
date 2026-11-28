@@ -313,111 +313,123 @@ const ITINERARY_DAYS = [
   {
     day: 3,
     dateLabel: "12月2日（周三）",
-    shortTitle: "乌江画廊与古镇",
-    title: "Day 3｜千里乌江画廊与千年古镇",
-    route: ["重庆包车出发", "（途经蚩尤九黎城，视时间停留）", "彭水万足码头乘船游乌江画廊", "龚滩古镇漫步", "前往武隆仙女山镇入住"],
+    shortTitle: "龚滩古镇与游船",
+    title: "Day 3｜龚滩古镇、乌江画廊游船与古镇夜宿",
+    route: ["湖广·富山美宿包车出发", "抵达龚滩古镇办理入住", "乘船游乌江画廊", "龚滩古镇漫步与江畔夜景", "晚上住宿龚滩古镇"],
     driverPins: [
       {
-        spot: "乌江画廊登船点",
-        pin: "彭水万足码头",
-        mapQuery: "彭水万足码头",
-        reason: "长辈在此轻松登船游乌江画廊，无需背负大件行李。"
+        spot: "住宿出发",
+        pin: "湖广·富山江景美宿(重庆解放碑店)",
+        mapQuery: "湖广·富山江景美宿(重庆解放碑店)",
+        reason: "早上从重庆解放碑民宿包车轻松出发前往龚滩古镇。"
       },
       {
-        spot: "司机载行李接应点",
-        pin: "龚滩古镇停车场",
+        spot: "龚滩古镇入住与停车",
+        pin: "龚滩古镇游客中心 / 停车场",
         mapQuery: "龚滩古镇停车场",
-        reason: "包车司机载行李直接开到龚滩古镇停车场接应，全程不走回头路。"
+        reason: "包车直达龚滩古镇停车场，先安顿行李再轻松乘船游玩。"
       },
       {
-        spot: "武隆方向",
-        pin: "武隆仙女山镇",
-        mapQuery: "武隆仙女山镇",
-        reason: "古镇游玩后直接包车前往仙女山镇休息，方便次日游武隆。"
+        spot: "乌江画廊登船点",
+        pin: "龚滩古镇游船码头",
+        mapQuery: "龚滩古镇游船码头",
+        reason: "在龚滩码头乘船往返欣赏千里乌江百里画廊，坐船看山水完全不费腿。"
       }
     ],
     timeline: [
       {
         time: "上午",
-        title: "重庆包车出发（途经蚩尤九黎城）",
-        desc: "全家轻松乘包车离开市区，沿途欣赏渝东南山水风光；途经蚩尤九黎城可视当日时间灵活停留。",
+        title: "重庆住宿包车出发 ➔ 龚滩古镇",
+        desc: "从湖广·富山美宿舒适乘包车前往千年历史名镇「龚滩古镇」（车程约 3.5–4 小时，沿途赏渝东南山水），抵达后先办理古镇入住并稍作休整。",
         isNature: true,
-        tags: [{ text: "全程包车·无地铁", type: "free" }]
+        tags: [{ text: "全程包车·轻松直达", type: "free" }]
       },
       {
-        time: "中午至下午",
-        title: "彭水万足码头乘船游「乌江画廊」",
-        desc: "在船上悠闲欣赏千里乌江百里画廊，坐着看山水完全不费腿。可选全景古镇线（单程约 2–2.5小时，票价约 180元/人）或 1小时原点往返短程线（约 150元/人）。",
+        time: "下午",
+        title: "龚滩码头乘船游「乌江画廊」",
+        desc: "在龚滩古镇游船码头登船，悠闲欣赏两岸青山碧水的「百里乌江画廊」，坐着看风景完全不累脚，游览结束后返回古镇码头上岸。",
         isNature: true,
         tags: [
-          { text: "全景单程约180元", type: "ticket" },
-          { text: "短程往返约150元", type: "ticket" }
-        ],
-        tip: "包车无缝衔接：长辈乘船游览时，包车司机载行李直接开至龚滩古镇停车场等候接应，不走回头路！"
+          { text: "游船赏景不费腿", type: "free" },
+          { text: "往返约1–1.5小时", type: "ticket" }
+        ]
       },
       {
-        time: "下午至傍晚",
-        title: "龚滩古镇漫步 ➔ 前往武隆仙女山镇",
-        desc: "感受千年青石板古镇韵味，傍晚乘包车前往武隆仙女山镇休整。",
+        time: "傍晚至夜间",
+        title: "龚滩古镇青石板漫步 ➔ 晚上住宿龚滩古镇",
+        desc: "沿着千年青石板主街慢逛土家吊脚楼、品尝地道乌江鱼，天黑后在江边悠闲欣赏古镇灯火夜景，晚上直接住宿龚滩古镇，养精蓄锐准备次日游武隆。",
         isNature: true,
-        tags: [{ text: "慢行赏景", type: "free" }],
-        tip: "省力贴士：龚滩古镇沿主街青石板路慢行即可，避开陡峭小巷台阶。"
+        tags: [{ text: "夜宿龚滩古镇", type: "book" }],
+        tip: "省力贴士：龚滩古镇沿主街青石板路慢行即可，避开陡峭小巷台阶；江边夜间微凉记得添外套。"
       }
     ],
     dining: {
       breakfast: [
-        { name: "民宿附近早点打包上车", mapQuery: "小什字早餐", detail: "早起出发前买热包子、豆浆、鸡蛋，包车路上吃更轻松。" }
+        { name: "重庆民宿附近早点打包上车", mapQuery: "小什字早餐", detail: "出发前买热包子、豆浆、鸡蛋，包车路上吃更轻松。" }
       ],
       lunch: [
-        { name: "龚滩古镇 · 乌江鱼地方风味馆", mapQuery: "龚滩古镇乌江鱼", detail: "推荐品尝鲜嫩的乌江鱼、土家老腊肉与青菜豆腐汤（可嘱咐清汤或少辣）。" }
+        { name: "龚滩古镇 · 乌江鱼地方风味馆", mapQuery: "龚滩古镇乌江鱼", detail: "推荐鲜嫩的乌江鱼、土家老腊肉与青菜豆腐汤（点单可嘱咐清汤或少辣）。" }
       ],
       dinner: [
-        { name: "武隆仙女山镇 · 热汤羊肉 / 土家菜", mapQuery: "武隆仙女山镇", detail: "抵达仙女山镇后吃顿热乎乎的羊肉汤锅或清炒时蔬，暖身解乏。" }
+        { name: "龚滩古镇江景餐馆 · 土家家常晚餐", mapQuery: "龚滩古镇", detail: "晚上在古镇内边看乌江夜景边吃热乎土家菜，饭后慢慢散步回客栈休息。" }
       ]
     },
     mapRoute: {
       color: "#1f8a5b",
-      subtitle: "渝东南乌江山水包车+游船线（解放碑出发 ➔ 彭水万足码头 ➔ 乘船至龚滩古镇 ➔ 武隆仙女山镇）",
+      subtitle: "重庆住宿出发 ➔ 龚滩古镇（入住）➔ 乌江画廊游船 ➔ 晚上住宿龚滩古镇",
       stops: [
-        { name: "重庆解放碑出发", lat: 29.5612, lng: 106.5838, note: "包车从湖广·富山美宿舒适出发", metro: "本日为长途山水线，全程包车", query: "湖广·富山江景美宿(重庆解放碑店)" },
-        { name: "蚩尤九黎城(途经)", lat: 29.2975, lng: 108.1850, note: "视当日时间灵活决定是否停留打卡", metro: "包车途经点", query: "蚩尤九黎城" },
-        { name: "彭水万足码头", lat: 29.1930, lng: 108.2100, note: "长辈在此登船游览百里乌江画廊", metro: "游船登船点", query: "彭水万足码头" },
-        { name: "龚滩古镇", lat: 28.9028, lng: 108.3489, note: "沿青石板主街慢逛，司机载行李在停车场接应", metro: "不走回头路", query: "龚滩古镇停车场" },
-        { name: "武隆仙女山镇", lat: 29.4295, lng: 107.7525, note: "抵达武隆仙女山镇休息，次日游天生三桥", metro: "包车直达", query: "武隆仙女山镇" }
+        { name: "湖广·富山美宿出发", lat: 29.5612, lng: 106.5838, note: "早上从解放碑民宿包车出发前往龚滩古镇", metro: "本日全程包车", query: "湖广·富山江景美宿(重庆解放碑店)" },
+        { name: "龚滩古镇（入住·夜宿）", lat: 28.9028, lng: 108.3489, note: "先安顿行李吃午饭，傍晚漫步古镇青石板路并夜宿古镇", metro: "包车直达古镇停车场", query: "龚滩古镇停车场" },
+        { name: "乌江画廊游船（往返）", lat: 28.9680, lng: 108.3220, note: "自龚滩码头乘船饱览百里乌江画廊山水后返回古镇", metro: "游船轻松观景", query: "龚滩古镇游船码头" }
       ],
       segments: [
         { mode: "car" },
-        { mode: "car" },
-        { mode: "ferry", lineColor: "#1f8a5b" },
-        { mode: "car" }
+        { mode: "ferry", lineColor: "#1f8a5b" }
       ]
     }
   },
   {
     day: 4,
     dateLabel: "12月3日（周四）",
-    shortTitle: "武隆奇观与返城",
-    title: "Day 4｜武隆喀斯特奇观与返程市区",
-    route: ["武隆天生三桥", "仙女山国家森林公园（乘小火车）", "傍晚包车返回重庆市区"],
+    shortTitle: "仙女山·天生三桥",
+    title: "Day 4｜龚滩出发 ➔ 仙女山、天生三桥 ➔ 返回重庆",
+    route: ["龚滩古镇包车出发", "仙女山国家森林公园（乘小火车）", "武隆天生三桥", "傍晚包车返回重庆市区"],
     driverPins: [
       {
-        spot: "天生三桥统一换乘点",
-        pin: "仙女山游客接待中心",
-        mapQuery: "仙女山游客接待中心",
-        reason: "在此统一换乘景区环保车与观光电梯下谷底，省力安全。"
+        spot: "上午景区：仙女山",
+        pin: "仙女山国家森林公园",
+        mapQuery: "仙女山国家森林公园",
+        reason: "从龚滩古镇出发约 2 小时抵达，入园乘观光小火车漫游草原林海，不费腿。"
       },
       {
-        spot: "返程市区晚餐",
+        spot: "下午景区：天生三桥换乘点",
+        pin: "仙女山游客接待中心",
+        mapQuery: "仙女山游客接待中心",
+        reason: "在此统一换乘景区环保车与观光电梯下谷底游览天生三桥，省力安全。"
+      },
+      {
+        spot: "返程重庆市区晚餐",
         pin: "德福火锅（七星岗店）",
         mapQuery: "德福火锅七星岗店",
-        reason: "二十多年居民楼老店，返回重庆市区后吃一顿软烂适口的鸳鸯老火锅。"
+        reason: "返回重庆市区后吃一顿软烂适口的鸳鸯老火锅，饭后回解放碑民宿休息。"
       }
     ],
     timeline: [
       {
         time: "上午",
+        title: "龚滩古镇包车出发 ➔ 仙女山国家森林公园（乘小火车）",
+        desc: "早上从龚滩古镇退房出发前往武隆仙女山（车程约 2 小时），乘坐景区观光小火车漫游高山草甸与林海，不用长距离步行也能饱览美景。",
+        isNature: true,
+        tags: [
+          { text: "小火车代步省力", type: "free" },
+          { text: "海拔高注意防寒", type: "book" }
+        ],
+        tip: "保暖提醒：仙女山海拔较高，比重庆市区冷 6–10°C，务必穿厚羽绒服、戴围巾帽子！"
+      },
+      {
+        time: "下午",
         title: "武隆天生三桥（世界自然遗产）",
-        desc: "旺季 08:00–17:00、淡季 08:30–16:30，建议上午入园光线好、人少更舒适。由仙女山游客接待中心统一换乘环保车与观光电梯下谷底。",
+        desc: "由仙女山游客接待中心统一换乘景区环保车与观光电梯下谷底，近距离欣赏气势恢宏的天龙、青龙、黑龙三座天生石桥（淡季 16:30 停止入园，注意把握入园时间）。",
         isNature: true,
         tags: [
           { text: "70岁以上通常免大门票", type: "free" },
@@ -426,30 +438,22 @@ const ITINERARY_DAYS = [
         tip: "长辈优待：70岁以上长辈凭有效身份证件通常免大门票（仅需购买中转车/观光电梯费），请务必随身带好证件！"
       },
       {
-        time: "下午",
-        title: "仙女山国家森林公园（乘小火车）",
-        desc: "乘坐景区观光小火车漫游高山草甸与林海，不用长距离步行也能饱览美景。",
-        isNature: true,
-        tags: [{ text: "小火车代步省力", type: "free" }]
-      },
-      {
-        time: "傍晚（或备选夜游）",
-        title: "包车返回重庆市区 ➔ 七星岗德福火锅",
-        desc: "傍晚乘包车返回重庆市区吃德福火锅，饭后回解放碑民宿休息。",
-        tags: [{ text: "备选：《印象武隆》", type: "ticket" }],
+        time: "傍晚至夜间",
+        title: "包车返回重庆市区 ➔ 七星岗德福火锅 ➔ 回民宿",
+        desc: "游玩结束后乘包车返回重庆市区（车程约 2.5 小时），先去七星岗吃顿热乎乎的德福老火锅，饭后回解放碑湖广·富山美宿休息。",
+        tags: [{ text: "返回重庆市区", type: "free" }],
         metro: {
           title: "吃完火锅回民宿地铁备选",
           detail: "德福火锅近 <span class=\"line-chip line-1\">1号线</span> <span class=\"line-chip line-10\">10号线</span> <strong>七星岗站</strong>，饭后若不想等车，乘 <span class=\"line-chip line-1\">1号线</span> 坐 <strong>2 站</strong> 至 <strong>小什字站</strong> 即可回民宿！"
-        },
-        tip: "备选夜游：若体力充沛且当晚续住武隆，可在镇上吃过晚饭后包车前往观看露天实景演出《印象武隆》（注意山谷夜间防风保暖）。"
+        }
       }
     ],
     dining: {
       breakfast: [
-        { name: "仙女山镇酒店 / 镇上热粥面条", mapQuery: "武隆仙女山镇", detail: "进景区前吃饱热乎早餐，山区微凉多喝热水。" }
+        { name: "龚滩古镇客栈早餐 / 镇上热米线豆花", mapQuery: "龚滩古镇", detail: "出发前在古镇吃顿热乎早餐，精力充沛前往仙女山。" }
       ],
       lunch: [
-        { name: "仙女山镇 · 武隆碗碗羊肉", mapQuery: "武隆碗碗羊肉 仙女山镇", detail: "热乎鲜香的本地招牌羊肉，暖胃又补体力，非常适合山区微凉天气。" }
+        { name: "仙女山镇 · 武隆碗碗羊肉", mapQuery: "武隆碗碗羊肉 仙女山镇", detail: "游完仙女山顺路在镇上吃热乎鲜香的本地招牌羊肉，暖胃又补体力。" }
       ],
       dinner: [
         { name: "德福火锅（七星岗店）", mapQuery: "德福火锅七星岗店", detail: "二十多年居民楼老店，锅底免费！耙鸡脚、耙牛肉软烂入味很适合长辈，记得点鸳鸯锅。" }
@@ -457,11 +461,11 @@ const ITINERARY_DAYS = [
     },
     mapRoute: {
       color: "#6c3ec7",
-      subtitle: "武隆喀斯特奇观 ➔ 返程重庆市区（游客中心 ➔ 天生三桥 ➔ 仙女山小火车 ➔ 德福火锅 ➔ 民宿）",
+      subtitle: "龚滩古镇出发 ➔ 仙女山国家森林公园 ➔ 武隆天生三桥 ➔ 重庆德福火锅 ➔ 解放碑民宿",
       stops: [
-        { name: "仙女山游客中心", lat: 29.4295, lng: 107.7525, note: "统一换乘景区环保车进入天生三桥", metro: "景区统一换乘枢纽", query: "仙女山游客接待中心" },
-        { name: "武隆天生三桥", lat: 29.4318, lng: 107.7980, note: "乘观光电梯下谷底，游览天龙/青龙/黑龙三桥", metro: "70岁以上免大门票", query: "武隆天生三桥" },
-        { name: "仙女山森林公园", lat: 29.4905, lng: 107.7410, note: "乘观光小火车漫游高山草甸林海", metro: "小火车代步不累", query: "仙女山国家森林公园" },
+        { name: "龚滩古镇出发", lat: 28.9028, lng: 108.3489, note: "早上退房包车出发前往武隆仙女山（约2小时）", metro: "全程包车", query: "龚滩古镇停车场" },
+        { name: "仙女山森林公园", lat: 29.4905, lng: 107.7410, note: "乘观光小火车漫游高山草甸林海，注意防寒保暖", metro: "小火车代步不累", query: "仙女山国家森林公园" },
+        { name: "武隆天生三桥", lat: 29.4318, lng: 107.7980, note: "经游客中心换乘环保车与观光电梯下谷底游三桥", metro: "70岁以上免大门票", query: "武隆天生三桥" },
         { name: "德福火锅(七星岗)", lat: 29.5562, lng: 106.5635, note: "返渝晚餐，耙鸡脚/耙牛肉软烂适合长辈", metro: "近 1/10号线 七星岗站", query: "德福火锅七星岗店" },
         { name: "湖广·富山美宿", lat: 29.5612, lng: 106.5838, note: "返回解放碑民宿休息", metro: "1号线 七星岗 ➔ 小什字(2站)", query: "湖广·富山江景美宿(重庆解放碑店)" }
       ],
@@ -2049,26 +2053,24 @@ function initMainTabs() {
 }
 
 /* ==========================================================================
-   二、重庆旅行天气预报（一天一行，06:00–24:00 每2小时温度曲线 + 晴雨）
+   二、行程沿途天气预报（按每天所在地点自动切换：槟城/海口/重庆/龚滩/仙女山）
    ========================================================================== */
 const WEATHER_HOURS = ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"];
+
+const WEATHER_LOCATIONS = [
+  { key: "penang", name: "槟城", lat: 5.4141, lng: 100.3288 },
+  { key: "haikou", name: "海口", lat: 19.9349, lng: 110.4590 },
+  { key: "chongqing", name: "重庆", lat: 29.5630, lng: 106.5516 },
+  { key: "gongtan", name: "龚滩", lat: 28.9028, lng: 108.3489 },
+  { key: "wulong", name: "仙女山", lat: 29.4905, lng: 107.7410 }
+];
+
+const WEATHER_LOC_MAP = Object.fromEntries(WEATHER_LOCATIONS.map((l) => [l.key, l]));
 
 function getNextIsoDate(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   const dt = new Date(y, m - 1, d + 1);
   return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
-}
-
-function buildFallbackDay(iso, date, week, temps, codes) {
-  return {
-    iso,
-    date,
-    week,
-    slots: WEATHER_HOURS.map((hour, i) => {
-      const mapped = mapWmoWeather(codes[i], hour);
-      return { hour, temp: temps[i], ...mapped };
-    })
-  };
 }
 
 function mapWmoWeather(code, hour = "12:00") {
@@ -2082,14 +2084,78 @@ function mapWmoWeather(code, hour = "12:00") {
   return { icon: "☁️", cond: "阴", type: "cloudy" };
 }
 
+function buildFallbackDay(iso, date, week, locationLabel, slotLocs, temps, codes) {
+  return {
+    iso,
+    date,
+    week,
+    locationLabel,
+    slotLocs,
+    slots: WEATHER_HOURS.map((hour, i) => {
+      const mapped = mapWmoWeather(codes[i], hour);
+      const locKey = slotLocs[i];
+      return {
+        hour,
+        temp: temps[i],
+        locKey,
+        locName: (WEATHER_LOC_MAP[locKey] && WEATHER_LOC_MAP[locKey].name) || "",
+        ...mapped
+      };
+    })
+  };
+}
+
+const ALL_CQ = Array(10).fill("chongqing");
+
 const TRIP_WEATHER_FALLBACK = [
-  buildFallbackDay("2026-11-30", "11月30日", "周一", [10, 10, 12, 14, 15, 15, 13, 12, 11, 10], [3, 2, 2, 1, 1, 2, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-01", "12月1日", "周二", [9, 9, 10, 12, 13, 12, 11, 10, 9, 8], [3, 3, 61, 61, 61, 61, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-02", "12月2日", "周三", [8, 8, 10, 12, 13, 13, 11, 10, 9, 8], [3, 3, 2, 2, 2, 3, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-03", "12月3日", "周四", [8, 9, 11, 13, 15, 14, 12, 10, 9, 8], [2, 2, 1, 0, 0, 1, 2, 3, 3, 3]),
-  buildFallbackDay("2026-12-04", "12月4日", "周五", [9, 10, 12, 15, 17, 16, 14, 12, 10, 9], [2, 1, 0, 0, 0, 0, 1, 2, 2, 2]),
-  buildFallbackDay("2026-12-05", "12月5日", "周六", [9, 9, 10, 12, 13, 12, 11, 10, 9, 8], [61, 61, 61, 61, 3, 3, 3, 3, 3, 3]),
-  buildFallbackDay("2026-12-06", "12月6日", "周日", [8, 9, 11, 13, 15, 14, 12, 11, 9, 8], [2, 2, 1, 0, 0, 1, 2, 2, 3, 3])
+  buildFallbackDay(
+    "2026-11-29", "11月29日", "周日", "📍 槟城 ✈ 海口",
+    ["penang", "penang", "penang", "penang", "penang", "penang", "penang", "penang", "haikou", "haikou"],
+    [26, 27, 29, 31, 31, 30, 29, 28, 22, 21],
+    [2, 2, 1, 1, 2, 61, 2, 2, 2, 2]
+  ),
+  buildFallbackDay(
+    "2026-11-30", "11月30日", "周一", "📍 海口 ✈ 重庆",
+    ["haikou", "haikou", "haikou", "haikou", "chongqing", "chongqing", "chongqing", "chongqing", "chongqing", "chongqing"],
+    [20, 21, 23, 24, 14, 14, 13, 12, 11, 10],
+    [2, 2, 1, 1, 3, 2, 3, 3, 3, 3]
+  ),
+  buildFallbackDay(
+    "2026-12-01", "12月1日", "周二", "📍 重庆市区",
+    ALL_CQ,
+    [9, 9, 10, 12, 13, 12, 11, 10, 9, 8],
+    [3, 3, 61, 61, 61, 61, 3, 3, 3, 3]
+  ),
+  buildFallbackDay(
+    "2026-12-02", "12月2日", "周三", "📍 重庆 ➔ 龚滩古镇",
+    ["chongqing", "chongqing", "gongtan", "gongtan", "gongtan", "gongtan", "gongtan", "gongtan", "gongtan", "gongtan"],
+    [9, 9, 10, 12, 13, 13, 11, 10, 9, 8],
+    [3, 3, 2, 2, 2, 3, 3, 3, 3, 3]
+  ),
+  buildFallbackDay(
+    "2026-12-03", "12月3日", "周四", "📍 龚滩 ➔ 仙女山·天生三桥 ➔ 重庆",
+    ["gongtan", "gongtan", "wulong", "wulong", "wulong", "wulong", "wulong", "chongqing", "chongqing", "chongqing"],
+    [8, 9, 5, 7, 8, 7, 5, 11, 10, 9],
+    [2, 2, 2, 1, 1, 2, 3, 3, 3, 3]
+  ),
+  buildFallbackDay(
+    "2026-12-04", "12月4日", "周五", "📍 重庆市区",
+    ALL_CQ,
+    [9, 10, 12, 15, 17, 16, 14, 12, 10, 9],
+    [2, 1, 0, 0, 0, 0, 1, 2, 2, 2]
+  ),
+  buildFallbackDay(
+    "2026-12-05", "12月5日", "周六", "📍 重庆市区",
+    ALL_CQ,
+    [9, 9, 10, 12, 13, 12, 11, 10, 9, 8],
+    [61, 61, 61, 61, 3, 3, 3, 3, 3, 3]
+  ),
+  buildFallbackDay(
+    "2026-12-06", "12月6日", "周日", "📍 重庆 ✈ 海口 ✈ 槟城",
+    ["chongqing", "chongqing", "chongqing", "haikou", "haikou", "haikou", "penang", "penang", "penang", "penang"],
+    [8, 9, 11, 23, 24, 23, 29, 28, 27, 26],
+    [2, 2, 1, 1, 1, 2, 2, 2, 2, 2]
+  )
 ];
 
 function buildTempCurveSvg(slots, dotFillColor) {
@@ -2152,10 +2218,17 @@ function renderWeatherCards(list, badgeText) {
       const hasSunny = day.slots.some((s) => s.type === "sunny");
       const rowClass = hasRain ? "is-rain" : hasSunny ? "is-sunny" : "is-cloudy";
       const dotFill = hasRain ? "#4b5c72" : hasSunny ? "#4d739c" : "#5c708a";
+      const isMultiCity = new Set(day.slotLocs).size > 1;
 
       const hoursRow = day.slots
         .map((s) => `<span class="weather-hour-label">${s.hour}</span>`)
         .join("");
+
+      const cityRowHtml = isMultiCity
+        ? `<div class="weather-grid-10">${day.slots
+            .map((s) => `<span class="weather-slot-city">${s.locName}</span>`)
+            .join("")}</div>`
+        : "";
 
       const iconsRow = day.slots
         .map((s) => `<span class="weather-hour-icon" aria-label="${s.cond}">${s.icon}</span>`)
@@ -2176,6 +2249,7 @@ function renderWeatherCards(list, badgeText) {
             <div class="weather-row-date-wrap">
               <span class="weather-row-date">${day.date}</span>
               <span class="weather-row-week">${day.week}</span>
+              <span class="weather-row-loc">${day.locationLabel}</span>
             </div>
             <div class="weather-row-meta">
               <span class="weather-row-range">${minT}° ~ ${maxT}°C</span>
@@ -2184,6 +2258,7 @@ function renderWeatherCards(list, badgeText) {
           <div class="weather-scroll-wrap">
             <div class="weather-track">
               <div class="weather-grid-10">${hoursRow}</div>
+              ${cityRowHtml}
               <div class="weather-grid-10">${iconsRow}</div>
               ${curveSvg}
               <div class="weather-grid-10">${condRow}</div>
@@ -2197,42 +2272,56 @@ function renderWeatherCards(list, badgeText) {
 }
 
 async function loadChongqingWeather() {
-  renderWeatherCards(TRIP_WEATHER_FALLBACK, "初冬参考天气");
+  renderWeatherCards(TRIP_WEATHER_FALLBACK, "行程地点参考天气");
 
   try {
-    const url =
-      "https://api.open-meteo.com/v1/forecast?latitude=29.5630&longitude=106.5516&hourly=temperature_2m,weathercode&timezone=Asia%2FShanghai&forecast_days=16";
+    const lats = WEATHER_LOCATIONS.map((l) => l.lat).join(",");
+    const lngs = WEATHER_LOCATIONS.map((l) => l.lng).join(",");
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lngs}&hourly=temperature_2m,weathercode&timezone=Asia%2FShanghai&forecast_days=16`;
     const res = await fetch(url);
     if (!res.ok) return;
     const json = await res.json();
-    if (!json.hourly || !json.hourly.time) return;
+    const results = Array.isArray(json) ? json : [json];
 
-    const byTime = {};
-    json.hourly.time.forEach((t, idx) => {
-      byTime[t] = {
-        temp: Math.round(json.hourly.temperature_2m[idx]),
-        code: json.hourly.weathercode[idx]
-      };
+    const byLocAndTime = {};
+    WEATHER_LOCATIONS.forEach((loc, locIdx) => {
+      const locData = results[locIdx];
+      if (!locData || !locData.hourly || !locData.hourly.time) return;
+      const map = {};
+      locData.hourly.time.forEach((t, idx) => {
+        map[t] = {
+          temp: Math.round(locData.hourly.temperature_2m[idx]),
+          code: locData.hourly.weathercode[idx]
+        };
+      });
+      byLocAndTime[loc.key] = map;
     });
 
     let matchedDays = 0;
     const merged = TRIP_WEATHER_FALLBACK.map((day) => {
       const nextIso = getNextIsoDate(day.iso);
-      const liveSlots = WEATHER_HOURS.map((hour) => {
+      let anyLive = false;
+      const liveSlots = WEATHER_HOURS.map((hour, i) => {
+        const locKey = day.slotLocs[i];
+        const locMap = byLocAndTime[locKey];
         const entry =
-          hour === "24:00"
-            ? byTime[`${nextIso}T00:00`] || byTime[`${day.iso}T23:00`]
-            : byTime[`${day.iso}T${hour}`];
-        if (!entry) return null;
+          locMap &&
+          (hour === "24:00"
+            ? locMap[`${nextIso}T00:00`] || locMap[`${day.iso}T23:00`]
+            : locMap[`${day.iso}T${hour}`]);
+        if (!entry) return day.slots[i];
+        anyLive = true;
         const mapped = mapWmoWeather(entry.code, hour);
         return {
           hour,
           temp: entry.temp,
+          locKey,
+          locName: (WEATHER_LOC_MAP[locKey] && WEATHER_LOC_MAP[locKey].name) || "",
           ...mapped
         };
       });
 
-      if (liveSlots.every(Boolean)) {
+      if (anyLive) {
         matchedDays += 1;
         return { ...day, slots: liveSlots };
       }
@@ -2240,7 +2329,7 @@ async function loadChongqingWeather() {
     });
 
     if (matchedDays > 0) {
-      const label = matchedDays === TRIP_WEATHER_FALLBACK.length ? "✨ 实时天气预报" : "✨ 部分已更新实时预报";
+      const label = matchedDays === TRIP_WEATHER_FALLBACK.length ? "✨ 各行程地实时预报" : "✨ 部分已更新实时预报";
       renderWeatherCards(merged, label);
     }
   } catch {
@@ -2511,8 +2600,8 @@ const LEDGER_GROUPS = [
   { id: "day0", title: "出发日 · 11月29日（周日）海口转机" },
   { id: "day1", title: "Day 1 · 11月30日（周一）抵达重庆" },
   { id: "day2", title: "Day 2 · 12月1日（周二）古建索道与南岸" },
-  { id: "day3", title: "Day 3 · 12月2日（周三）乌江画廊与古镇" },
-  { id: "day4", title: "Day 4 · 12月3日（周四）武隆奇观与返城" },
+  { id: "day3", title: "Day 3 · 12月2日（周三）龚滩古镇与乌江画廊" },
+  { id: "day4", title: "Day 4 · 12月3日（周四）仙女山·天生三桥返渝" },
   { id: "day5", title: "Day 5 · 12月4日（周五）历史文化与商圈" },
   { id: "day6", title: "Day 6 · 12月5日（周六）采买伴手礼休整" },
   { id: "day7", title: "Day 7 · 12月6日（周日）返程送机回槟城" }
